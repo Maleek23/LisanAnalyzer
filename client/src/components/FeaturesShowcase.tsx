@@ -58,9 +58,9 @@ export default function FeaturesShowcase() {
   };
 
   return (
-    <section className="py-20 bg-cream dark:bg-background">
+    <section className="py-12 bg-cream dark:bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h2 className="text-4xl font-bold text-primary mb-4">
             Four Layers of Understanding
           </h2>

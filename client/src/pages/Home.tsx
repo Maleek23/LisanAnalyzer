@@ -68,8 +68,8 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center justify-center bg-cream dark:bg-background">
         <IslamicPattern />
         
-        <div className="relative z-10 container mx-auto px-4 py-20">
-          <div className="text-center space-y-8 max-w-4xl mx-auto">
+        <div className="relative z-10 container mx-auto px-4 py-12">
+          <div className="text-center space-y-6 max-w-4xl mx-auto">
             {/* Bismillah */}
             <div className="space-y-2 animate-in fade-in-50 duration-700">
               <h1 
@@ -123,9 +123,9 @@ export default function Home() {
       </section>
 
       {/* Featured Words Section */}
-      <section className="py-20 bg-background" id="featured-words">
+      <section className="py-12 bg-background" id="featured-words">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h3 className="text-4xl font-bold text-primary mb-4">
               Commonly Mistranslated Words
             </h3>
