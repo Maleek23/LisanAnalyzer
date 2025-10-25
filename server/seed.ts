@@ -20,37 +20,43 @@ async function seed() {
       meanings: [
         {
           arabic: 'ضَرَبَ',
-          english: 'To strike, hit, beat',
-          context: 'Physical action',
+          english: 'To separate, leave, turn away from (scholarly debate: some say "symbolic tap", NOT violent striking)',
+          context: 'Separation or minimal physical contact - HIGHLY DEBATED in 4:34',
           exampleVerse: '4:34'
         },
         {
           arabic: 'ضَرَبَ مَثَلاً',
-          english: 'To set forth a parable, give an example',
-          context: 'Rhetorical usage',
+          english: 'To set forth a parable, give an example, present a similitude',
+          context: 'Rhetorical and pedagogical usage',
           exampleVerse: '14:25'
         },
         {
           arabic: 'ضَرَبَ فِي الأَرْضِ',
-          english: 'To travel, journey',
-          context: 'Movement',
+          english: 'To travel, journey through the land',
+          context: 'Movement and travel',
           exampleVerse: '4:101'
         },
         {
           arabic: 'ضَرَبَ بَيْنَهُمْ',
-          english: 'To separate, set apart',
-          context: 'Division',
+          english: 'To separate, set apart, create a barrier',
+          context: 'Division or separation',
           exampleVerse: '57:13'
         },
         {
           arabic: 'يَضْرِبْنَ',
-          english: 'To draw, wrap, place',
-          context: 'Placing or drawing something',
+          english: 'To draw, wrap, place, cover',
+          context: 'Placing or drawing something over',
           exampleVerse: '24:31'
+        },
+        {
+          arabic: 'ضَرَبَ',
+          english: 'To strike, make contact with (in non-violent contexts: coins, seals, musical instruments)',
+          context: 'Making an impression or impact',
+          exampleVerse: 'Various'
         }
       ],
-      classicalDefinition: 'Root meaning involves impact, impression, or establishment of something. Can mean physical striking, setting forth examples, traveling, separation, or drawing/placing depending on context.',
-      modernUsage: 'Still used in modern Arabic for striking/hitting, but also for multiplication in math (ضرب), telephone dialing, and making examples.'
+      classicalDefinition: 'The root ض-ر-ب carries the fundamental meaning of "making an impact" or "causing an effect" - which manifests in over 25 different meanings depending on context and prepositions used. CRITICAL NOTE on 4:34: Classical scholars are DIVIDED on whether واضربوهن means physical discipline at all. Many argue for "separate from them" or at most a symbolic gesture. The Prophet Muhammad (ﷺ) explicitly forbade striking the face and taught gentleness. Context and prophetic practice must guide interpretation.',
+      modernUsage: 'Modern Arabic uses ضرب for: multiplication (الضرب), telephone dialing, making examples (ضرب مثل), striking/hitting, traveling, and setting forth. The 4:34 controversy has led many modern scholars to re-examine classical interpretations through the lens of prophetic practice.'
     },
     {
       root: 'ق-و-م',
@@ -316,8 +322,8 @@ async function seed() {
       transliteration: 'daraba',
       rootId: rootMap.get('ض-ر-ب')!,
       verseId: verseMap.get('4:34')!,
-      meaningUsed: 'To strike (but scholars debate: separate, leave, or symbolic tap)',
-      syntaxRole: 'Imperative verb',
+      meaningUsed: 'HIGHLY DEBATED: Many scholars say "separate/leave them" rather than "strike". If strike, only symbolic/gentle (Prophet ﷺ forbade violence). Context: last resort after advice and separation.',
+      syntaxRole: 'Imperative verb (3rd step in sequence)',
       verbForm: 'Form I'
     },
     {
