@@ -2,15 +2,25 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { AlertCircle, BookOpen, TrendingUp } from "lucide-react";
+import { AlertCircle, BookOpen, TrendingUp, GitBranch, Scroll } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import VerseCard from "./VerseCard";
+import { ScholarlyTimeline } from "./ScholarlyTimeline";
+import { ContextualFlow } from "./ContextualFlow";
 
 interface Meaning {
   arabic: string;
   english: string;
   context: string;
   exampleVerse?: string;
+}
+
+interface TafsirEntry {
+  scholar: string;
+  text: string;
+  layer: string;
+  century: number;
+  translation: string;
 }
 
 interface Occurrence {
@@ -22,6 +32,7 @@ interface Occurrence {
   hasQualifier?: string;
   qualifier?: string | null;
   usageCategory?: string;
+  tafsir?: TafsirEntry[];
 }
 
 interface WordAnalysisProps {
@@ -32,6 +43,7 @@ interface WordAnalysisProps {
   meanings: Meaning[];
   occurrences: Occurrence[];
   occurrenceCount: number;
+  tafsir?: TafsirEntry[];
 }
 
 export default function WordAnalysis({
@@ -42,9 +54,11 @@ export default function WordAnalysis({
   meanings,
   occurrences,
   occurrenceCount,
+  tafsir = [],
 }: WordAnalysisProps) {
   // Check if this is a controversial word
   const hasControversialOccurrence = occurrences.some(occ => occ.usageCategory === 'controversial');
+  const hasTafsir = tafsir && tafsir.length > 0;
   
   // Calculate usage statistics
   const physicalCount = occurrences.filter(occ => occ.usageCategory === 'physical_with_object').length;
@@ -96,11 +110,23 @@ export default function WordAnalysis({
       </Card>
 
       <Tabs defaultValue={hasControversialOccurrence ? "grammar" : "meanings"} className="w-full">
-        <TabsList className="grid w-full grid-cols-4 h-auto">
+        <TabsList className="grid w-full h-auto" style={{ gridTemplateColumns: `repeat(${4 + (hasControversialOccurrence ? 2 : 0)}, minmax(0, 1fr))` }}>
           {hasControversialOccurrence && (
             <TabsTrigger value="grammar" className="text-base py-3" data-testid="tab-grammar">
               <TrendingUp className="w-4 h-4 mr-2" />
               Grammar Analysis
+            </TabsTrigger>
+          )}
+          {hasControversialOccurrence && (
+            <TabsTrigger value="context" className="text-base py-3" data-testid="tab-context">
+              <GitBranch className="w-4 h-4 mr-2" />
+              Contextual Flow
+            </TabsTrigger>
+          )}
+          {hasTafsir && (
+            <TabsTrigger value="scholarly" className="text-base py-3" data-testid="tab-scholarly">
+              <Scroll className="w-4 h-4 mr-2" />
+              Scholarly Timeline
             </TabsTrigger>
           )}
           <TabsTrigger value="meanings" className="text-base py-3" data-testid="tab-meanings">
@@ -114,6 +140,20 @@ export default function WordAnalysis({
             Translation Comparison
           </TabsTrigger>
         </TabsList>
+
+        {/* Contextual Flow Tab */}
+        {hasControversialOccurrence && (
+          <TabsContent value="context" className="mt-6">
+            <ContextualFlow />
+          </TabsContent>
+        )}
+
+        {/* Scholarly Timeline Tab */}
+        {hasTafsir && (
+          <TabsContent value="scholarly" className="mt-6">
+            <ScholarlyTimeline tafsir={tafsir} />
+          </TabsContent>
+        )}
 
         {hasControversialOccurrence && (
           <TabsContent value="grammar" className="mt-6 space-y-6">

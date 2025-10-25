@@ -15,6 +15,13 @@ interface WordData {
     context: string;
     exampleVerse?: string;
   }>;
+  tafsir?: Array<{
+    scholar: string;
+    text: string;
+    layer: string;
+    century: number;
+    translation: string;
+  }>;
   occurrences: Array<{
     surah: number;
     ayah: number;
@@ -73,6 +80,7 @@ export default function WordPage() {
             meanings={data.meanings || []}
             occurrences={data.occurrences || []}
             occurrenceCount={data.occurrenceCount}
+            tafsir={data.tafsir}
           />
         )}
       </div>
