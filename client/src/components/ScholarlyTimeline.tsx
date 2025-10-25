@@ -33,12 +33,21 @@ export function ScholarlyTimeline({ tafsir }: ScholarlyTimelineProps) {
     return layers[layer] || { label: layer, color: "bg-gray-500" };
   };
 
-  // Get century display text
+  // Get century display text with proper ordinals
   const getCenturyText = (century: number) => {
+    const getOrdinal = (n: number) => {
+      const s = ["th", "st", "nd", "rd"];
+      const v = n % 100;
+      return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    };
+    
+    const centuryCE = getOrdinal(century);
+    const centuryAH = getOrdinal(century + 6);
+    
     if (century >= 20) {
-      return `${century}st Century CE`;
+      return `${centuryCE} Century CE`;
     }
-    return `${century}th Century CE (${century + 6}th Century AH)`;
+    return `${centuryCE} Century CE (${centuryAH} Century AH)`;
   };
 
   return (

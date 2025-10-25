@@ -127,6 +127,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const arabicWord = occurrences[0].word_occurrences.word;
       const wordTransliteration = occurrences[0].word_occurrences.transliteration;
       
+      // Collect all tafsir entries across all verses
+      const allTafsir: any[] = [];
+      for (const entries of verseTafsir.values()) {
+        allTafsir.push(...entries);
+      }
+
       const response = {
         word: arabicWord, // Return actual Arabic word
         transliteration: wordTransliteration, // Return actual transliteration
@@ -135,7 +141,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         classicalDefinition: rootData?.classicalDefinition,
         modernUsage: rootData?.modernUsage,
         occurrenceCount,
-        tafsir: verseTafsir.get(verseIds[0]) || [], // Tafsir for the main verse
+        tafsir: allTafsir, // All tafsir entries across all occurrences
         occurrences: versesData.map(v => {
           const occurrence = occurrences.find(o => o.word_occurrences.verseId === v.id);
           return {
