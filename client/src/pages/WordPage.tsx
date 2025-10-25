@@ -16,6 +16,23 @@ interface WordData {
     context: string;
     exampleVerse?: string;
   }>;
+  hasDeepAnalysis: boolean;
+  usageStatistics: Array<{
+    meaning: string;
+    count: number;
+    percentage: number;
+    color: string;
+  }>;
+  grammarPatterns: Array<{
+    form: string;
+    frequency: number;
+    examples: string[];
+  }>;
+  syntaxRoles: Array<{
+    role: string;
+    description: string;
+    frequency: number;
+  }>;
   tafsir?: Array<{
     scholar: string;
     text: string;
@@ -127,6 +144,10 @@ export default function WordPage() {
             meanings={data.meanings || []}
             occurrences={data.occurrences || []}
             occurrenceCount={data.occurrenceCount}
+            hasDeepAnalysis={data.hasDeepAnalysis}
+            usageStatistics={data.usageStatistics || []}
+            grammarPatterns={data.grammarPatterns || []}
+            syntaxRoles={data.syntaxRoles || []}
             tafsir={data.tafsir}
           />
         )}

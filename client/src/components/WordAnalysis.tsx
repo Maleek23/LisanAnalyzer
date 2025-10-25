@@ -7,6 +7,52 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import VerseCard from "./VerseCard";
 import { ScholarlyTimeline } from "./ScholarlyTimeline";
 import { ContextualFlow } from "./ContextualFlow";
+import UsageStatistics from "./UsageStatistics";
+import FourLayerAnalysis from "./FourLayerAnalysis";
+import EnhancedOccurrenceTable from "./EnhancedOccurrenceTable";
+
+// Helper functions
+function getSurahName(surahNumber: number): string {
+  const surahNames: Record<number, string> = {
+    1: 'Al-Fatiha', 2: 'Al-Baqarah', 3: 'Ali Imran', 4: 'An-Nisa', 
+    5: 'Al-Maidah', 6: 'Al-Anam', 7: 'Al-Araf', 8: 'Al-Anfal',
+    // Add more as needed - simplified for now
+  };
+  return surahNames[surahNumber] || `Surah ${surahNumber}`;
+}
+
+function formatCategory(category?: string): string {
+  if (!category) return '';
+  return category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+}
+
+function getUniqueTranslators(occurrences: Occurrence[]): Array<{ id: string; name: string }> {
+  const translatorSet = new Set<string>();
+  occurrences.forEach(occ => {
+    occ.translations.forEach(t => translatorSet.add(t.translator));
+  });
+  return Array.from(translatorSet).map(id => ({
+    id,
+    name: formatTranslatorName(id)
+  }));
+}
+
+function formatTranslatorName(id: string): string {
+  const names: Record<string, string> = {
+    'en.sahih': 'Sahih International',
+    'en.asad': 'Muhammad Asad',
+    'en.pickthall': 'Marmaduke Pickthall',
+    'en.yusufali': 'Yusuf Ali',
+    'en.ahmedali': 'Ahmed Ali',
+    'en.maududi': 'Abul Ala Maududi',
+    'en.shakir': 'Mohammad Habib Shakir',
+    'en.haleem': 'Abdel Haleem',
+    'Sahih International': 'Sahih International',
+    'Pickthall': 'Marmaduke Pickthall',
+    'Yusuf Ali': 'Yusuf Ali',
+  };
+  return names[id] || id;
+}
 
 interface Meaning {
   arabic: string;
@@ -43,6 +89,23 @@ interface WordAnalysisProps {
   meanings: Meaning[];
   occurrences: Occurrence[];
   occurrenceCount: number;
+  hasDeepAnalysis: boolean;
+  usageStatistics: Array<{
+    meaning: string;
+    count: number;
+    percentage: number;
+    color: string;
+  }>;
+  grammarPatterns: Array<{
+    form: string;
+    frequency: number;
+    examples: string[];
+  }>;
+  syntaxRoles: Array<{
+    role: string;
+    description: string;
+    frequency: number;
+  }>;
   tafsir?: TafsirEntry[];
 }
 
@@ -54,20 +117,15 @@ export default function WordAnalysis({
   meanings,
   occurrences,
   occurrenceCount,
+  hasDeepAnalysis,
+  usageStatistics,
+  grammarPatterns,
+  syntaxRoles,
   tafsir = [],
 }: WordAnalysisProps) {
   // Check if this is a controversial word
-  const hasControversialOccurrence = occurrences.some(occ => occ.usageCategory === 'controversial');
+  const hasControversialOccurrence = occurrences.some(occ => occ.usageCategory === 'controversial_separation' || occ.usageCategory === 'controversial');
   const hasTafsir = tafsir && tafsir.length > 0;
-  
-  // Calculate usage statistics
-  const physicalCount = occurrences.filter(occ => occ.usageCategory === 'physical_with_object').length;
-  const metaphoricalCount = occurrences.filter(occ => occ.usageCategory === 'metaphorical').length;
-  const controversialCount = occurrences.filter(occ => occ.usageCategory === 'controversial').length;
-  
-  const totalCategorized = physicalCount + metaphoricalCount + controversialCount;
-  const physicalPercent = totalCategorized > 0 ? Math.round((physicalCount / totalCategorized) * 100) : 0;
-  const metaphoricalPercent = totalCategorized > 0 ? Math.round((metaphoricalCount / totalCategorized) * 100) : 0;
   
   return (
     <div className="w-full max-w-6xl mx-auto space-y-6">
@@ -109,12 +167,12 @@ export default function WordAnalysis({
         </CardHeader>
       </Card>
 
-      <Tabs defaultValue={hasControversialOccurrence ? "grammar" : "meanings"} className="w-full">
+      <Tabs defaultValue={hasDeepAnalysis ? "analysis" : "meanings"} className="w-full">
         <TabsList className="flex flex-wrap w-full h-auto gap-2 p-2">
-          {hasControversialOccurrence && (
-            <TabsTrigger value="grammar" className="text-sm py-2 px-3 flex-1 min-w-[140px]" data-testid="tab-grammar">
+          {hasDeepAnalysis && (
+            <TabsTrigger value="analysis" className="text-sm py-2 px-3 flex-1 min-w-[140px]" data-testid="tab-analysis">
               <TrendingUp className="w-4 h-4 mr-1.5 hidden sm:inline" />
-              Grammar
+              Analysis
             </TabsTrigger>
           )}
           {hasControversialOccurrence && (
@@ -155,42 +213,22 @@ export default function WordAnalysis({
           </TabsContent>
         )}
 
-        {hasControversialOccurrence && (
-          <TabsContent value="grammar" className="mt-6 space-y-6">
-            {/* Usage Statistics */}
-            <Card>
-              <CardHeader>
-                <h2 className="text-2xl font-semibold text-primary">Usage Statistics</h2>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6 text-center">
-                    <div className="text-4xl font-bold text-green-700 dark:text-green-400">{physicalCount}</div>
-                    <div className="text-sm font-medium text-green-600 dark:text-green-500 mt-1">Physical (with objects)</div>
-                    <div className="text-xs text-muted-foreground mt-2">{physicalPercent}% of usage</div>
-                  </div>
-                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 text-center">
-                    <div className="text-4xl font-bold text-blue-700 dark:text-blue-400">{metaphoricalCount}</div>
-                    <div className="text-sm font-medium text-blue-600 dark:text-blue-500 mt-1">Metaphorical (examples/travel)</div>
-                    <div className="text-xs text-muted-foreground mt-2">{metaphoricalPercent}% of usage</div>
-                  </div>
-                  <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-6 text-center">
-                    <div className="text-4xl font-bold text-destructive">{controversialCount}</div>
-                    <div className="text-sm font-medium text-destructive mt-1">Controversial (no qualifier)</div>
-                    <div className="text-xs text-muted-foreground mt-2">Linguistically suspicious</div>
-                  </div>
-                </div>
-                
-                <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-md">
-                  <p className="font-semibold text-primary mb-2">Key Insight</p>
-                  <p className="text-sm text-foreground/80 leading-relaxed">
-                    In Quranic Arabic, when <span className="font-amiri text-lg">{word}</span> means physical striking, 
-                    the verse ALWAYS specifies WHAT to strike with (instrument) and/or WHERE to strike (location/body part). 
-                    The absence of these qualifiers typically indicates a metaphorical or different meaning.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+        {hasDeepAnalysis && (
+          <TabsContent value="analysis" className="mt-6 space-y-6">
+            {/* NEW: Interactive Usage Statistics Dashboard */}
+            {usageStatistics.length > 0 && (
+              <UsageStatistics 
+                data={usageStatistics}
+                totalOccurrences={occurrenceCount}
+              />
+            )}
+
+            {/* NEW: 4-Layer Deep Analysis Tabs - NOW WITH FULL DATA */}
+            <FourLayerAnalysis 
+              grammarPatterns={grammarPatterns}
+              syntaxRoles={syntaxRoles}
+              hasDeepAnalysis={hasDeepAnalysis}
+            />
 
             {/* Grammar Pattern Table */}
             <Card>
@@ -281,17 +319,21 @@ export default function WordAnalysis({
           </Card>
         </TabsContent>
 
-        <TabsContent value="occurrences" className="mt-6 space-y-4">
-          {occurrences.map((occurrence, index) => (
-            <VerseCard
-              key={index}
-              surah={occurrence.surah}
-              ayah={occurrence.ayah}
-              arabicText={occurrence.arabicText}
-              highlightWord={word}
-              translations={occurrence.translations}
-            />
-          ))}
+        <TabsContent value="occurrences" className="mt-6">
+          <EnhancedOccurrenceTable 
+            occurrences={occurrences.map((occ, index) => ({
+              id: index,
+              surah: occ.surah,
+              ayah: occ.ayah,
+              surahName: getSurahName(occ.surah),
+              arabicText: occ.arabicText,
+              translation: occ.translations[0]?.text || '',
+              category: formatCategory(occ.usageCategory),
+              contextIndicators: occ.qualifier ? [occ.qualifier] : undefined,
+            }))}
+            categories={Array.from(new Set(occurrences.map(o => formatCategory(o.usageCategory)).filter(Boolean)))}
+            translators={getUniqueTranslators(occurrences)}
+          />
         </TabsContent>
 
         <TabsContent value="comparison" className="mt-6">

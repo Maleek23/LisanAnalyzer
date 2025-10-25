@@ -13,6 +13,35 @@ import {
 } from "@shared/schema";
 import { eq, or, ilike, sql, inArray, desc } from "drizzle-orm";
 
+// Helper function to get color for usage category
+function getCategoryColor(category: string): string {
+  const colors: Record<string, string> = {
+    'set_forth_example': '#2C5282',
+    'travel_journey': '#2C5F2D',
+    'physical_with_object': '#8B0000',
+    'controversial_separation': '#D4AF37',
+    'metaphorical_coverage': '#0F5F4E',
+    'metaphorical_stamped': '#4A5568',
+    'uncategorized': '#6B7280',
+  };
+  return colors[category] || '#6B7280';
+}
+
+// Helper function to get syntax role description
+function getSyntaxRoleDescription(role: string): string {
+  const descriptions: Record<string, string> = {
+    'fa_il': 'Subject/Agent - The doer of the action',
+    'maf_ul': 'Object - The receiver of the action',
+    'jarr': 'Prepositional phrase - Indicates location, time, or manner',
+    'mubtada': 'Subject of nominal sentence',
+    'khabar': 'Predicate of nominal sentence',
+    'sifah': 'Adjective/Attribute',
+    'mudaf': 'Possessor (first part of construct)',
+    'mudaf_ilayh': 'Possessed (second part of construct)',
+  };
+  return descriptions[role] || 'Grammatical role in sentence structure';
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Search for words (Arabic or transliteration)
   app.get("/api/search", async (req, res) => {
@@ -151,6 +180,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
         allTafsir.push(...entries);
       }
 
+      // Calculate usage statistics
+      const usageStats = new Map<string, number>();
+      const grammarPatterns = new Map<string, { frequency: number; examples: string[] }>();
+      const syntaxRoles = new Map<string, number>();
+
+      for (const occ of occurrences) {
+        const category = occ.word_occurrences.usageCategory || 'uncategorized';
+        usageStats.set(category, (usageStats.get(category) || 0) + 1);
+
+        const verbForm = occ.word_occurrences.verbForm;
+        if (verbForm) {
+          if (!grammarPatterns.has(verbForm)) {
+            grammarPatterns.set(verbForm, { frequency: 0, examples: [] });
+          }
+          const pattern = grammarPatterns.get(verbForm)!;
+          pattern.frequency++;
+          if (pattern.examples.length < 3) {
+            pattern.examples.push(occ.word_occurrences.word);
+          }
+        }
+
+        const syntax = occ.word_occurrences.syntaxRole;
+        if (syntax) {
+          syntaxRoles.set(syntax, (syntaxRoles.get(syntax) || 0) + 1);
+        }
+      }
+
+      // Format usage statistics for pie chart
+      const usageStatistics = Array.from(usageStats.entries()).map(([category, count]) => ({
+        meaning: category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+        count,
+        percentage: (count / occurrenceCount) * 100,
+        color: getCategoryColor(category),
+      }));
+
+      // Check if this word has deep analysis
+      const hasDeepAnalysis = occurrences.some(occ => 
+        occ.word_occurrences.usageCategory && 
+        occ.word_occurrences.meaningUsed
+      );
+
       const response = {
         word: arabicWord, // Return actual Arabic word
         transliteration: wordTransliteration, // Return actual transliteration
@@ -159,6 +229,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         classicalDefinition: rootData?.classicalDefinition,
         modernUsage: rootData?.modernUsage,
         occurrenceCount,
+        hasDeepAnalysis,
+        usageStatistics,
+        grammarPatterns: Array.from(grammarPatterns.entries()).map(([form, data]) => ({
+          form,
+          frequency: data.frequency,
+          examples: data.examples,
+        })),
+        syntaxRoles: Array.from(syntaxRoles.entries()).map(([role, count]) => ({
+          role: role.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          description: getSyntaxRoleDescription(role),
+          frequency: count,
+        })),
         tafsir: allTafsir, // All tafsir entries across all occurrences
         occurrences: versesData.map(v => {
           const occurrence = occurrences.find(o => o.word_occurrences.verseId === v.id);
