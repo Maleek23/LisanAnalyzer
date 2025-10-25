@@ -1,0 +1,276 @@
+# Replit Prompt: Build "Lisan" - Quranic Arabic Linguistic Analyzer
+
+## 🎯 Project Overview
+Build a full-stack web application that helps users understand Arabic words from the Quran through deep linguistic analysis. The goal is to show how mistranslations happen by breaking down words morphologically and semantically, displaying all Quranic occurrences with context.
+
+---
+
+## 🎨 UI/UX Design Requirements (CRITICAL)
+
+### Visual Identity
+- **Primary colors**: Deep emerald green (#0F5F4E), gold accent (#D4AF37), cream background (#FAF9F6)
+- **Typography**: 
+  - Arabic text: "Amiri" or "Scheherazade New" (elegant, traditional Islamic calligraphy feel)
+  - English text: "Inter" or "Crimson Pro" (clean, scholarly)
+  - Large, readable font sizes for Arabic (min 24px for verses)
+- **Layout**: RTL-aware (right-to-left) for Arabic, LTR for English — seamless switching
+- **Aesthetic**: Elegant, scholarly, respectful — think Islamic geometric patterns as subtle backgrounds, manuscript-inspired borders
+
+### Key Design Elements
+1. **Homepage**:
+   - Centered search bar with Arabic placeholder: "أدخل كلمة قرآنية" (Enter a Quranic word)
+   - Subtle animated geometric pattern background (Islamic tessellation)
+   - Bismillah at top in calligraphic style (بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ)
+   - Tagline: "Understand the Quran through its original language"
+
+2. **Results Page**:
+   - **Card-based layout** with soft shadows and rounded corners
+   - **Tabs**: Root Analysis | Meanings | Quranic Occurrences | Translation Comparison
+   - **Visual hierarchy**: Arabic word large at top, root in geometric badge, meanings in expandable sections
+   - **Verse display**: Each verse in beautiful Arabic script, with transliteration below, English translation in lighter text
+   - **Highlight differences**: When showing translation comparisons, color-code where translators diverge
+
+3. **Microinteractions**:
+   - Smooth fade-in animations when results load
+   - Hover effects on verse cards (slight elevation, glow)
+   - Copying verse shows checkmark animation
+   - Search suggestions as user types (Arabic word completion)
+
+4. **Responsive**: Mobile-first, touch-friendly for scrolling through verses
+
+---
+
+## 🛠️ Technical Stack
+
+### Frontend
+- **Framework**: Next.js 14 with App Router
+- **Styling**: Tailwind CSS + custom Arabic typography utilities
+- **Components**: 
+  - SearchBar (with Arabic keyboard support)
+  - WordAnalysis (displays root, verb form, meanings)
+  - VerseCard (shows verse in Arabic + transliteration + translation)
+  - ComparisonTable (side-by-side translations)
+- **State**: React hooks (useState, useEffect for API calls)
+- **Icons**: Lucide React (book, search, copy icons)
+
+### Backend
+- **Framework**: FastAPI (Python)
+- **Database**: PostgreSQL (or SQLite for MVP)
+- **Endpoints**:
+  - `POST /api/analyze` — input: `{word: "ضرب"}` → output: root, meanings, occurrences
+  - `GET /api/verse/{surah}:{ayah}` — fetch specific verse with translations
+  - `GET /api/occurrences/{word}` — all instances of word in Quran
+
+### Data Sources (use existing APIs/datasets)
+- **Quranic text**: Tanzil XML or Quran.com API (https://api.quran.com/api/v4/)
+- **Morphology**: Quranic Arabic Corpus (https://corpus.quran.com/) — XML data available
+- **Translations**: Include 3-5 English translations:
+  - Sahih International
+  - Muhammad Asad
+  - Yusuf Ali
+  - Pickthall
+  - Abdul Haleem
+- **Root meanings**: Lane's Lexicon (scraped data or use existing JSON)
+
+---
+
+## 📋 Core Features (MVP)
+
+### 1. Word Analysis
+When user enters an Arabic word (e.g., "ضرب"):
+- Extract 3-letter root (ض-ر-ب)
+- Identify verb form (Form I, II, III, etc.)
+- List all contextual meanings:
+  - "to strike"
+  - "to set forth (a parable)"
+  - "to travel"
+  - "to separate"
+- Show which meaning applies in different Quranic contexts
+
+### 2. Quranic Occurrences
+- Display all verses containing the word
+- Each verse shows:
+  - Surah:Ayah reference (e.g., "An-Nisa 4:34")
+  - Full Arabic verse
+  - Transliteration (optional toggle)
+  - 3 translations side-by-side
+  - Highlight the word in question in Arabic text
+
+### 3. Translation Comparison
+- For controversial words (like "daraba" in 4:34), show:
+  - How different translators rendered it
+  - Linguistic notes on why meanings diverge
+  - Historical tafsir context (brief 2-3 sentence summary)
+
+### 4. Featured Words Section
+- Homepage shows 5-10 commonly mistranslated words as clickable cards:
+  - ضرب (daraba)
+  - قوام (qawwam)
+  - جلباب (jilbab)
+  - etc.
+
+---
+
+## 🗂️ Database Schema
+
+```sql
+-- Verses table
+CREATE TABLE verses (
+  id SERIAL PRIMARY KEY,
+  surah INTEGER NOT NULL,
+  ayah INTEGER NOT NULL,
+  arabic_text TEXT NOT NULL,
+  transliteration TEXT,
+  simple_text TEXT, -- simplified Arabic for search
+  UNIQUE(surah, ayah)
+);
+
+-- Translations table
+CREATE TABLE translations (
+  id SERIAL PRIMARY KEY,
+  verse_id INTEGER REFERENCES verses(id),
+  translator VARCHAR(100), -- 'sahih_intl', 'asad', etc.
+  text TEXT NOT NULL
+);
+
+-- Roots table
+CREATE TABLE roots (
+  id SERIAL PRIMARY KEY,
+  root VARCHAR(10) NOT NULL UNIQUE, -- e.g., 'ض-ر-ب'
+  meanings JSONB -- array of meanings with contexts
+);
+
+-- Word occurrences
+CREATE TABLE word_occurrences (
+  id SERIAL PRIMARY KEY,
+  word VARCHAR(50) NOT NULL,
+  root_id INTEGER REFERENCES roots(id),
+  verse_id INTEGER REFERENCES verses(id),
+  meaning_used VARCHAR(100), -- which meaning applies here
+  INDEX(word)
+);
+```
+
+---
+
+## 🚀 Implementation Steps
+
+### Phase 1: Data Pipeline (Build this first)
+1. Download Quranic text from Tanzil or Quran.com API
+2. Parse and insert into `verses` table
+3. Download translation data (Sahih, Asad, Ali) and insert into `translations`
+4. Parse Quranic Arabic Corpus morphology data
+5. Build `roots` table with common roots and meanings
+6. Create `word_occurrences` by parsing all verses
+
+### Phase 2: Backend API
+1. Set up FastAPI project
+2. Connect to PostgreSQL
+3. Build `/api/analyze` endpoint:
+   - Takes Arabic word
+   - Returns root, verb form, meanings, occurrence count
+4. Build `/api/occurrences/{word}`:
+   - Returns all verses with that word + translations
+5. Test with 10 sample words
+
+### Phase 3: Frontend
+1. Create Next.js project with Tailwind
+2. Design homepage with search bar
+3. Build WordAnalysis component (displays root breakdown)
+4. Build VerseCard component (Arabic + translations)
+5. Connect to backend API
+6. Add loading states and smooth animations
+
+### Phase 4: Polish
+1. Add Arabic font loading (Google Fonts: Amiri)
+2. Implement RTL layout for Arabic sections
+3. Add copy-to-clipboard for verses
+4. Create "Featured Words" section on homepage
+5. Add about page explaining the project goal
+6. Deploy to Vercel (frontend) + Railway/Render (backend)
+
+---
+
+## 🎯 Example User Flow
+
+1. User lands on homepage → sees elegant search bar with Islamic geometric background
+2. Types "ضرب" (daraba) → autocomplete suggests full word
+3. Clicks search → smooth transition to results page
+4. Sees card with:
+   - Root: ض-ر-ب in geometric badge
+   - Meanings expandable list
+   - "58 occurrences in Quran" badge
+5. Scrolls to "Quranic Occurrences" tab
+6. Sees An-Nisa 4:34 verse card:
+   - Arabic in large, beautiful script
+   - Word "ضرب" highlighted in gold
+   - 3 translations below showing divergence
+   - Note: "Linguistic analysis shows 'to separate' may be more accurate than 'to strike'"
+7. User clicks copy icon → verse copied with reference
+
+---
+
+## 📝 Important Notes
+
+- **Respect and accuracy**: This is Islamic scholarship — be precise, cite sources, don't make theological claims
+- **Accessibility**: Ensure screen readers work with Arabic text (use proper `lang="ar"` attributes)
+- **Performance**: Lazy load verses (paginate if >50 results)
+- **SEO**: Each word analysis page should be indexable (e.g., `/word/daraba`)
+
+---
+
+## 🎁 Bonus Features (Post-MVP)
+
+- User accounts to save favorite analyses
+- Tafsir integration (Ibn Kathir, Al-Tabari excerpts)
+- Audio recitation for each verse (Quran.com API)
+- Export analysis as PDF
+- Community submissions: "Request a word analysis"
+- Blog section: Deep dives into controversial translations
+
+---
+
+## 📦 File Structure
+
+```
+lisan/
+├── backend/
+│   ├── main.py              # FastAPI app
+│   ├── database.py          # DB connection
+│   ├── models.py            # SQLAlchemy models
+│   ├── routers/
+│   │   ├── analyze.py       # /analyze endpoint
+│   │   └── verses.py        # /verse endpoints
+│   └── data/
+│       ├── import_quran.py  # Script to seed DB
+│       └── import_roots.py
+├── frontend/
+│   ├── app/
+│   │   ├── page.tsx         # Homepage
+│   │   ├── word/[word]/page.tsx  # Word analysis page
+│   │   └── layout.tsx       # Root layout with fonts
+│   ├── components/
+│   │   ├── SearchBar.tsx
+│   │   ├── WordAnalysis.tsx
+│   │   ├── VerseCard.tsx
+│   │   └── ComparisonTable.tsx
+│   └── styles/
+│       └── globals.css      # Tailwind + custom Arabic styles
+└── README.md
+```
+
+---
+
+## ✅ Definition of Done
+
+MVP is complete when:
+- [ ] User can search any common Quranic word and see root analysis
+- [ ] All occurrences display with 3 translations
+- [ ] UI is beautiful, Arabic-first, smooth animations
+- [ ] At least 50 words are fully analyzed in database
+- [ ] Deployed and accessible via public URL
+- [ ] Mobile responsive
+
+---
+
+**Now build this with attention to detail, beautiful Arabic typography, and respect for the sacred text. Make it something scholars and students would actually use. Good luck!**
