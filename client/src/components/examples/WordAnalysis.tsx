@@ -3,6 +3,7 @@ import WordAnalysis from '../WordAnalysis';
 export default function WordAnalysisExample() {
   const mockData = {
     word: "ضرب",
+    transliteration: "ḍaraba",
     root: "ض-ر-ب",
     verbForm: "Form I",
     occurrenceCount: 58,

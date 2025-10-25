@@ -20,6 +20,7 @@ interface Occurrence {
 
 interface WordAnalysisProps {
   word: string;
+  transliteration: string;
   root: string;
   verbForm?: string;
   meanings: Meaning[];
@@ -29,6 +30,7 @@ interface WordAnalysisProps {
 
 export default function WordAnalysis({
   word,
+  transliteration,
   root,
   verbForm,
   meanings,
@@ -39,9 +41,14 @@ export default function WordAnalysis({
     <div className="w-full max-w-6xl mx-auto space-y-6">
       <Card>
         <CardHeader className="text-center space-y-4">
-          <h1 className="text-6xl font-amiri text-primary" dir="rtl" lang="ar" data-testid="text-word">
-            {word}
-          </h1>
+          <div className="space-y-2">
+            <h1 className="text-6xl font-amiri text-primary" dir="rtl" lang="ar" data-testid="text-word">
+              {word}
+            </h1>
+            <p className="text-2xl text-muted-foreground italic" data-testid="text-transliteration">
+              {transliteration}
+            </p>
+          </div>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <Badge className="bg-gold text-white font-amiri text-xl px-6 py-2" data-testid="badge-root">
               Root: {root}

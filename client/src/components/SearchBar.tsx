@@ -7,7 +7,7 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-export default function SearchBar({ onSearch, placeholder = "أدخل كلمة قرآنية" }: SearchBarProps) {
+export default function SearchBar({ onSearch, placeholder = "Enter Arabic word or English term" }: SearchBarProps) {
   const [query, setQuery] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,13 +25,12 @@ export default function SearchBar({ onSearch, placeholder = "أدخل كلمة �
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
-          className="h-16 text-2xl pr-14 text-right font-amiri bg-white border-2 border-primary/20 focus-visible:border-primary focus-visible:ring-primary"
-          dir="rtl"
+          className="h-16 text-xl pl-14 bg-white border-2 border-primary/20 focus-visible:border-primary focus-visible:ring-primary"
           data-testid="input-search"
         />
         <button
           type="submit"
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-gold hover-elevate active-elevate-2 p-2 rounded-md"
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-gold hover-elevate active-elevate-2 p-2 rounded-md"
           data-testid="button-search"
         >
           <Search className="w-6 h-6" />

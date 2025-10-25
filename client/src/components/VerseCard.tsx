@@ -77,20 +77,22 @@ export default function VerseCard({
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
-        <p
-          className="text-3xl font-amiri leading-loose text-right"
-          dir="rtl"
-          lang="ar"
-          data-testid={`text-arabic-${surah}-${ayah}`}
-        >
-          {highlightText(arabicText)}
-        </p>
-
-        {showTransliteration && transliteration && (
-          <p className="text-sm italic text-muted-foreground text-right" dir="rtl" data-testid={`text-transliteration-${surah}-${ayah}`}>
-            {transliteration}
+        <div className="space-y-3">
+          <p
+            className="text-3xl font-amiri leading-loose text-right"
+            dir="rtl"
+            lang="ar"
+            data-testid={`text-arabic-${surah}-${ayah}`}
+          >
+            {highlightText(arabicText)}
           </p>
-        )}
+
+          {showTransliteration && transliteration && (
+            <p className="text-base italic text-muted-foreground" data-testid={`text-transliteration-${surah}-${ayah}`}>
+              {transliteration}
+            </p>
+          )}
+        </div>
 
         <div className="border-t pt-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

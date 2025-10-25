@@ -1,0 +1,328 @@
+# Replit Prompt: Build "Lisan" - Quranic Linguistic Truth Engine
+
+## 🎯 Vision Statement
+Build a full-stack platform that restores **linguistic dignity** to the Qur'an by exposing the semantic depth Arabic words carry across grammatical, historical, theological, and contextual layers. This is not a translation app — it's a **truth restoration engine** that fights shallow interpretations, viral misquotes, and hadith fabrications with rigorous linguistic analysis and verified scholarship.
+
+**Core Philosophy**: Context > Literal meaning. Grammar > Root. Scholarship > Opinion.
+
+---
+
+## 🎨 UI/UX Design Requirements (CRITICAL)
+
+### Visual Identity
+- **Primary colors**: Deep emerald green (#0F5F4E), gold accent (#D4AF37), warm cream (#FAF9F6), burgundy for warnings (#8B0000)
+- **Typography**: 
+  - Arabic text: "Amiri Quran" or "Scheherazade New" (elegant, classical manuscript feel)
+  - English text: "Crimson Pro" (scholarly serif) + "Inter" (modern sans)
+  - Arabic minimum 26px, verse text 32px for readability and reverence
+- **Layout Philosophy**: 
+  - RTL-aware (seamless Arabic/English switching)
+  - **Layered information architecture** — users choose depth (casual learner → scholar mode)
+  - Cards with subtle Islamic geometric borders (not overwhelming)
+- **Aesthetic**: Manuscript-inspired elegance meets modern clarity — think Al-Azhar library meets Apple design language
+
+### Key Design Elements
+
+#### 1. **Homepage** (Gateway to Knowledge)
+- Centered search bar: "أدخل كلمة قرآنية أو حديث" (Enter Quranic word or hadith)
+- **Bismillah** in elegant calligraphy at top
+- **Featured Sections**:
+  - "Commonly Mistranslated Words" (clickable word cloud)
+  - "Recently Verified Hadiths" (community contributions)
+  - "Trending Misconceptions" (viral quotes debunked this week)
+- Subtle animated geometric tessellation background
+- Tagline: *"Understand revelation through its original language — not through screenshots"*
+
+#### 2. **Word Analysis Page** (The Core Experience)
+**Layered Tab System** (users toggle depth):
+
+**📖 Layer 1: Linguistic Foundation**
+- Root displayed in geometric badge (ض-ر-ب)
+- Verb form with morphological pattern visual (فَعَلَ → Form I)
+- **All contextual meanings** with Quranic verse counts per meaning
+- **Syntax role** in each verse (fa'il/subject, maf'ul/object, etc.)
+- **Co-occurrence analysis**: "This word appears most often with..." (shows semantic network)
+
+**🎭 Layer 2: Rhetorical Context (Balagha)**
+- Literary devices used (metaphor, metonymy, synecdoche)
+- Sentence structure notes (emphasis, inversion, ellipsis)
+- Quranic eloquence markers (why this word here, not another synonym)
+
+**📚 Layer 3: Scholarly Exegesis (Tafsir)**
+- Classical scholars' interpretations (Tabari, Qurtubi, Ibn Kathir, Razi)
+- **Semantic timeline**: How interpretation evolved across centuries
+- Modern scholarly notes (Bayyinah Institute, Al-Azhar opinions)
+- Sectarian differences displayed **neutrally** (Sunni, Shia, Ibadi renderings)
+
+**🌍 Layer 4: Living Arabic**
+- Modern usage (news articles, poetry, colloquial speech)
+- **Semantic drift visualization**: Classical → Medieval → Modern meanings
+- Shows how context changed meaning over 1400 years
+
+#### 3. **Verse Display Cards** (Sacred Text Presentation)
+- Large Arabic in Amiri Quran font
+- Word being analyzed **highlighted in gold**
+- Transliteration (toggle on/off)
+- **3-5 translations side-by-side** with divergence highlighting:
+  - Where translators differ = yellow background
+  - Controversial renderings = annotation icon
+- **Audio recitation** with word-by-word tajweed highlighting
+- **Copy entire card** (Arabic + translation + reference) as formatted text
+
+#### 4. **Hadith Verification Panel** (Authenticity Radar)
+- User pastes hadith (Arabic or English)
+- System checks against:
+  - Sahih Bukhari, Muslim, Sunan databases
+  - Sunnah.com API integration
+- **Reliability indicator**:
+  - 🟢 Green: Sahih (authentic)
+  - 🟡 Yellow: Hasan (good) or Daif (weak)
+  - 🔴 Red: Mawdu (fabricated) or not found
+- Shows:
+  - Original Arabic source
+  - Chain of narration (isnad)
+  - Commentary from muhaddithin (Al-Albani, Shu'ayb al-Arnaut)
+  - Cross-references to Quranic verses with same vocabulary
+
+#### 5. **Misuse Analyzer** (Viral Quote Debunker)
+- Paste screenshot or quote from social media
+- OCR extracts Arabic text (if image)
+- System identifies:
+  - Mistranslation patterns
+  - Out-of-context usage
+  - Grammatical distortions
+  - Fabricated hadiths
+- **Output**: Clean report showing:
+  - Original Arabic
+  - Accurate translation
+  - Contextual notes
+  - "Share correction" button (generates infographic)
+
+#### 6. **Microinteractions**
+- Smooth fade-in for results (no jarring loads)
+- Hover on verse → shows quick context tooltip
+- Click word in verse → instant mini-analysis popup
+- Copy verse → animated checkmark + "Copied with citation"
+- Layer switching → smooth slide transitions
+- **Search history** saved locally (privacy-first)
+
+---
+
+## 🛠️ Technical Stack
+
+### Frontend
+- **Framework**: Next.js 14 with App Router + React Server Components
+- **Styling**: Tailwind CSS + custom Arabic typography system
+- **State Management**: Zustand (lightweight, no Redux bloat)
+- **Components**:
+  - `SearchBar` (Arabic keyboard support, autocomplete)
+  - `LayeredAnalysis` (tab system for linguistic/rhetorical/exegetical layers)
+  - `VerseCard` (audio player, copy, highlight, annotations)
+  - `HadithVerifier` (paste input, reliability meter, source links)
+  - `MisuseAnalyzer` (OCR, debunk report generator)
+  - `ScholarAnnotation` (verified scholar comments with attribution)
+- **Icons**: Lucide React + custom Islamic geometric SVGs
+- **Fonts**: Google Fonts (Amiri Quran) + locally hosted Arabic fonts for performance
+
+### Backend
+- **Framework**: FastAPI (Python) — async, fast, great for NLP
+- **Database**: PostgreSQL with JSON fields for tafsir/scholarly data
+- **NLP Pipeline**:
+  - **CAMeL Tools** for Arabic morphological analysis
+  - **SpaCy Arabic models** for syntax parsing
+  - **Custom semantic network graph** (Neo4j or in-memory for MVP)
+- **APIs**:
+  - `POST /api/analyze` — word → full linguistic breakdown
+  - `POST /api/verify-hadith` — hadith text → authenticity report
+  - `POST /api/debunk` — viral quote → correction report
+  - `GET /api/verse/{surah}:{ayah}` — verse with translations + tafsir
+  - `GET /api/occurrences/{word}` — all Quranic uses with context
+  - `GET /api/cooccurrence/{word}` — semantic network data
+  - `GET /api/semantic-timeline/{word}` — historical interpretation evolution
+
+### Data Sources
+- **Quranic text**: Tanzil XML + Quran.com API (v4)
+- **Morphology**: Quranic Arabic Corpus (XML parsed into DB)
+- **Translations**: 
+  - Sahih International
+  - Muhammad Asad (reformist)
+  - Yusuf Ali (classical)
+  - Pickthall
+  - Abdul Haleem (modern scholarly)
+  - Mustafa Khattab (The Clear Quran)
+- **Tafsir**: 
+  - Tafsir.com API (Al-Jalalayn, Ibn Kathir, etc.)
+  - Altafsir.com scraped data (classical tafsirs)
+  - Quran.com tafsir endpoints
+- **Hadith**: 
+  - Sunnah.com API (Bukhari, Muslim, Abu Dawud, etc.)
+  - Hadith.com datasets
+- **Arabic dictionaries**: 
+  - Lane's Lexicon (JSON export)
+  - Hans Wehr (for modern usage)
+  - Lisan al-Arab (classical)
+- **Modern Arabic**: News corpus (Al Jazeera, BBC Arabic) for semantic drift analysis
+
+---
+
+## 📋 Core Features (Phased Rollout)
+
+### **Phase 1: Linguistic Foundation** (Weeks 1-4)
+✅ **Word Analysis Engine**
+- Root extraction (ض-ر-ب from ضَرَبَ)
+- Verb form identification (I-X)
+- All contextual meanings with Quranic occurrence counts
+- Syntax role per occurrence (subject, object, prepositional phrase)
+
+✅ **Quranic Occurrences Browser**
+- All verses containing word
+- Multiple translations side-by-side
+- Divergence highlighting (where translators differ)
+- Audio recitation with word highlighting
+
+✅ **Basic UI**
+- Homepage with search
+- Results page with tabs (Linguistic / Occurrences / Translations)
+- Mobile responsive
+- Arabic RTL layout
+
+---
+
+### **Phase 2: Contextual Intelligence** (Weeks 5-8)
+✅ **Semantic Network**
+- Co-occurrence analysis: "Words that appear with this word most often"
+- Visual graph of semantic relationships
+- Context prediction: "In this grammatical position, word likely means..."
+
+✅ **Classical Grammar Tagging**
+- Full i'rab (إعراب) — grammatical case marking
+- Syntax tree visualization for complex sentences
+- Preposition + word combinations (فِي vs. إِلَى vs. عَلَى)
+
+✅ **Rhetorical Layer (Balagha)**
+- Literary devices identification
+- Quranic eloquence notes
+- Why this word, not a synonym
+
+✅ **Living Arabic Mode**
+- Modern usage examples from news/poetry
+- Semantic drift timeline (classical → modern)
+
+---
+
+### **Phase 3: Scholarly Integration** (Weeks 9-12)
+✅ **Layered Tafsir System**
+- Classical tafsir (Tabari, Qurtubi, Ibn Kathir)
+- Modern scholarly notes (Bayyinah, Al-Azhar)
+- Sectarian comparison (neutral presentation)
+- Semantic timeline: interpretation evolution across centuries
+
+✅ **Scholar Verification System**
+- Verified scholar accounts (invite-only)
+- Scholar annotations with citations
+- Upvote/downvote by community (weighted by scholar endorsements)
+- "Reviewed by [scholar name]" badge
+
+---
+
+### **Phase 4: Hadith Verification** (Weeks 13-16)
+✅ **Authenticity Radar**
+- Paste hadith → check against corpora
+- Reliability meter (Sahih/Hasan/Daif/Mawdu)
+- Chain of narration (isnad) display
+- Commentary from muhaddithin
+- Cross-reference to Quranic vocabulary
+
+✅ **Hadith-Quran Concordance**
+- Show where hadith language echoes Quranic phrasing
+- Linguistic continuity analysis
+- Prophet's word usage patterns
+
+---
+
+### **Phase 5: Misuse Analyzer** (Weeks 17-20)
+✅ **Viral Quote Debunker**
+- OCR for Arabic screenshots
+- Detect mistranslations, out-of-context usage
+- Fabricated hadith detection
+- Generate correction infographic (shareable)
+
+✅ **Modern Misuse Database**
+- Crowdsourced submissions of viral misquotes
+- Scholar-reviewed corrections
+- "Trending Misconceptions" section on homepage
+
+---
+
+### **Phase 6: Advanced Features** (Post-MVP)
+✅ **Audio & Visual Learning**
+- Tajweed-accurate recitation per word
+- Morphology animation (root → derived word visual breakdown)
+- AI pronunciation helper (record yourself, get feedback)
+
+✅ **Ethical Philosophy Mode**
+- Link words to ethical/philosophical concepts
+- Classical vs. modern interpretations of moral terms
+- How social media diluted sacred language
+
+✅ **Open API & Plugin System**
+- REST API for scholars, educators, imams
+- WordPress/Notion plugins
+- Khutbah preparation tools
+
+✅ **Community Features**
+- User accounts (optional, privacy-first)
+- Save favorite analyses
+- Request word analysis (queue for scholars)
+- Discussion forums (moderated by scholars)
+
+---
+
+## 🗂️ Database Schema
+
+```sql
+-- Verses
+CREATE TABLE verses (
+  id SERIAL PRIMARY KEY,
+  surah INTEGER NOT NULL,
+  ayah INTEGER NOT NULL,
+  arabic_text TEXT NOT NULL,
+  simple_text TEXT, -- for search
+  transliteration TEXT,
+  UNIQUE(surah, ayah)
+);
+
+-- Translations
+CREATE TABLE translations (
+  id SERIAL PRIMARY KEY,
+  verse_id INTEGER REFERENCES verses(id),
+  translator VARCHAR(100),
+  text TEXT NOT NULL,
+  INDEX(verse_id, translator)
+);
+
+-- Roots
+CREATE TABLE roots (
+  id SERIAL PRIMARY KEY,
+  root VARCHAR(10) NOT NULL UNIQUE,
+  meanings JSONB, -- [{meaning, context, usage_count}]
+  classical_definition TEXT,
+  modern_usage TEXT
+);
+
+-- Word Occurrences
+CREATE TABLE word_occurrences (
+  id SERIAL PRIMARY KEY,
+  word VARCHAR(50) NOT NULL,
+  root_id INTEGER REFERENCES roots(id),
+  verse_id INTEGER REFERENCES verses(id),
+  meaning_used VARCHAR(200),
+  syntax_role VARCHAR(50), -- fa'il, maf'ul, jarr, etc.
+  verb_form VARCHAR(20), -- Form I, II, III, etc.
+  INDEX(word), INDEX(root_id)
+);
+
+-- Tafsir
+CREATE TABLE tafsir (
+  id SERIAL PRIMARY KEY,
+  ver
