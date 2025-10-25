@@ -1,5 +1,5 @@
 import { db } from './db';
-import { verses, translations, roots, wordOccurrences } from '@shared/schema';
+import { verses, translations, roots, wordOccurrences, tafsir } from '@shared/schema';
 import { sql } from 'drizzle-orm';
 
 async function seed() {
@@ -7,6 +7,7 @@ async function seed() {
 
   // Clear existing data
   console.log('Clearing existing data...');
+  await db.delete(tafsir);
   await db.delete(wordOccurrences);
   await db.delete(translations);
   await db.delete(verses);

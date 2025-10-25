@@ -61,19 +61,35 @@ export const wordOccurrences = pgTable("word_occurrences", {
   categoryIdx: index("category_idx").on(table.usageCategory),
 }));
 
+// Tafsir (scholarly commentary) table
+export const tafsir = pgTable("tafsir", {
+  id: serial("id").primaryKey(),
+  verseId: integer("verse_id").notNull().references(() => verses.id),
+  scholar: varchar("scholar", { length: 100 }).notNull(), // 'tabari', 'ibn_kathir', 'qurtubi', etc.
+  text: text("text").notNull(),
+  layer: varchar("layer", { length: 50 }), // 'linguistic', 'rhetorical', 'exegetical', 'modern'
+  century: integer("century"), // 2 = 8th century (200 AH), 9 = 15th century, etc.
+  translation: text("translation"), // English translation of tafsir
+}, (table) => ({
+  verseLayerIdx: index("verse_layer_idx").on(table.verseId, table.layer),
+}));
+
 // Insert schemas
 export const insertVerseSchema = createInsertSchema(verses).omit({ id: true });
 export const insertTranslationSchema = createInsertSchema(translations).omit({ id: true });
 export const insertRootSchema = createInsertSchema(roots).omit({ id: true });
 export const insertWordOccurrenceSchema = createInsertSchema(wordOccurrences).omit({ id: true });
+export const insertTafsirSchema = createInsertSchema(tafsir).omit({ id: true });
 
 // Select types
 export type Verse = typeof verses.$inferSelect;
 export type Translation = typeof translations.$inferSelect;
 export type Root = typeof roots.$inferSelect;
 export type WordOccurrence = typeof wordOccurrences.$inferSelect;
+export type Tafsir = typeof tafsir.$inferSelect;
 
 export type InsertVerse = z.infer<typeof insertVerseSchema>;
 export type InsertTranslation = z.infer<typeof insertTranslationSchema>;
 export type InsertRoot = z.infer<typeof insertRootSchema>;
 export type InsertWordOccurrence = z.infer<typeof insertWordOccurrenceSchema>;
+export type InsertTafsir = z.infer<typeof insertTafsirSchema>;
