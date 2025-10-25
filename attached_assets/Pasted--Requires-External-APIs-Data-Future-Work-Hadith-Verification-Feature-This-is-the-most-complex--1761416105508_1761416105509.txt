@@ -1,0 +1,52 @@
+⚠️ Requires External APIs/Data (Future Work)
+Hadith Verification Feature - This is the most complex requirement:
+
+Needs: Hadith database with Arabic text, chain of narration (isnad), reliability grading
+API Options to Research:
+Sunnah.com API (has Sahih Bukhari, Muslim, Abu Dawud, etc.)
+IslamicFinder Hadith API
+Hadith Answers database
+Ahadith.co.uk collections
+Schema Required:
+hadiths table (arabic_text, english_translation, book, chapter, number)
+narrators table (name, reliability_grade, biography)
+chains table (hadith_id, narrator_id, position_in_chain)
+hadith_gradings table (hadith_id, scholar, grade: sahih/hasan/daif/mawdu)
+Timeline: 2-3 days for basic implementation after securing API access
+🎨 Design Enhancements to Consider
+Animated Islamic Patterns: Can use CSS/SVG animations or Framer Motion
+Scroll Animations: Use Intersection Observer API for fade-ins
+Auto-switching Placeholder: JavaScript interval for Arabic/English toggle
+Countdown Timer: Only if you have actual launch date
+Live Waitlist Counter: Requires backend counter + email collection
+📊 Data/Content Needs
+Scholar profiles (photos, names, credentials, testimonials) - You'll need to secure permissions
+Statistics ("4,832 users waiting", "70% of viral hadiths are fake") - Need sources or remove
+Feature mockup screenshots - Can capture from current working app
+Custom icons - Can use Lucide React icons styled to match Islamic aesthetic
+🚀 Recommended Approach
+Phase 1 (Today): Build landing page structure with:
+
+Hero with search (links to existing /word analysis)
+Problem cards
+Features showcase with tabs
+Static scholar section with placeholder data
+Footer
+Decision: Keep as separate /landing route OR replace homepage
+Phase 2 (Future): Add interactivity:
+
+Hadith verification (after API research)
+Email waitlist collection
+Real scholar data
+Advanced animations
+Would you like me to:
+A) Build the full Phase 1 landing page now (replace current homepage)
+B) Add it as /landing route (keep current homepage)
+C) Focus only on specific sections you prioritize
+D) Research hadith APIs first before building
+
+Checkpoint made
+3 minutes ago
+Add analysis capabilities for Quranic Arabic words and their occurrences
+1 minute of work
+looks choopy. have u done this? I love the "Al-Azhar library illuminated by daylight" aesthetic and the focus on Islamic manuscript
