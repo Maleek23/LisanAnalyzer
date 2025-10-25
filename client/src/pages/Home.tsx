@@ -2,9 +2,11 @@ import IslamicPattern from "@/components/IslamicPattern";
 import SearchBar from "@/components/SearchBar";
 import FeaturedWordCard from "@/components/FeaturedWordCard";
 import { useState } from "react";
+import { useLocation } from "wouter";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [, setLocation] = useLocation();
 
   const featuredWords = [
     {
@@ -47,11 +49,13 @@ export default function Home() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    console.log('Searching for:', query);
+    // Navigate to word page with search query
+    setLocation(`/word/${encodeURIComponent(query)}`);
   };
 
   const handleWordClick = (word: string) => {
-    console.log('Navigate to word:', word);
+    // Navigate to word analysis page
+    setLocation(`/word/${encodeURIComponent(word)}`);
   };
 
   return (

@@ -1,0 +1,650 @@
+# Lisan - Landing Page, Homepage & Account Management Design Spec
+
+## 🎨 Design Philosophy
+
+**Core Aesthetic**: Islamic manuscript elegance meets Apple-level clarity. Think **Al-Azhar library illuminated by daylight** — scholarly, reverent, but accessible.
+
+**Color Psychology**:
+- Emerald green = Knowledge, growth, Islamic tradition
+- Gold = Divine light, truth, manuscript illumination
+- Cream = Parchment, warmth, readability
+- Burgundy = Urgency (for corrections/warnings)
+
+**Typography Hierarchy**:
+- Display (hero text): 72px / Bold
+- Headings: 48px, 36px, 28px
+- Body: 18px (readability > minimalism)
+- Arabic: Always 20-30% larger than English equivalent
+
+---
+
+## 🏠 Landing Page (First-Time Visitors)
+
+### **Hero Section** (Full viewport height)
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║              بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ              ║
+║           (Elegant calligraphy, gold on cream, 48px)          ║
+║                                                               ║
+║                         L I S A N                             ║
+║              Restore Truth to Sacred Text                     ║
+║                                                               ║
+║  [Subtle animated Islamic geometric pattern background]      ║
+║                                                               ║
+║   "Understand the Qur'an through its original language —     ║
+║            not through screenshots."                          ║
+║                                                               ║
+║   ┌──────────────────────────────────────────────────┐       ║
+║   │  🔍  أدخل كلمة قرآنية أو حديث  [Try "ضرب"]      │       ║
+║   │      Enter a Quranic word or hadith              │       ║
+║   └──────────────────────────────────────────────────┘       ║
+║                                                               ║
+║              [Analyze Word]  [Verify Hadith]                 ║
+║                                                               ║
+║   ↓ Scroll to explore features                               ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+**Design Details**:
+- **Background**: Cream (#FAF9F6) with **subtle animated tessellation** (Islamic star pattern, barely visible, moves slowly like breathing)
+- **Bismillah**: "Amiri Quran" font, gold (#D4AF37), centered, ~48px
+- **"LISAN" logo**: Custom typography with Arabic calligraphic flourish on the 'L'
+- **Search bar**: 
+  - White background, soft shadow (0 4px 20px rgba(0,0,0,0.08))
+  - Gold border on focus
+  - Placeholder switches between Arabic/English every 3s
+  - Autocomplete dropdown appears on typing (shows popular words)
+- **CTA buttons**: 
+  - Primary = Emerald green, white text, hover → lifts with shadow
+  - Secondary = Outlined in gold
+
+---
+
+### **Problem Statement Section** (Why Lisan Exists)
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   The Problem We're Solving                                   ║
+║   ━━━━━━━━━━━━━━━━━━━━━━━━                                   ║
+║                                                               ║
+║   [Three cards side-by-side, each with icon + text]          ║
+║                                                               ║
+║   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         ║
+║   │  📱 Viral   │  │  ❌ Shallow  │  │  🚫 Fake    │         ║
+║   │  Misquotes  │  │  Translation │  │  Hadiths    │         ║
+║   │             │  │              │  │             │         ║
+║   │  Screenshot │  │  "Beat them" │  │  70% of     │         ║
+║   │  Islam with │  │  ignores 10  │  │  viral      │         ║
+║   │  no context │  │  other       │  │  hadiths are│         ║
+║   │             │  │  meanings    │  │  fabricated │         ║
+║   └─────────────┘  └─────────────┘  └─────────────┘         ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+**Design Details**:
+- **Cards**: White background, soft shadow, rounded corners (12px)
+- **Icons**: Custom Islamic-themed SVGs (no generic emojis)
+- **Hover effect**: Card lifts slightly, gold border appears
+- **Text**: Problem in bold, context in lighter weight below
+
+---
+
+### **Features Showcase** (How Lisan Works)
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   Four Layers of Understanding                                ║
+║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━                               ║
+║                                                               ║
+║   [Large interactive tabs — click switches content]          ║
+║                                                               ║
+║   📖 Linguistic  |  🎭 Rhetorical  |  📚 Scholarly  |  🌍 Modern
+║   ────────────────────────────────────────────────────────── ║
+║                                                               ║
+║   [Animated mockup of word analysis page]                    ║
+║                                                               ║
+║   ← Shows actual UI with:                                     ║
+║      • Root breakdown (ض-ر-ب)                                ║
+║      • 10 meanings with verse counts                         ║
+║      • Syntax roles highlighted                              ║
+║      • Audio player with waveform                            ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+**Design Details**:
+- **Tabs**: Gold underline on active, smooth slide animation on switch
+- **Mockup**: Actual screenshot of UI (not generic placeholder), with **blur effect on edges** to create depth
+- **Animation**: As user scrolls into view, mockup slides in from right
+
+---
+
+### **Hadith Verification Feature**
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   Stop Sharing Fake Hadiths                                   ║
+║   ━━━━━━━━━━━━━━━━━━━━━━━━━                                 ║
+║                                                               ║
+║   [Split screen design]                                       ║
+║                                                               ║
+║   LEFT SIDE:                     RIGHT SIDE:                  ║
+║   ┌─────────────────────┐       ┌─────────────────────┐      ║
+║   │  Paste any hadith   │  →    │  🟢 Sahih (Bukhari) │      ║
+║   │  from social media  │       │                     │      ║
+║   │                     │       │  Chain of narration │      ║
+║   │  "Seeking knowledge │       │  displayed...       │      ║
+║   │  is obligatory..."  │       │                     │      ║
+║   │                     │       │  [Commentary from   │      ║
+║   │                     │       │   Al-Albani...]     │      ║
+║   └─────────────────────┘       └─────────────────────┘      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+**Design Details**:
+- **Before/After split**: Left side = messy screenshot, Right side = clean verified result
+- **Reliability badge**: 
+  - Green = Sahih (with glow effect)
+  - Yellow = Hasan/Daif (caution icon)
+  - Red = Mawdu/Not found (warning icon)
+- **Animation**: Badge appears with scale-up + slight bounce
+
+---
+
+### **Trust Indicators** (Social Proof)
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   Verified by Scholars You Trust                              ║
+║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━                            ║
+║                                                               ║
+║   [Row of scholar profile cards]                             ║
+║                                                               ║
+║   ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   ║
+║   │  [Photo] │  │  [Photo] │  │  [Photo] │  │  [Photo] │   ║
+║   │          │  │          │  │          │  │          │   ║
+║   │  Sheikh  │  │  Dr.     │  │  Ustadh  │  │  + 47    │   ║
+║   │  [Name]  │  │  [Name]  │  │  [Name]  │  │  more    │   ║
+║   │          │  │          │  │          │  │  scholars│   ║
+║   │  Al-Azhar│  │  Bayyinah│  │  Yaqeen  │  │          │   ║
+║   └──────────┘  └──────────┘  └──────────┘  └──────────┘   ║
+║                                                               ║
+║   "Lisan bridges the gap between classical scholarship       ║
+║    and digital learners with unprecedented linguistic depth."║
+║                  — Dr. [Scholar Name], [Institution]         ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+**Design Details**:
+- **Scholar cards**: Circular photos, name + credentials below, hover → brief bio tooltip
+- **Testimonial**: Italic serif font, gold quotation marks, centered
+- **Scroll animation**: Cards fade in one by one (stagger effect)
+
+---
+
+### **Call-to-Action** (Pre-Launch / Beta Signup)
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║           Join the Linguistic Revolution                      ║
+║           ━━━━━━━━━━━━━━━━━━━━━━━━━━                       ║
+║                                                               ║
+║   Lisan launches in [countdown: 23 days]                     ║
+║                                                               ║
+║   Get early access + 6 months free premium features:         ║
+║   ✓ Unlimited word analysis                                  ║
+║   ✓ Full tafsir library access                               ║
+║   ✓ Priority scholar Q&A                                     ║
+║                                                               ║
+║   ┌─────────────────────────────────────────────────┐        ║
+║   │  📧 your-email@example.com   [Join Waitlist]   │        ║
+║   └─────────────────────────────────────────────────┘        ║
+║                                                               ║
+║   Already 4,832 scholars, students, and seekers waiting.     ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+**Design Details**:
+- **Background**: Emerald green with subtle geometric overlay
+- **Countdown timer**: Large, animated (flips like old airport displays)
+- **Email input**: White, inline with button, validates format in real-time
+- **Social proof**: Live counter (updates every page load)
+
+---
+
+### **Footer**
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   LISAN                                                       ║
+║   Linguistic Truth Engine                                     ║
+║                                                               ║
+║   Product          Community        Resources                ║
+║   • Features       • Scholars       • API Docs               ║
+║   • Pricing        • Contributors   • Blog                   ║
+║   • Roadmap        • Discord        • Research Papers        ║
+║                    • Twitter        • GitHub                 ║
+║                                                               ║
+║   Made with reverence for revelation.                        ║
+║   Open-source core • Scholar-verified content                ║
+║                                                               ║
+║   © 2025 Lisan  •  contact@lisan.app  •  Privacy Policy     ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+---
+
+## 🏡 Homepage (For Logged-In Users)
+
+### **Personalized Dashboard**
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   As-salamu alaykum, [Username] 👋                           ║
+║                                                               ║
+║   ┌──────────────────────────────────────────────────┐       ║
+║   │  🔍  أدخل كلمة قرآنية أو حديث                    │       ║
+║   └──────────────────────────────────────────────────┘       ║
+║                                                               ║
+║   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━        ║
+║                                                               ║
+║   Your Recent Searches                    [View All →]       ║
+║   ┌──────────┐  ┌──────────┐  ┌──────────┐                  ║
+║   │  ضَرَبَ   │  │  قِوَامَة │  │  جِلْبَاب │                  ║
+║   │  daraba   │  │  qiwamah  │  │  jilbab   │                  ║
+║   │  2d ago   │  │  1w ago   │  │  3w ago   │                  ║
+║   └──────────┘  └──────────┘  └──────────┘                  ║
+║                                                               ║
+║   Saved Analyses (12)                     [Manage →]         ║
+║   ┌────────────────────────────────────────────────┐         ║
+║   │  📌 An-Nisa 4:34 — Complete breakdown          │         ║
+║   │  📌 "Jihad" semantic timeline                  │         ║
+║   │  📌 Hadith on seeking knowledge (verified)     │         ║
+║   └────────────────────────────────────────────────┘         ║
+║                                                               ║
+║   Trending This Week                      [Explore →]        ║
+║   🔥 "Taharrush" — New analysis by Sheikh [Name]            ║
+║   🔥 Debunked: Viral hadith on women's rights (fake)        ║
+║   🔥 Scholar Q&A: Modern translations of "awliya"           ║
+║                                                               ║
+║   Scholar Spotlight                                          ║
+║   ┌────────────────────────────────────────────────┐         ║
+║   │  [Photo] Dr. [Name] just annotated 47 verses   │         ║
+║   │  on "justice" — explore their notes →          │         ║
+║   └────────────────────────────────────────────────┘         ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+**Design Details**:
+- **Greeting**: Changes based on time (morning/afternoon/evening)
+- **Recent searches**: Card-based, click to re-open analysis
+- **Saved analyses**: With tags (verse/word/hadith), editable titles
+- **Trending**: Algorithm surfaces most-viewed + scholar-endorsed content this week
+- **Scholar Spotlight**: Rotates through verified scholars who recently contributed
+
+---
+
+## 👤 Account Management System
+
+### **Account Creation Flow** (Privacy-First)
+
+#### **Option 1: No Account (Default)**
+- All features work **without login**
+- Saves recent searches in **localStorage** (private, never leaves device)
+- Banner: "Create account to save analyses across devices"
+
+#### **Option 2: Email-Only Account**
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   Create Your Lisan Account                                   ║
+║   ━━━━━━━━━━━━━━━━━━━━━━━                                   ║
+║                                                               ║
+║   We only ask for what we need. Your privacy matters.        ║
+║                                                               ║
+║   ┌─────────────────────────────────────────────────┐        ║
+║   │  Email address                                  │        ║
+║   │  your-email@example.com                         │        ║
+║   └─────────────────────────────────────────────────┘        ║
+║                                                               ║
+║   ┌─────────────────────────────────────────────────┐        ║
+║   │  Password (min 8 characters)                    │        ║
+║   │  ••••••••                                        │        ║
+║   └─────────────────────────────────────────────────┘        ║
+║                                                               ║
+║   ┌─────────────────────────────────────────────────┐        ║
+║   │  Display name (optional)                        │        ║
+║   │  How you'll appear to scholars                  │        ║
+║   └─────────────────────────────────────────────────┘        ║
+║                                                               ║
+║   [ ] I've read the privacy policy (we don't sell data)     ║
+║                                                               ║
+║   [Create Account]                                           ║
+║                                                               ║
+║   Already have an account? [Sign in]                         ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+**What We DON'T Ask For**:
+- ❌ Full name (not needed)
+- ❌ Phone number (privacy risk)
+- ❌ Country/location (tracks users)
+- ❌ Profile photo (optional, added later)
+- ❌ Social media links (not relevant)
+
+**Authentication**: 
+- Email + password (bcrypt hashed)
+- Magic link option (passwordless, click email link to sign in)
+- 2FA optional (TOTP for scholars)
+
+---
+
+### **Account Settings Page**
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   Account Settings                                            ║
+║                                                               ║
+║   ┌─ Profile ──────────────────────────────────────┐         ║
+║   │                                                 │         ║
+║   │  [Avatar placeholder]  [Upload photo]          │         ║
+║   │                                                 │         ║
+║   │  Display name: [Abdullah_92____________]       │         ║
+║   │  Email: abdullah@email.com (verified ✓)       │         ║
+║   │  Joined: January 2025                          │         ║
+║   │                                                 │         ║
+║   │  [Update Profile]                              │         ║
+║   └─────────────────────────────────────────────────┘         ║
+║                                                               ║
+║   ┌─ Preferences ────────────────────────────────┐           ║
+║   │                                               │           ║
+║   │  Language:  [English ▼]  [العربية ▼]         │           ║
+║   │                                               │           ║
+║   │  Default translation:                         │           ║
+║   │  [✓] Sahih International                     │           ║
+║   │  [✓] Muhammad Asad                           │           ║
+║   │  [ ] Yusuf Ali                               │           ║
+║   │                                               │           ║
+║   │  Font size:  Small ━━●━━━ Large              │           ║
+║   │                                               │           ║
+║   │  [ ] Enable audio auto-play                  │           ║
+║   │  [✓] Show transliteration by default         │           ║
+║   │                                               │           ║
+║   │  [Save Preferences]                           │           ║
+║   └───────────────────────────────────────────────┘           ║
+║                                                               ║
+║   ┌─ Privacy & Data ──────────────────────────────┐          ║
+║   │                                                │          ║
+║   │  Search history:  [✓] Save on device only     │          ║
+║   │                   [ ] Sync across devices     │          ║
+║   │                                                │          ║
+║   │  Analytics:       [ ] Help improve Lisan     │          ║
+║   │                       (anonymous usage data)  │          ║
+║   │                                                │          ║
+║   │  [Download my data] (JSON export)             │          ║
+║   │  [Delete my account] ⚠️                       │          ║
+║   │                                                │          ║
+║   └────────────────────────────────────────────────┘          ║
+║                                                               ║
+║   ┌─ Security ────────────────────────────────────┐          ║
+║   │                                                │          ║
+║   │  Password: ••••••••  [Change Password]        │          ║
+║   │                                                │          ║
+║   │  Two-factor authentication: Disabled          │          ║
+║   │  [Enable 2FA] (Recommended for scholars)     │          ║
+║   │                                                │          ║
+║   │  Active sessions (2):                         │          ║
+║   │  • MacBook Pro (current device)               │          ║
+║   │  • iPhone 14 (logged in 3 days ago)          │          ║
+║   │  [Sign out all other devices]                 │          ║
+║   │                                                │          ║
+║   └────────────────────────────────────────────────┘          ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+---
+
+### **Scholar Account Features** (Verified Only)
+
+When a user is verified as a scholar, they get additional features:
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   Scholar Dashboard                                           ║
+║   ━━━━━━━━━━━━━━━                                           ║
+║                                                               ║
+║   Your Contributions                                          ║
+║   • 127 annotations published                                ║
+║   • 8,432 people read your notes this month                  ║
+║   • 94% upvote rate                                          ║
+║                                                               ║
+║   ┌─ Pending Reviews ────────────────────────────┐           ║
+║   │                                               │           ║
+║   │  12 community submissions awaiting review    │           ║
+║   │                                               │           ║
+║   │  ┌─────────────────────────────────────┐     │           ║
+║   │  │  User asked: "Is 'daraba' in 4:34   │     │           ║
+║   │  │  really about separation?"          │     │           ║
+║   │  │                                     │     │           ║
+║   │  │  [Review] [Skip]                    │     │           ║
+║   │  └─────────────────────────────────────┘     │           ║
+║   │                                               │           ║
+║   └───────────────────────────────────────────────┘           ║
+║                                                               ║
+║   ┌─ Add Annotation ──────────────────────────────┐          ║
+║   │                                                │          ║
+║   │  Verse/Word: [Search____________]             │          ║
+║   │                                                │          ║
+║   │  Layer: [Linguistic ▼] [Rhetorical ▼]        │          ║
+║   │                                                │          ║
+║   │  Your note:                                   │          ║
+║   │  ┌──────────────────────────────────────┐     │          ║
+║   │  │ [Rich text editor with Arabic        │     │          ║
+║   │  │  support and citation tools...]      │     │          ║
+║   │  └──────────────────────────────────────┘     │          ║
+║   │                                                │          ║
+║   │  Citation:                                    │          ║
+║   │  [e.g., "Al-Tabari, Jami' al-Bayan..."] │     │          ║
+║   │                                                │          ║
+║   │  [Publish]  [Save Draft]                      │          ║
+║   │                                                │          ║
+║   └────────────────────────────────────────────────┘          ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+**Scholar Verification Process**:
+1. User requests scholar status in settings
+2. Provides credentials (degree, affiliation, published works)
+3. Admin reviews + contacts institution if needed
+4. Approval → scholar badge appears on all annotations
+5. Access to moderation queue + priority Q&A
+
+---
+
+## 🎨 Component Library (Reusable Design Elements)
+
+### **Buttons**
+
+```css
+/* Primary Button (Main actions) */
+.btn-primary {
+  background: #0F5F4E; /* Emerald green */
+  color: white;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  background: #0A4A3C;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(15,95,78,0.3);
+}
+
+/* Secondary Button (Outlined) */
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #D4AF37; /* Gold */
+  color: #D4AF37;
+  padding: 12px 30px;
+  border-radius: 8px;
+}
+.btn-secondary:hover {
+  background: #D4AF37;
+  color: white;
+}
+
+/* Text Button (Subtle) */
+.btn-text {
+  background: none;
+  color: #0F5F4E;
+  text-decoration: underline;
+  padding: 8px 16px;
+}
+```
+
+### **Cards**
+
+```css
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  border: 1px solid #D4AF37; /* Gold border on hover */
+}
+```
+
+### **Input Fields**
+
+```css
+.input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #E8E5E0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border 0.2s;
+}
+.input:focus {
+  outline: none;
+  border-color: #D4AF37; /* Gold focus */
+  box-shadow: 0 0 0 4px rgba(212,175,55,0.1);
+}
+.input[dir="rtl"] {
+  text-align: right;
+  font-family: 'Amiri', serif;
+  font-size: 20px;
+}
+```
+
+### **Badges**
+
+```css
+/* Verified Scholar Badge */
+.badge-scholar {
+  background: linear-gradient(135deg, #D4AF37 0%, #F4E4C1 100%);
+  color: #5A4A2F;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Reliability Badges (Hadith) */
+.badge-sahih { background: #10B981; color: white; } /* Green */
+.badge-hasan { background: #F59E0B; color: white; } /* Yellow */
+.badge-daif { background: #EF4444; color: white; } /* Red */
+```
+
+### **Loading States**
+
+```css
+/* Skeleton loader for cards */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #E8E5E0 0%,
+    #F5F3F0 50%,
+    #E8E5E0 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+```
+
+---
+
+## 📱 Responsive Breakpoints
+
+```css
+/* Mobile-first approach */
+.container {
+  padding: 0 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Tablet (768px+) */
+@media (min-width: 768px) {
+  .container { padding: 0 32px; }
+  .hero-title { font-size: 64px; }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+  .container { padding: 0 48px; }
+  .hero-title { font-size: 72px; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Large desktop (1440px+) */
+@media (min-width: 1440px) {
+  .container { max-width: 1400px; }
+}
+```
+
+---
+
+## 🎭 Animation Guidelines
+
+**Principles**:
+- **Purposeful, not decorative** — every animation should guide attention or provide feedback
+- **Fast but not jarring** — 200-300ms for most transitions
+- **
