@@ -1,0 +1,2193 @@
+# MASTER PROMPT: Build Lisan - Quranic Linguistic Truth Engine
+
+## 🎯 PROJECT VISION
+
+You are building **Lisan**, a full-stack web application that restores linguistic dignity to the Qur'an by exposing the semantic depth Arabic words carry across grammatical, historical, theological, and contextual layers. This is not a translation app — it's a **truth restoration engine** that fights shallow interpretations, viral misquotes, and hadith fabrications with rigorous linguistic analysis and verified scholarship.
+
+**Core Philosophy**: Context > Literal meaning. Grammar > Root. Scholarship > Opinion. Data > Debate.
+
+**Real-World Problem**: People argue about Quranic words (like "daraba" in 4:34) in Reddit threads with scattered evidence. Lisan centralizes ALL linguistic data, grammar patterns, scholar opinions, and usage statistics in one verified platform.
+
+---
+
+## 🏗️ TECHNICAL ARCHITECTURE
+
+### **Tech Stack**
+
+**Frontend**:
+- Next.js 14 (App Router + React Server Components)
+- TypeScript
+- Tailwind CSS + custom Arabic typography
+- Zustand for state management
+- Lucide React for icons
+- shadcn/ui components
+
+**Backend**:
+- FastAPI (Python 3.11+)
+- PostgreSQL 15+ with JSONB fields
+- Redis for caching (frequent searches)
+- CAMeL Tools for Arabic NLP
+- SpaCy Arabic models for syntax parsing
+
+**Authentication**:
+- NextAuth.js (email/password + magic links)
+- bcrypt for password hashing
+- Optional 2FA (TOTP)
+
+**Deployment**:
+- Frontend: Vercel
+- Backend: Railway or Render
+- Database: Supabase or Railway Postgres
+- Redis: Upstash
+
+---
+
+## 📊 DATABASE SCHEMA
+
+Create PostgreSQL database with these tables:
+
+```sql
+-- Verses table
+CREATE TABLE verses (
+  id SERIAL PRIMARY KEY,
+  surah INTEGER NOT NULL,
+  ayah INTEGER NOT NULL,
+  arabic_text TEXT NOT NULL,
+  simple_text TEXT, -- simplified for search
+  transliteration TEXT,
+  UNIQUE(surah, ayah),
+  INDEX idx_surah_ayah (surah, ayah)
+);
+
+-- Translations table
+CREATE TABLE translations (
+  id SERIAL PRIMARY KEY,
+  verse_id INTEGER REFERENCES verses(id) ON DELETE CASCADE,
+  translator VARCHAR(100) NOT NULL, -- 'sahih_intl', 'asad', 'yusuf_ali', etc.
+  text TEXT NOT NULL,
+  INDEX idx_verse_translator (verse_id, translator)
+);
+
+-- Roots table (Arabic trilateral roots)
+CREATE TABLE roots (
+  id SERIAL PRIMARY KEY,
+  root VARCHAR(10) NOT NULL UNIQUE, -- e.g., 'ض-ر-ب'
+  meanings JSONB, -- [{"meaning": "to strike", "usage_count": 16, "context": "physical objects"}, ...]
+  classical_definition TEXT,
+  modern_usage TEXT,
+  lane_lexicon_entry TEXT
+);
+
+-- Word occurrences (every word in Quran)
+CREATE TABLE word_occurrences (
+  id SERIAL PRIMARY KEY,
+  word VARCHAR(50) NOT NULL,
+  root_id INTEGER REFERENCES roots(id),
+  verse_id INTEGER REFERENCES verses(id) ON DELETE CASCADE,
+  meaning_used VARCHAR(200), -- which meaning applies in this context
+  syntax_role VARCHAR(50), -- 'fa'il' (subject), 'maf'ul' (object), 'jarr' (preposition), etc.
+  verb_form VARCHAR(20), -- 'Form I', 'Form II', 'Form VIII', etc.
+  has_qualifier BOOLEAN DEFAULT FALSE, -- for "strike" verses, does it specify what/where?
+  qualifier_details TEXT, -- e.g., "with staff", "on the rock"
+  INDEX idx_word (word),
+  INDEX idx_root (root_id),
+  INDEX idx_verse (verse_id)
+);
+
+-- Tafsir (scholarly commentary)
+CREATE TABLE tafsir (
+  id SERIAL PRIMARY KEY,
+  verse_id INTEGER REFERENCES verses(id) ON DELETE CASCADE,
+  scholar VARCHAR(100), -- 'tabari', 'ibn_kathir', 'qurtubi', 'razi', etc.
+  text TEXT NOT NULL,
+  layer VARCHAR(50), -- 'linguistic', 'rhetorical', 'exegetical', 'modern'
+  century INTEGER, -- 2 = 8th century (200 AH), 9 = 15th century, etc.
+  translation TEXT, -- English translation of tafsir (if available)
+  INDEX idx_verse_layer (verse_id, layer)
+);
+
+-- Hadiths table
+CREATE TABLE hadiths (
+  id SERIAL PRIMARY KEY,
+  collection VARCHAR(50) NOT NULL, -- 'bukhari', 'muslim', 'abu_dawud', etc.
+  book VARCHAR(100),
+  hadith_number INTEGER,
+  arabic_text TEXT NOT NULL,
+  english_text TEXT,
+  grade VARCHAR(50), -- 'sahih', 'hasan', 'daif', 'mawdu' (fabricated)
+  narrator_chain TEXT, -- isnad (chain of transmission)
+  graded_by VARCHAR(100), -- 'al-albani', 'shuayb_arnaut', etc.
+  INDEX idx_collection_number (collection, hadith_number)
+);
+
+-- Hadith-Quran linguistic links
+CREATE TABLE hadith_quran_links (
+  id SERIAL PRIMARY KEY,
+  hadith_id INTEGER REFERENCES hadiths(id) ON DELETE CASCADE,
+  verse_id INTEGER REFERENCES verses(id) ON DELETE CASCADE,
+  shared_vocabulary TEXT[], -- array of shared root words
+  linguistic_notes TEXT,
+  INDEX idx_hadith (hadith_id),
+  INDEX idx_verse (verse_id)
+);
+
+-- Scholars (verified contributors)
+CREATE TABLE scholars (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  name VARCHAR(200) NOT NULL,
+  credentials TEXT,
+  affiliation VARCHAR(200), -- 'Al-Azhar University', 'Bayyinah Institute', etc.
+  verified BOOLEAN DEFAULT FALSE,
+  verification_date TIMESTAMP,
+  bio TEXT,
+  profile_photo_url TEXT
+);
+
+-- Scholar annotations (contributions)
+CREATE TABLE scholar_annotations (
+  id SERIAL PRIMARY KEY,
+  scholar_id INTEGER REFERENCES scholars(id) ON DELETE CASCADE,
+  target_type VARCHAR(20) NOT NULL, -- 'word', 'verse', 'hadith', 'root'
+  target_id INTEGER NOT NULL,
+  annotation TEXT NOT NULL,
+  citation TEXT, -- source reference
+  upvotes INTEGER DEFAULT 0,
+  downvotes INTEGER DEFAULT 0,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+  INDEX idx_target (target_type, target_id)
+);
+
+-- Viral misquotes/corrections
+CREATE TABLE misquotes (
+  id SERIAL PRIMARY KEY,
+  submitted_text TEXT NOT NULL,
+  corrected_text TEXT,
+  correction_notes TEXT,
+  scholar_verified BOOLEAN DEFAULT FALSE,
+  verified_by INTEGER REFERENCES scholars(id),
+  upvotes INTEGER DEFAULT 0,
+  created_at TIMESTAMP DEFAULT NOW(),
+  INDEX idx_verified (scholar_verified)
+);
+
+-- Semantic co-occurrence (words that appear together)
+CREATE TABLE cooccurrence (
+  word1 VARCHAR(50) NOT NULL,
+  word2 VARCHAR(50) NOT NULL,
+  occurrence_count INTEGER DEFAULT 1,
+  context_note TEXT,
+  PRIMARY KEY(word1, word2),
+  INDEX idx_word1 (word1)
+);
+
+-- Users table
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  display_name VARCHAR(100),
+  email_verified BOOLEAN DEFAULT FALSE,
+  verification_token TEXT,
+  reset_token TEXT,
+  reset_token_expiry TIMESTAMP,
+  preferences JSONB, -- {"translations": ["sahih_intl", "asad"], "font_size": 18, "dark_mode": false}
+  created_at TIMESTAMP DEFAULT NOW(),
+  last_login TIMESTAMP
+);
+
+-- User saved analyses
+CREATE TABLE saved_analyses (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  analysis_type VARCHAR(20), -- 'word', 'verse', 'hadith'
+  analysis_id INTEGER NOT NULL, -- references word_occurrences.id, verses.id, or hadiths.id
+  title VARCHAR(200), -- user-provided title
+  notes TEXT, -- user's personal notes
+  created_at TIMESTAMP DEFAULT NOW(),
+  INDEX idx_user (user_id)
+);
+
+-- Search history
+CREATE TABLE search_history (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE, -- NULL if not logged in
+  query TEXT NOT NULL,
+  result_count INTEGER,
+  created_at TIMESTAMP DEFAULT NOW(),
+  INDEX idx_user_date (user_id, created_at),
+  INDEX idx_query (query) -- for trending words
+);
+```
+
+---
+
+## 🎨 UI/UX DESIGN SYSTEM
+
+### **Color Palette**
+```css
+:root {
+  /* Light mode (default) */
+  --emerald-green: #0F5F4E;
+  --emerald-dark: #0A4A3C;
+  --gold: #D4AF37;
+  --gold-light: #F4E4C1;
+  --cream: #FAF9F6;
+  --cream-dark: #E8E5E0;
+  --burgundy: #8B0000;
+  --text-primary: #1A1A1A;
+  --text-secondary: #666666;
+}
+
+[data-theme="dark"] {
+  /* Dark mode */
+  --emerald-green: #14A085;
+  --emerald-dark: #0F7D6B;
+  --gold: #F4D03F;
+  --gold-light: #5A4A2F;
+  --cream: #1A1A1A;
+  --cream-dark: #2D2D2D;
+  --burgundy: #FF6B6B;
+  --text-primary: #F5F5F5;
+  --text-secondary: #B0B0B0;
+}
+```
+
+### **Typography**
+```css
+/* Arabic text */
+@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap');
+
+/* English text */
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+.arabic-text {
+  font-family: 'Amiri Quran', serif;
+  font-size: 26px;
+  line-height: 1.8;
+  direction: rtl;
+  text-align: right;
+}
+
+.verse-text {
+  font-family: 'Amiri Quran', serif;
+  font-size: 32px;
+  line-height: 2;
+  color: var(--text-primary);
+}
+
+.english-heading {
+  font-family: 'Crimson Pro', serif;
+  font-weight: 700;
+}
+
+.english-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  line-height: 1.7;
+}
+```
+
+### **Islamic Geometric Pattern Background**
+Use subtle tessellation on hero section:
+```css
+.hero-background {
+  background-color: var(--cream);
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30 30 0zm0 5L5 30l25 25 25-25L30 5z' fill='%23D4AF37' fill-opacity='0.03'/%3E%3C/svg%3E");
+}
+```
+
+---
+
+## 🏠 PAGE STRUCTURES
+
+### **1. Landing Page (First-Time Visitors)**
+
+**Hero Section**:
+```jsx
+<section className="hero-background min-h-screen flex flex-col items-center justify-center px-4">
+  {/* Bismillah */}
+  <h1 className="arabic-text text-gold text-5xl mb-8">
+    بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+  </h1>
+  
+  {/* Logo */}
+  <h2 className="english-heading text-6xl mb-4 text-emerald-green">
+    L I S A N
+  </h2>
+  
+  {/* Tagline */}
+  <p className="english-body text-2xl text-text-secondary mb-12 text-center max-w-2xl">
+    Understand the Qur'an through its original language — not through screenshots
+  </p>
+  
+  {/* Search Bar */}
+  <div className="w-full max-w-2xl">
+    <SearchBar 
+      placeholder="أدخل كلمة قرآنية أو حديث" 
+      suggestions={["ضرب", "قوام", "جهاد", "حجاب"]}
+    />
+  </div>
+  
+  {/* CTA Buttons */}
+  <div className="flex gap-4 mt-8">
+    <button className="btn-primary">Try Demo: "daraba"</button>
+    <button className="btn-secondary">Learn More</button>
+  </div>
+</section>
+```
+
+**Problem Statement Section**:
+```jsx
+<section className="py-20 bg-white">
+  <h2 className="text-4xl text-center mb-16">The Problem We're Solving</h2>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
+    <ProblemCard 
+      icon="📱"
+      title="Viral Misquotes"
+      description="Screenshot Islam with no context or verification"
+    />
+    <ProblemCard 
+      icon="❌"
+      title="Shallow Translations"
+      description="'Beat them' ignores 10 other meanings of the same word"
+    />
+    <ProblemCard 
+      icon="🚫"
+      title="Fake Hadiths"
+      description="70% of viral hadiths are fabricated or weak"
+    />
+  </div>
+</section>
+```
+
+**Features Showcase**:
+Create interactive tabs showing the 4 layers (Linguistic, Rhetorical, Scholarly, Modern)
+
+---
+
+### **2. Word Analysis Page (Core Feature)**
+
+**URL Structure**: `/word/[arabic-word]` (e.g., `/word/ضرب`)
+
+**Page Layout**:
+```jsx
+<div className="max-w-7xl mx-auto px-4 py-12">
+  {/* Header with word and root */}
+  <WordHeader 
+    word="ضَرَبَ"
+    root="ض-ر-ب"
+    verbForm="Form I (فَعَلَ)"
+  />
+  
+  {/* Controversy Warning (if applicable) */}
+  {isControlsial && (
+    <ControversyBanner>
+      ⚠️ This word has competing interpretations. See full linguistic analysis below.
+    </ControversyBanner>
+  )}
+  
+  {/* Usage Statistics */}
+  <UsageStats 
+    total={58}
+    breakdown={[
+      {meaning: "Set forth / Travel", count: 42, percentage: 72},
+      {meaning: "Strike (objects)", count: 16, percentage: 28}
+    ]}
+  />
+  
+  {/* Tabbed Layers */}
+  <Tabs defaultValue="linguistic">
+    <TabsList>
+      <TabsTrigger value="linguistic">📖 Linguistic</TabsTrigger>
+      <TabsTrigger value="rhetorical">🎭 Rhetorical</TabsTrigger>
+      <TabsTrigger value="scholarly">📚 Scholarly</TabsTrigger>
+      <TabsTrigger value="modern">🌍 Modern</TabsTrigger>
+    </TabsList>
+    
+    <TabsContent value="linguistic">
+      <LinguisticLayer 
+        meanings={["to strike", "to set forth", "to travel", "to separate"]}
+        grammarPatterns={grammarData}
+        syntaxRoles={syntaxData}
+      />
+    </TabsContent>
+    
+    <TabsContent value="scholarly">
+      <ScholarlyLayer 
+        tafsirs={tafsirData}
+        timeline={interpretationTimeline}
+      />
+    </TabsContent>
+    
+    {/* ... other tabs */}
+  </Tabs>
+  
+  {/* All Quranic Occurrences */}
+  <h3 className="text-3xl mt-16 mb-8">All 58 Occurrences in the Qur'an</h3>
+  <OccurrenceTable 
+    data={allOccurrences}
+    highlightWord="ضرب"
+    showTranslations={['sahih_intl', 'asad', 'yusuf_ali']}
+  />
+  
+  {/* Scholar Annotations */}
+  <ScholarAnnotations 
+    wordId={wordId}
+    annotations={scholarComments}
+  />
+</div>
+```
+
+---
+
+### **3. Controversial Word Deep-Dive (Special Template)**
+
+For words like "daraba", "qawwam", "hijab" — use enhanced template:
+
+**Additional Components**:
+
+1. **Split-Screen Comparison**:
+```jsx
+<div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-12">
+  <div className="border-2 border-burgundy p-6 rounded-lg">
+    <h4 className="text-xl font-bold mb-4 text-burgundy">
+      ⚠️ Traditional Translation
+    </h4>
+    <p className="text-lg mb-4">"...and beat them"</p>
+    <ul className="space-y-2">
+      <li>✗ No grammar qualifier (what to strike with?)</li>
+      <li>✗ Doesn't fit context (divorce follows)</li>
+      <li>✗ Contradicts Quran's kindness emphasis</li>
+    </ul>
+  </div>
+  
+  <div className="border-2 border-emerald-green p-6 rounded-lg">
+    <h4 className="text-xl font-bold mb-4 text-emerald-green">
+      ✓ Linguistic Analysis
+    </h4>
+    <p className="text-lg mb-4">"...and let them go forth"</p>
+    <ul className="space-y-2">
+      <li>✓ Matches 72% of word usage (metaphorical)</li>
+      <li>✓ Flows into 4:35 (arbitration/divorce)</li>
+      <li>✓ Fits grammar pattern (person, not object)</li>
+    </ul>
+  </div>
+</div>
+```
+
+2. **Grammar Pattern Comparison Table**:
+```jsx
+<table className="w-full border-collapse">
+  <thead>
+    <tr className="bg-cream">
+      <th>Verse</th>
+      <th>Command</th>
+      <th>Object to Strike With</th>
+      <th>Body Part / Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2:60</td>
+      <td>Strike the rock</td>
+      <td>✓ with your staff</td>
+      <td>✓ (the rock)</td>
+    </tr>
+    <tr>
+      <td>8:12</td>
+      <td>Strike them</td>
+      <td>✗ (none)</td>
+      <td>✓ their necks</td>
+    </tr>
+    <tr className="bg-yellow-100">
+      <td>4:34</td>
+      <td>idribohunna</td>
+      <td className="text-red-600 font-bold">❌ NONE</td>
+      <td className="text-red-600 font-bold">❌ NONE</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+3. **Translation Divergence Highlighter**:
+```jsx
+<div className="space-y-4">
+  <TranslationCard 
+    translator="Sahih International"
+    text="...and strike them"
+    highlight={["strike them"]}
+    color="red"
+  />
+  <TranslationCard 
+    translator="Muhammad Asad"
+    text="...and beat them"
+    highlight={["beat them"]}
+    color="red"
+  />
+  <TranslationCard 
+    translator="Laleh Bakhtiar"
+    text="...and go away from them"
+    highlight={["go away from them"]}
+    color="green"
+  />
+</div>
+```
+
+---
+
+### **4. Hadith Verification Page**
+
+**URL**: `/verify-hadith`
+
+```jsx
+<div className="max-w-4xl mx-auto px-4 py-12">
+  <h1 className="text-4xl mb-8">Hadith Authenticity Checker</h1>
+  
+  <div className="bg-cream p-8 rounded-lg mb-8">
+    <label className="block text-lg mb-4">
+      Paste hadith text (Arabic or English):
+    </label>
+    <textarea 
+      className="w-full h-32 p-4 border-2 rounded-lg"
+      placeholder="Enter hadith text..."
+      value={hadithInput}
+      onChange={(e) => setHadithInput(e.target.value)}
+    />
+    <button 
+      className="btn-primary mt-4"
+      onClick={verifyHadith}
+    >
+      Verify Hadith
+    </button>
+  </div>
+  
+  {/* Results */}
+  {verificationResult && (
+    <div className="bg-white p-8 rounded-lg shadow-lg">
+      {/* Reliability Badge */}
+      <div className="flex items-center gap-4 mb-8">
+        <ReliabilityBadge grade={verificationResult.grade} />
+        <div>
+          <h3 className="text-2xl font-bold">
+            {verificationResult.collection} {verificationResult.hadithNumber}
+          </h3>
+          <p className="text-text-secondary">
+            Graded by {verificationResult.gradedBy}
+          </p>
+        </div>
+      </div>
+      
+      {/* Original Arabic */}
+      <div className="mb-6">
+        <h4 className="text-lg font-bold mb-2">Original Arabic:</h4>
+        <p className="arabic-text bg-cream p-4 rounded">
+          {verificationResult.arabicText}
+        </p>
+      </div>
+      
+      {/* English Translation */}
+      <div className="mb-6">
+        <h4 className="text-lg font-bold mb-2">English Translation:</h4>
+        <p className="english-body">
+          {verificationResult.englishText}
+        </p>
+      </div>
+      
+      {/* Chain of Narration */}
+      <div className="mb-6">
+        <h4 className="text-lg font-bold mb-2">Chain of Narration (Isnad):</h4>
+        <p className="text-text-secondary italic">
+          {verificationResult.narratorChain}
+        </p>
+      </div>
+      
+      {/* Scholar Commentary */}
+      {verificationResult.commentary && (
+        <div className="bg-gold-light p-6 rounded-lg">
+          <h4 className="text-lg font-bold mb-2">Scholar Commentary:</h4>
+          <p>{verificationResult.commentary}</p>
+        </div>
+      )}
+      
+      {/* Related Quranic Verses */}
+      {verificationResult.relatedVerses && (
+        <div className="mt-8">
+          <h4 className="text-lg font-bold mb-4">
+            Related Qur'anic Verses (Shared Vocabulary):
+          </h4>
+          <div className="space-y-4">
+            {verificationResult.relatedVerses.map(verse => (
+              <VerseCard key={verse.id} {...verse} />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )}
+</div>
+```
+
+---
+
+### **5. Account Management**
+
+**Settings Page** (`/settings`):
+```jsx
+<div className="max-w-4xl mx-auto px-4 py-12">
+  <h1 className="text-4xl mb-8">Account Settings</h1>
+  
+  <Tabs defaultValue="profile">
+    <TabsList>
+      <TabsTrigger value="profile">Profile</TabsTrigger>
+      <TabsTrigger value="preferences">Preferences</TabsTrigger>
+      <TabsTrigger value="privacy">Privacy & Data</TabsTrigger>
+      <TabsTrigger value="security">Security</TabsTrigger>
+    </TabsList>
+    
+    <TabsContent value="profile">
+      <div className="bg-white p-8 rounded-lg space-y-6">
+        <div>
+          <label>Display Name</label>
+          <input 
+            type="text" 
+            className="input" 
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Email</label>
+          <input 
+            type="email" 
+            className="input" 
+            value={email}
+            disabled
+          />
+          <p className="text-sm text-text-secondary mt-1">
+            {emailVerified ? "✓ Verified" : "⚠️ Not verified"}
+          </p>
+        </div>
+        <button className="btn-primary">Update Profile</button>
+      </div>
+    </TabsContent>
+    
+    <TabsContent value="preferences">
+      <div className="bg-white p-8 rounded-lg space-y-6">
+        {/* Language */}
+        <div>
+          <label>Language</label>
+          <select className="input">
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+          </select>
+        </div>
+        
+        {/* Default Translations */}
+        <div>
+          <label>Default Translations (select up to 5)</label>
+          <div className="space-y-2 mt-2">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" defaultChecked />
+              Sahih International
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" defaultChecked />
+              Muhammad Asad
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" />
+              Yusuf Ali
+            </label>
+            {/* ... more translators */}
+          </div>
+        </div>
+        
+        {/* Font Size */}
+        <div>
+          <label>Font Size</label>
+          <input 
+            type="range" 
+            min="14" 
+            max="32" 
+            value={fontSize}
+            onChange={(e) => setFontSize(e.target.value)}
+          />
+          <p className="text-sm text-text-secondary">
+            Preview: <span style={{fontSize: `${fontSize}px`}}>وَالْعَصْرِ</span>
+          </p>
+        </div>
+        
+        <button className="btn-primary">Save Preferences</button>
+      </div>
+    </TabsContent>
+    
+    <TabsContent value="privacy">
+      <div className="bg-white p-8 rounded-lg space-y-6">
+        <div>
+          <h3 className="text-xl font-bold mb-4">Search History</h3>
+          <label className="flex items-center gap-2">
+            <input type="radio" name="history" value="device" defaultChecked />
+            Save on device only (private)
+          </label>
+          <label className="flex items-center gap-2">
+            <input type="radio" name="history" value="sync" />
+            Sync across devices
+          </label>
+        </div>
+        
+        <div>
+          <h3 className="text-xl font-bold mb-4">Analytics</h3>
+          <label className="flex items-center gap-2">
+            <input type="checkbox" />
+            Help improve Lisan (anonymous usage data)
+          </label>
+        </div>
+        
+        <div className="border-t pt-6 mt-6">
+          <button className="btn-secondary mb-4">
+            Download My Data (JSON)
+          </button>
+          <button className="btn-text text-red-600">
+            Delete My Account ⚠️
+          </button>
+        </div>
+      </div>
+    </TabsContent>
+  </Tabs>
+</div>
+```
+
+---
+
+## 🔬 ADVANCED LINGUISTIC FEATURES (CRITICAL FOR ACCURACY)
+
+### **Verb Form Analysis & Hamza Handling**
+
+Many controversial words require **precise verb form identification** because Arabic verb forms (I-X) radically change meanings. The tool MUST distinguish:
+
+1. **Hamzat al-waṣl (ٱ)** — connecting hamza, NOT part of root morphology
+2. **Verbal hamza (أَ)** — creates Form IV (أَفْعَلَ), changes meaning
+3. **Hamzat al-qaṭʿ (أ)** — cutting hamza, part of the word
+
+#### **Example: "Daraba" in 4:34**
+
+The word **وَاضْرِبُوهُنَّ (wa-iḍribūhunna)** has caused 1400+ years of debate:
+
+**Classical interpretation**: 
+- Root: ض-ر-ب
+- Form: I (فَعَلَ)
+- Hamza type: hamzat al-waṣl (connecting only)
+- Meaning: "strike/beat them"
+
+**Reformist interpretation**:
+- Root: ض-ر-ب
+- Form: IV (أَفْعَلَ) 
+- Claims verbal hamza present
+- Meaning: "leave/abandon them"
+
+**Lisan must show**:
+```
+╔═══════════════════════════════════════════════════════════════╗
+║  وَاضْرِبُوهُنَّ (wa-iḍribūhunna) — 4:34                        ║
+║  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━    ║
+║                                                               ║
+║  🔬 MORPHOLOGICAL ANALYSIS                                    ║
+║                                                               ║
+║  Root: ض-ر-ب (ḍ-r-b)                                         ║
+║                                                               ║
+║  Verb Form Debate:                                            ║
+║  ┌────────────────────────────────────────────────┐          ║
+║  │ ⚖️ Classical Grammar (Majority View)           │          ║
+║  │ • Form: I (فَعَلَ)                             │          ║
+║  │ • Hamza: ٱ (hamzat al-waṣl — connecting only)  │          ║
+║  │ • Meaning: "strike/beat them"                  │          ║
+║  │ • Evidence: Hamza drops in connected speech    │          ║
+║  │   ("faḍribūhunna" not "fa'aḍribūhunna")       │          ║
+║  └────────────────────────────────────────────────┘          ║
+║                                                               ║
+║  ┌────────────────────────────────────────────────┐          ║
+║  │ 🔄 Reformist View (Minority)                   │          ║
+║  │ • Form: IV (أَفْعَلَ)                          │          ║
+║  │ • Hamza: Verbal (part of Form IV pattern)     │          ║
+║  │ • Meaning: "leave/separate from them"         │          ║
+║  │ • Evidence: Dictionary lists أَضْرَبَ = "left" │          ║
+║  └────────────────────────────────────────────────┘          ║
+║                                                               ║
+║  📚 LINGUISTIC CONSENSUS                                      ║
+║  • 95%+ classical grammarians: Form I (strike)               ║
+║  • Hamzat al-waṣl is NOT a Form IV marker                    ║
+║  • True Form IV would be: أَضْرِبُوهُنَّ (with fatḥa on أَ)   ║
+║                                                               ║
+║  ⚠️ CRITICAL NOTE                                             ║
+║  Even if Form I ("strike"), context + grammar patterns       ║
+║  suggest alternative meanings (see "Grammar Patterns" tab)   ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+```
+
+#### **Implementation Requirements**
+
+**Database additions**:
+```sql
+-- Add to word_occurrences table
+ALTER TABLE word_occurrences ADD COLUMN hamza_type VARCHAR(30);
+-- Values: 'wasl', 'qat', 'verbal_form4', 'none'
+
+ALTER TABLE word_occurrences ADD COLUMN form_debate BOOLEAN DEFAULT FALSE;
+-- TRUE if scholars disagree on verb form
+
+ALTER TABLE word_occurrences ADD COLUMN form_debate_details JSONB;
+-- Stores competing interpretations
+-- Example: {"majority": {"form": "I", "meaning": "strike"}, 
+--           "minority": {"form": "IV", "meaning": "leave"}}
+```
+
+**NLP Processing** (Python with CAMeL Tools):
+```python
+from camel_tools.morphology.analyzer import Analyzer
+from camel_tools.morphology.database import MorphologyDB
+
+def analyze_verb_form_with_hamza(word: str, verse_ref: str):
+    """
+    Analyze verb form and identify hamza type
+    """
+    db = MorphologyDB.builtin_db()
+    analyzer = Analyzer(db)
+    
+    analyses = analyzer.analyze(word)
+    
+    # Check for hamza
+    has_hamza = word.startswith('ا') or word.startswith('أ')
+    
+    if not has_hamza:
+        return analyses[0] if analyses else None
+    
+    # Determine hamza type
+    hamza_type = None
+    
+    # Check if hamzat al-wasl (connecting hamza)
+    # These typically appear in definite articles, some pronouns, and imperative verbs
+    if word.startswith('ٱ'):  # Explicit hamzat al-wasl symbol
+        hamza_type = 'wasl'
+    elif analyses and any(a.get('pos') == 'verb_imperfect' for a in analyses):
+        # Imperative verbs often have hamzat al-wasl
+        hamza_type = 'wasl'
+    
+    # Check if Form IV verbal hamza
+    if analyses and any(a.get('form') == 'IV' for a in analyses):
+        hamza_type = 'verbal_form4'
+    
+    # Special handling for controversial words
+    if verse_ref == "4:34" and word in ["واضربوهن", "اضربوهن"]:
+        return {
+            "word": word,
+            "hamza_type": "wasl",  # Classical consensus
+            "form_debate": True,
+            "majority_view": {
+                "form": "I",
+                "meaning": "strike",
+                "evidence": "Hamza drops in connected speech"
+            },
+            "minority_view": {
+                "form": "IV",
+                "meaning": "leave/separate",
+                "evidence": "Salmone dictionary lists أَضْرَبَ = 'left'"
+            }
+        }
+    
+    return {
+        "word": word,
+        "hamza_type": hamza_type,
+        "analyses": analyses
+    }
+```
+
+**UI Component** (React):
+```typescript
+// components/VerbFormDebate.tsx
+interface VerbFormDebateProps {
+  word: string;
+  verseRef: string;
+  majorityView: {
+    form: string;
+    meaning: string;
+    evidence: string[];
+    scholarSupport: number; // percentage
+  };
+  minorityView: {
+    form: string;
+    meaning: string;
+    evidence: string[];
+    scholarSupport: number;
+  };
+}
+
+export function VerbFormDebate({
+  word,
+  verseRef,
+  majorityView,
+  minorityView
+}: VerbFormDebateProps) {
+  return (
+    <div className="my-8 p-6 bg-yellow-50 border-2 border-yellow-400 rounded-lg">
+      <div className="flex items-start gap-3 mb-4">
+        <span className="text-3xl">⚖️</span>
+        <div>
+          <h3 className="text-2xl font-bold text-yellow-900">
+            Verb Form Debate
+          </h3>
+          <p className="text-yellow-800 mt-1">
+            Scholars disagree on the morphological form of this word in {verseRef}
+          </p>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6 mt-6">
+        {/* Majority View */}
+        <div className="bg-white rounded-lg p-6 border-2 border-emerald-green">
+          <div className="flex items-center justify-between mb-4">
+            <h4 className="font-bold text-xl text-emerald-green">
+              Classical Grammar (Majority)
+            </h4>
+            <span className="bg-emerald-green text-white px-3 py-1 rounded-full text-sm">
+              {majorityView.scholarSupport}% scholars
+            </span>
+          </div>
+          
+          <div className="space-y-3">
+            <div>
+              <span className="font-semibold">Form:</span> {majorityView.form}
+            </div>
+            <div>
+              <span className="font-semibold">Meaning:</span> "{majorityView.meaning}"
+            </div>
+            <div>
+              <span className="font-semibold">Evidence:</span>
+              <ul className="list-disc ml-5 mt-2 space-y-1 text-sm">
+                {majorityView.evidence.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Minority View */}
+        <div className="bg-white rounded-lg p-6 border-2 border-gold">
+          <div className="flex items-center justify-between mb-4">
+            <h4 className="font-bold text-xl text-gold">
+              Reformist View (Minority)
+            </h4>
+            <span className="bg-gold text-white px-3 py-1 rounded-full text-sm">
+              {minorityView.scholarSupport}% scholars
+            </span>
+          </div>
+          
+          <div className="space-y-3">
+            <div>
+              <span className="font-semibold">Form:</span> {minorityView.form}
+            </div>
+            <div>
+              <span className="font-semibold">Meaning:</span> "{minorityView.meaning}"
+            </div>
+            <div>
+              <span className="font-semibold">Evidence:</span>
+              <ul className="list-disc ml-5 mt-2 space-y-1 text-sm">
+                {minorityView.evidence.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Hamza Explanation */}
+      <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+        <h5 className="font-bold mb-2 text-blue-900">
+          🔤 Understanding the Hamza
+        </h5>
+        <p className="text-sm text-blue-800">
+          The word <span className="arabic-text text-lg">{word}</span> begins with the letter 
+          <span className="arabic-text text-lg mx-1">ٱ</span> (alif with hamzat al-waṣl). 
+          This is typically a <strong>connecting hamza</strong>, not a verbal hamza that changes 
+          the root meaning. However, some scholars argue it functions as a Form IV marker here.
+        </p>
+        <details className="mt-3">
+          <summary className="cursor-pointer font-semibold text-blue-900 hover:text-blue-700">
+            Learn more about hamza types →
+          </summary>
+          <div className="mt-2 text-sm space-y-2 text-blue-800">
+            <p>
+              <strong>Hamzat al-waṣl (ٱ):</strong> A helping hamza that facilitates pronunciation. 
+              It drops when the word is preceded by another word in speech.
+            </p>
+            <p>
+              <strong>Hamzat al-qaṭʿ (أ):</strong> A permanent hamza that's always pronounced, 
+              often indicating Form IV verbs (أَفْعَلَ pattern).
+            </p>
+            <p>
+              <strong>Example:</strong> Compare <span className="arabic-text">ٱضْرِبْ</span> (idrib, "strike!" - Form I) 
+              vs. <span className="arabic-text">أَضْرَبَ</span> (aḍraba, "he left" - Form IV).
+            </p>
+          </div>
+        </details>
+      </div>
+
+      {/* Scholar Resources */}
+      <div className="mt-6 flex items-center gap-4 text-sm">
+        <button className="text-emerald-green hover:underline">
+          Read classical tafsir on this →
+        </button>
+        <button className="text-gold hover:underline">
+          See reformist scholarly papers →
+        </button>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+## 🎨 UI/UX FOR CONTEXT-DEPENDENT WORD ANALYSIS
+
+Create a **dynamic word card** that adapts based on grammatical context:
+
+```typescript
+// components/ContextualWordAnalysis.tsx
+
+interface ContextualWordAnalysisProps {
+  word: string;
+  verseRef: string;
+  grammaticalContext: {
+    followedBy: 'object' | 'person' | 'location' | 'abstract';
+    hasPreposition: boolean;
+    preposition?: string;
+    syntaxRole: string;
+  };
+  possibleMeanings: Array<{
+    meaning: string;
+    probability: number; // 0-100
+    contextFit: 'high' | 'medium' | 'low';
+    examples: string[];
+  }>;
+}
+
+export function ContextualWordAnalysis({
+  word,
+  verseRef,
+  grammaticalContext,
+  possibleMeanings
+}: ContextualWordAnalysisProps) {
+  return (
+    <div className="bg-gradient-to-br from-emerald-50 to-gold-50 rounded-xl p-8 my-8">
+      <h3 className="text-3xl font-bold mb-6">
+        Contextual Meaning in {verseRef}
+      </h3>
+
+      {/* Grammar Context Box */}
+      <div className="bg-white rounded-lg p-6 mb-6 shadow-sm">
+        <h4 className="font-bold text-xl mb-4 text-emerald-green">
+          📐 Grammatical Context
+        </h4>
+        <div className="grid md:grid-cols-3 gap-4 text-sm">
+          <div>
+            <span className="font-semibold">Followed by:</span>
+            <div className="mt-1 px-3 py-2 bg-cream rounded">
+              {grammaticalContext.followedBy === 'person' ? '👤 Person' : 
+               grammaticalContext.followedBy === 'object' ? '📦 Physical object' : 
+               grammaticalContext.followedBy === 'location' ? '📍 Place/direction' : 
+               '💭 Abstract concept'}
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold">Syntax role:</span>
+            <div className="mt-1 px-3 py-2 bg-cream rounded font-mono">
+              {grammaticalContext.syntaxRole}
+            </div>
+          </div>
+          <div>
+            <span className="font-semibold">Preposition:</span>
+            <div className="mt-1 px-3 py-2 bg-cream rounded">
+              {grammaticalContext.hasPreposition 
+                ? <span className="arabic-text text-lg">{grammaticalContext.preposition}</span>
+                : 'None'}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Meaning Probability Ranking */}
+      <div className="space-y-3">
+        <h4 className="font-bold text-xl mb-4">
+          🎯 Contextual Meaning Ranking
+        </h4>
+        
+        {possibleMeanings.map((item, idx) => (
+          <div
+            key={idx}
+            className={`relative overflow-hidden rounded-lg border-2 transition-all hover:shadow-md ${
+              item.contextFit === 'high' ? 'border-green-500 bg-green-50' :
+              item.contextFit === 'medium' ? 'border-yellow-500 bg-yellow-50' :
+              'border-red-400 bg-red-50'
+            }`}
+          >
+            {/* Probability Bar */}
+            <div
+              className={`absolute left-0 top-0 bottom-0 opacity-20 ${
+                item.contextFit === 'high' ? 'bg-green-500' :
+                item.contextFit === 'medium' ? 'bg-yellow-500' :
+                'bg-red-400'
+              }`}
+              style={{ width: `${item.probability}%` }}
+            />
+
+            <div className="relative p-4 flex items-start gap-4">
+              {/* Rank Badge */}
+              <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-white ${
+                idx === 0 ? 'bg-gold' : 'bg-gray-400'
+              }`}>
+                #{idx + 1}
+              </div>
+
+              <div className="flex-grow">
+                <div className="flex items-center justify-between mb-2">
+                  <h5 className="font-bold text-lg">"{item.meaning}"</h5>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold">
+                      {item.probability}% probable
+                    </span>
+                    <span className={`px-2 py-1 rounded text-xs font-bold ${
+                      item.contextFit === 'high' ? 'bg-green-600 text-white' :
+                      item.contextFit === 'medium' ? 'bg-yellow-600 text-white' :
+                      'bg-red-600 text-white'
+                    }`}>
+                      {item.contextFit.toUpperCase()} FIT
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-sm text-gray-700 mb-3">
+                  {item.contextFit === 'high' 
+                    ? '✓ Best match for this grammatical context'
+                    : item.contextFit === 'medium'
+                    ? '~ Possible but less common in this context'
+                    : '✗ Rarely used with this grammar pattern'}
+                </p>
+
+                {item.examples.length > 0 && (
+                  <details className="text-sm">
+                    <summary className="cursor-pointer font-semibold text-emerald-green hover:underline">
+                      See other Quranic examples →
+                    </summary>
+                    <ul className="mt-2 space-y-1 ml-4 list-disc text-gray-600">
+                      {item.examples.map((ex, i) => (
+                        <li key={i}>{ex}</li>
+                      ))}
+                    </ul>
+                  </details>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* AI Insight Box */}
+      <div className="mt-6 p-4 bg-gradient-to-r from-purple-100 to-blue-100 rounded-lg border-2 border-purple-300">
+        <div className="flex items-start gap-3">
+          <span className="text-2xl">🤖</span>
+          <div>
+            <h5 className="font-bold text-purple-900 mb-1">
+              AI Linguistic Analysis
+            </h5>
+            <p className="text-sm text-purple-800">
+              Based on 58 Quranic occurrences, when <span className="arabic-text font-bold">{word}</span> is 
+              followed by a <strong>{grammaticalContext.followedBy}</strong>, it means 
+              "<strong>{possibleMeanings[0].meaning}</strong>" in {possibleMeanings[0].probability}% of cases.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+## ✅ UPDATED MASTER PROMPT ADDITION
+
+Add this section right after the "API ENDPOINTS" section:
+
+```python
+# main.py
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+from typing import List, Optional
+import redis
+
+app = FastAPI(title="Lisan API", version="1.0.0")
+
+# CORS configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "https://lisan.app"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Redis cache
+redis_client = redis.Redis(host='localhost', port=6379, decode_responses=True)
+
+# Core endpoints
+@app.post("/api/analyze")
+async def analyze_word(word: str, db: Session = Depends(get_db)):
+    """
+    Analyze a Quranic word
+    Returns: root, meanings, occurrences, grammar patterns
+    """
+    # Check cache first
+    cache_key = f"word_analysis:{word}"
+    cached = redis_client.get(cache_key)
+    if cached:
+        return json.loads(cached)
+    
+    # Query database
+    root = db.query(Root).join(WordOccurrence).filter(
+        WordOccurrence.word == word
+    ).first()
+    
+    if not root:
+        raise HTTPException(status_code=404, detail="Word not found")
+    
+    # Get all occurrences
+    occurrences = db.query(WordOccurrence).filter(
+        WordOccurrence.word == word
+    ).all()
+    
+    # Build response
+    response = {
+        "word": word,
+        "root": root.root,
+        "meanings": root.meanings,
+        "total_occurrences": len(occurrences),
+        "usage_breakdown": calculate_usage_stats(occurrences),
+        "grammar_patterns": analyze_grammar_patterns(occurrences),
+        "occurrences": [serialize_occurrence(occ) for occ in occurrences]
+    }
+    
+    # Cache for 1 hour
+    redis_client.setex(cache_key, 3600, json.dumps(response))
+    
+    return response
+
+@app.get("/api/verse/{surah}:{ayah}")
+async def get_verse(surah: int, ayah: int, translations: Optional[List[str]] = None, db: Session = Depends(get_db)):
+    """
+    Get a specific verse with translations and tafsir
+    """
+    verse = db.query(Verse).filter(
+        Verse.surah == surah,
+        Verse.ayah == ayah
+    ).first()
+    
+    if not verse:
+        raise HTTPException(status_code=404, detail="Verse not found")
+    
+    # Get translations
+    if not translations:
+        translations = ['sahih_intl', 'asad', 'yusuf_ali']
+    
+    verse_translations = db.query(Translation).filter(
+        Translation.verse_id == verse.id,
+        Translation.translator.in_(translations)
+    ).all()
+    
+    # Get tafsir
+    tafsirs = db.query(Tafsir).filter(
+        Tafsir.verse_id == verse.id
+    ).all()
+    
+    return {
+        "verse": {
+            "surah": verse.surah,
+            "ayah": verse.ayah,
+            "arabic": verse.arabic_text,
+            "transliteration": verse.transliteration
+        },
+        "translations": [
+            {"translator": t.translator, "text": t.text} 
+            for t in verse_translations
+        ],
+        "tafsir": [
+            {
+                "scholar": t.scholar,
+                "layer": t.layer,
+                "text": t.text,
+                "century": t.century
+            } for t in tafsirs
+        ]
+    }
+
+@app.get("/api/occurrences/{word}")
+async def get_word_occurrences(
+    word: str, 
+    page: int = 1, 
+    limit: int = 20,
+    db: Session = Depends(get_db)
+):
+    """
+    Get all Quranic occurrences of a word (paginated)
+    """
+    offset = (page - 1) * limit
+    
+    occurrences = db.query(WordOccurrence).filter(
+        WordOccurrence.word == word
+    ).offset(offset).limit(limit).all()
+    
+    total = db.query(WordOccurrence).filter(
+        WordOccurrence.word == word
+    ).count()
+    
+    results = []
+    for occ in occurrences:
+        verse = occ.verse
+        translations = db.query(Translation).filter(
+            Translation.verse_id == verse.id
+        ).limit(3).all()
+        
+        results.append({
+            "verse_ref": f"{verse.surah}:{verse.ayah}",
+            "arabic": verse.arabic_text,
+            "meaning_used": occ.meaning_used,
+            "syntax_role": occ.syntax_role,
+            "translations": [{"translator": t.translator, "text": t.text} for t in translations]
+        })
+    
+    return {
+        "word": word,
+        "total": total,
+        "page": page,
+        "results": results
+    }
+
+@app.post("/api/verify-hadith")
+async def verify_hadith(text: str, language: str = "en", db: Session = Depends(get_db)):
+    """
+    Verify hadith authenticity
+    Returns: grade, source, commentary
+    """
+    # Simple text search (in production, use better search like Elasticsearch)
+    hadith = None
+    
+    if language == "ar":
+        hadith = db.query(Hadith).filter(
+            Hadith.arabic_text.contains(text)
+        ).first()
+    else:
+        hadith = db.query(Hadith).filter(
+            Hadith.english_text.contains(text)
+        ).first()
+    
+    if not hadith:
+        return {
+            "found": False,
+            "message": "Hadith not found in authenticated collections. This may be fabricated or misquoted."
+        }
+    
+    # Get related Quranic verses (shared vocabulary)
+    related_verses = db.query(HadithQuranLink).filter(
+        HadithQuranLink.hadith_id == hadith.id
+    ).limit(5).all()
+    
+    return {
+        "found": True,
+        "hadith": {
+            "collection": hadith.collection,
+            "book": hadith.book,
+            "number": hadith.hadith_number,
+            "arabic": hadith.arabic_text,
+            "english": hadith.english_text,
+            "grade": hadith.grade,
+            "narrator_chain": hadith.narrator_chain,
+            "graded_by": hadith.graded_by
+        },
+        "related_verses": [
+            {
+                "verse_ref": f"{v.verse.surah}:{v.verse.ayah}",
+                "shared_words": v.shared_vocabulary,
+                "notes": v.linguistic_notes
+            } for v in related_verses
+        ]
+    }
+
+@app.get("/api/cooccurrence/{word}")
+async def get_cooccurrence(word: str, limit: int = 10, db: Session = Depends(get_db)):
+    """
+    Get words that frequently appear with this word (semantic network)
+    """
+    cooccurrences = db.query(Cooccurrence).filter(
+        Cooccurrence.word1 == word
+    ).order_by(Cooccurrence.occurrence_count.desc()).limit(limit).all()
+    
+    return {
+        "word": word,
+        "related_words": [
+            {
+                "word": c.word2,
+                "count": c.occurrence_count,
+                "context": c.context_note
+            } for c in cooccurrences
+        ]
+    }
+
+@app.get("/api/trending")
+async def get_trending_words(days: int = 7, limit: int = 10, db: Session = Depends(get_db)):
+    """
+    Get most searched words in the last N days
+    """
+    from datetime import datetime, timedelta
+    
+    cutoff_date = datetime.now() - timedelta(days=days)
+    
+    trending = db.query(
+        SearchHistory.query,
+        func.count(SearchHistory.id).label('search_count')
+    ).filter(
+        SearchHistory.created_at >= cutoff_date
+    ).group_by(
+        SearchHistory.query
+    ).order_by(
+        func.count(SearchHistory.id).desc()
+    ).limit(limit).all()
+    
+    return {
+        "period_days": days,
+        "trending_words": [
+            {"word": t.query, "search_count": t.search_count} 
+            for t in trending
+        ]
+    }
+
+@app.post("/api/scholar/annotate")
+async def create_annotation(
+    annotation_data: dict,
+    current_scholar: Scholar = Depends(get_current_scholar),
+    db: Session = Depends(get_db)
+):
+    """
+    Create a new scholar annotation (requires verified scholar account)
+    """
+    annotation = ScholarAnnotation(
+        scholar_id=current_scholar.id,
+        target_type=annotation_data['target_type'],
+        target_id=annotation_data['target_id'],
+        annotation=annotation_data['annotation'],
+        citation=annotation_data.get('citation')
+    )
+    
+    db.add(annotation)
+    db.commit()
+    
+    return {"status": "success", "annotation_id": annotation.id}
+
+@app.get("/api/scholar/annotations/{target_type}/{target_id}")
+async def get_annotations(target_type: str, target_id: int, db: Session = Depends(get_db)):
+    """
+    Get all scholar annotations for a specific word/verse/hadith
+    """
+    annotations = db.query(ScholarAnnotation).filter(
+        ScholarAnnotation.target_type == target_type,
+        ScholarAnnotation.target_id == target_id
+    ).order_by(
+        ScholarAnnotation.upvotes.desc()
+    ).all()
+    
+    return {
+        "annotations": [
+            {
+                "id": a.id,
+                "scholar": {
+                    "name": a.scholar.name,
+                    "credentials": a.scholar.credentials,
+                    "verified": a.scholar.verified
+                },
+                "text": a.annotation,
+                "citation": a.citation,
+                "upvotes": a.upvotes,
+                "created_at": a.created_at.isoformat()
+            } for a in annotations
+        ]
+    }
+
+# Helper functions
+def calculate_usage_stats(occurrences):
+    """Calculate how word is used across all occurrences"""
+    meaning_counts = {}
+    for occ in occurrences:
+        meaning = occ.meaning_used or "unknown"
+        meaning_counts[meaning] = meaning_counts.get(meaning, 0) + 1
+    
+    total = len(occurrences)
+    return [
+        {
+            "meaning": meaning,
+            "count": count,
+            "percentage": round((count / total) * 100, 1)
+        }
+        for meaning, count in sorted(
+            meaning_counts.items(), 
+            key=lambda x: x[1], 
+            reverse=True
+        )
+    ]
+
+def analyze_grammar_patterns(occurrences):
+    """Analyze syntax patterns (object vs person, qualifiers, etc.)"""
+    patterns = {
+        "with_qualifier": 0,
+        "without_qualifier": 0,
+        "with_object": 0,
+        "with_person": 0
+    }
+    
+    for occ in occurrences:
+        if occ.has_qualifier:
+            patterns["with_qualifier"] += 1
+        else:
+            patterns["without_qualifier"] += 1
+        
+        if occ.syntax_role == "maf'ul" and "object" in (occ.meaning_used or "").lower():
+            patterns["with_object"] += 1
+        elif occ.syntax_role == "maf'ul":
+            patterns["with_person"] += 1
+    
+    return patterns
+```
+
+---
+
+## 📦 DATA IMPORT SCRIPTS
+
+### **Script 1: Import Quranic Text**
+
+```python
+# backend/data/import_quran.py
+import requests
+import json
+from database import SessionLocal
+from models import Verse, Translation
+
+def import_quran_text():
+    """Import Quranic text from Tanzil or Quran.com API"""
+    db = SessionLocal()
+    
+    # Source 1: Quran.com API
+    base_url = "https://api.quran.com/api/v4"
+    
+    # Get all verses
+    for surah in range(1, 115):  # 114 surahs
+        print(f"Importing Surah {surah}...")
+        
+        response = requests.get(f"{base_url}/verses/by_chapter/{surah}")
+        data = response.json()
+        
+        for verse_data in data['verses']:
+            # Insert Arabic verse
+            verse = Verse(
+                surah=surah,
+                ayah=verse_data['verse_number'],
+                arabic_text=verse_data['text_uthmani'],
+                simple_text=verse_data['text_imlaei'],
+                transliteration=verse_data.get('transliteration', {}).get('text')
+            )
+            
+            db.add(verse)
+            db.flush()  # Get verse.id
+            
+            # Insert translations
+            translations_response = requests.get(
+                f"{base_url}/quran/translations/{verse_data['id']}",
+                params={"translation_ids": "131,20,19,22,84"}  # Sahih, Asad, Ali, Pickthall, Haleem
+            )
+            
+            trans_data = translations_response.json()
+            for trans in trans_data['translations']:
+                translation = Translation(
+                    verse_id=verse.id,
+                    translator=get_translator_name(trans['resource_id']),
+                    text=trans['text']
+                )
+                db.add(translation)
+        
+        db.commit()
+    
+    print("Quran import complete!")
+
+def get_translator_name(resource_id):
+    """Map Quran.com resource IDs to translator names"""
+    mapping = {
+        131: "sahih_intl",
+        20: "asad",
+        19: "yusuf_ali",
+        22: "pickthall",
+        84: "abdul_haleem"
+    }
+    return mapping.get(resource_id, f"translator_{resource_id}")
+
+if __name__ == "__main__":
+    import_quran_text()
+```
+
+### **Script 2: Import Hadith Collections**
+
+```python
+# backend/data/import_hadiths.py
+import requests
+from database import SessionLocal
+from models import Hadith
+
+def import_bukhari():
+    """Import Sahih Bukhari from Sunnah.com API"""
+    db = SessionLocal()
+    
+    base_url = "https://api.sunnah.com/v1/hadiths"
+    api_key = "YOUR_SUNNAH_COM_API_KEY"
+    
+    headers = {"X-API-Key": api_key}
+    
+    # Bukhari collection
+    collection = "bukhari"
+    
+    for book in range(1, 98):  # 97 books in Bukhari
+        print(f"Importing Bukhari Book {book}...")
+        
+        response = requests.get(
+            f"{base_url}/{collection}/{book}",
+            headers=headers
+        )
+        
+        data = response.json()
+        
+        for hadith_data in data['hadiths']:
+            hadith = Hadith(
+                collection="bukhari",
+                book=hadith_data['bookName'],
+                hadith_number=hadith_data['hadithNumber'],
+                arabic_text=hadith_data['hadithArabic'],
+                english_text=hadith_data['hadithEnglish'],
+                grade="sahih",  # All Bukhari hadiths are sahih
+                narrator_chain=hadith_data.get('chain', ''),
+                graded_by="imam_bukhari"
+            )
+            db.add(hadith)
+        
+        db.commit()
+    
+    print("Bukhari import complete!")
+
+if __name__ == "__main__":
+    import_bukhari()
+```
+
+### **Script 3: Build Word Occurrences Table**
+
+```python
+# backend/data/build_word_occurrences.py
+from camel_tools.tokenizers.word import simple_word_tokenize
+from camel_tools.morphology.database import MorphologyDB
+from camel_tools.morphology.analyzer import Analyzer
+from database import SessionLocal
+from models import Verse, Root, WordOccurrence
+
+def analyze_all_verses():
+    """Use CAMeL Tools to analyze every word in the Quran"""
+    db = SessionLocal()
+    
+    # Initialize CAMeL Tools
+    morph_db = MorphologyDB.builtin_db()
+    analyzer = Analyzer(morph_db)
+    
+    verses = db.query(Verse).all()
+    
+    for verse in verses:
+        print(f"Analyzing {verse.surah}:{verse.ayah}...")
+        
+        # Tokenize Arabic text
+        tokens = simple_word_tokenize(verse.arabic_text)
+        
+        for word in tokens:
+            # Get morphological analysis
+            analyses = analyzer.analyze(word)
+            
+            if not analyses:
+                continue
+            
+            # Get best analysis (first result)
+            best = analyses[0]
+            
+            # Extract root
+            root_str = best.get('root', '')
+            
+            if not root_str:
+                continue
+            
+            # Get or create root
+            root = db.query(Root).filter(Root.root == root_str).first()
+            if not root:
+                root = Root(
+                    root=root_str,
+                    meanings={},  # Will be populated manually or from Lane's Lexicon
+                    classical_definition=""
+                )
+                db.add(root)
+                db.flush()
+            
+            # Create word occurrence
+            occurrence = WordOccurrence(
+                word=word,
+                root_id=root.id,
+                verse_id=verse.id,
+                meaning_used=None,  # Will be tagged manually or via ML
+                syntax_role=best.get('pos', ''),  # Part of speech
+                verb_form=best.get('form', ''),
+                has_qualifier=False  # Will be tagged manually
+            )
+            db.add(occurrence)
+        
+        db.commit()
+    
+    print("Word occurrence analysis complete!")
+
+if __name__ == "__main__":
+    analyze_all_verses()
+```
+
+---
+
+## 🎨 REACT COMPONENTS
+
+### **SearchBar Component**
+
+```typescript
+// components/SearchBar.tsx
+'use client';
+
+import { useState, useEffect } from 'react';
+import { Search } from 'lucide-react';
+
+interface SearchBarProps {
+  placeholder?: string;
+  suggestions?: string[];
+  onSearch?: (query: string) => void;
+}
+
+export function SearchBar({ placeholder, suggestions = [], onSearch }: SearchBarProps) {
+  const [query, setQuery] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (query.length > 0) {
+      const filtered = suggestions.filter(s => 
+        s.includes(query) || s.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredSuggestions(filtered);
+      setShowSuggestions(filtered.length > 0);
+    } else {
+      setShowSuggestions(false);
+    }
+  }, [query, suggestions]);
+
+  const handleSearch = (searchQuery: string) => {
+    setQuery(searchQuery);
+    setShowSuggestions(false);
+    if (onSearch) {
+      onSearch(searchQuery);
+    }
+  };
+
+  return (
+    <div className="relative w-full">
+      <div className="relative">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSearch(query)}
+          placeholder={placeholder}
+          className="w-full px-6 py-4 pr-12 text-lg border-2 border-cream-dark rounded-lg focus:border-gold focus:outline-none focus:ring-4 focus:ring-gold/20 transition-all"
+          dir="auto"
+        />
+        <button
+          onClick={() => handleSearch(query)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-emerald-green hover:text-emerald-dark transition-colors"
+        >
+          <Search size={24} />
+        </button>
+      </div>
+
+      {/* Suggestions Dropdown */}
+      {showSuggestions && (
+        <div className="absolute z-10 w-full mt-2 bg-white border-2 border-cream-dark rounded-lg shadow-lg overflow-hidden">
+          {filteredSuggestions.map((suggestion, idx) => (
+            <button
+              key={idx}
+              onClick={() => handleSearch(suggestion)}
+              className="w-full px-6 py-3 text-left hover:bg-cream transition-colors text-lg"
+            >
+              {suggestion}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+### **VerseCard Component**
+
+```typescript
+// components/VerseCard.tsx
+'use client';
+
+import { useState } from 'react';
+import { Copy, Volume2, Check } from 'lucide-react';
+
+interface VerseCardProps {
+  surah: number;
+  ayah: number;
+  arabic: string;
+  transliteration?: string;
+  translations: Array<{
+    translator: string;
+    text: string;
+  }>;
+  highlightWord?: string;
+}
+
+export function VerseCard({
+  surah,
+  ayah,
+  arabic,
+  transliteration,
+  translations,
+  highlightWord
+}: VerseCardProps) {
+  const [showTransliteration, setShowTransliteration] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    const text = `${arabic}\n\n${translations.map(t => `${t.translator}: ${t.text}`).join('\n\n')}\n\n(${surah}:${ayah})`;
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const highlightedArabic = highlightWord
+    ? arabic.replace(
+        new RegExp(highlightWord, 'g'),
+        `<mark class="bg-gold/30 px-1 rounded">${highlightWord}</mark>`
+      )
+    : arabic;
+
+  return (
+    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow">
+      {/* Verse Reference */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="text-emerald-green font-bold text-lg">
+          {surah}:{ayah}
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setShowTransliteration(!showTransliteration)}
+            className="px-3 py-1 text-sm border border-emerald-green text-emerald-green rounded hover:bg-emerald-green hover:text-white transition-colors"
+          >
+            {showTransliteration ? 'Hide' : 'Show'} Transliteration
+          </button>
+          <button
+            onClick={handleCopy}
+            className="p-2 hover:bg-cream rounded transition-colors"
+            title="Copy verse"
+          >
+            {copied ? <Check size={20} className="text-green-600" /> : <Copy size={20} />}
+          </button>
+          <button
+            className="p-2 hover:bg-cream rounded transition-colors"
+            title="Play audio"
+          >
+            <Volume2 size={20} />
+          </button>
+        </div>
+      </div>
+
+      {/* Arabic Text */}
+      <div
+        className="arabic-text verse-text mb-4 leading-loose"
+        dangerouslySetInnerHTML={{ __html: highlightedArabic }}
+        dir="rtl"
+      />
+
+      {/* Transliteration */}
+      {showTransliteration && transliteration && (
+        <div className="text-text-secondary italic mb-4 text-center">
+          {transliteration}
+        </div>
+      )}
+
+      {/* Translations */}
+      <div className="space-y-3">
+        {translations.map((trans, idx) => (
+          <div key={idx} className="border-l-4 border-gold pl-4">
+            <div className="text-sm text-text-secondary font-semibold mb-1">
+              {trans.translator.replace(/_/g, ' ').toUpperCase()}
+            </div>
+            <div className="english-body text-base">
+              {trans.text}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+### **UsageStats Component** (for word analysis)
+
+```typescript
+// components/UsageStats.tsx
+'use client';
+
+interface UsageStatsProps {
+  total: number;
+  breakdown: Array<{
+    meaning: string;
+    count: number;
+    percentage: number;
+  }>;
+}
+
+export function UsageStats({ total, breakdown }: UsageStatsProps) {
+  return (
+    <div className="bg-gradient-to-r from-emerald-green/10 to-gold/10 rounded-lg p-8 my-8">
+      <h3 className="text-2xl font-bold mb-6">📊 Usage Statistics</h3>
+      
+      <div className="text-3xl font-bold text-emerald-green mb-6">
+        {total} total occurrences in the Qur'an
+      </div>
+
+      <div className="space-y-4">
+        {breakdown.map((item, idx) => (
+          <div key={idx}>
+            <div className="flex justify-between items-center mb-2">
+              <span className="font-semibold">{item.meaning}</span>
+              <span className="text-text-secondary">
+                {item.count} times ({item.percentage}%)
+              </span>
+            </div>
+            <div className="w-full bg-cream-dark rounded-full h-3 overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-emerald-green to-gold transition-all duration-500"
+                style={{ width: `${item.percentage}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {breakdown[0] && breakdown[0].percentage > 60 && (
+        <div className="mt-6 p-4 bg-gold/20 rounded-lg border-l-4 border-gold">
+          <p className="font-semibold">💡 Linguistic Insight:</p>
+          <p className="text-sm mt-1">
+            This word is used <strong>metaphorically/abstractly</strong> in {breakdown[0].percentage}% of cases.
+            The physical/literal meaning appears less frequently.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+### **ReliabilityBadge Component** (for hadiths)
+
+```typescript
+// components/ReliabilityBadge.tsx
+interface ReliabilityBadgeProps {
+  grade: 'sahih' | 'hasan' | 'daif' | 'mawdu';
+}
+
+export function ReliabilityBadge({ grade }: ReliabilityBadgeProps) {
+  const config = {
+    sahih: {
+      label: 'Sahih (Authentic)',
+      color: 'bg-green-500',
+      icon: '🟢',
+      description: 'Highest authenticity - chain is sound'
+    },
+    hasan: {
+      label: 'Hasan (Good)',
+      color: 'bg-yellow-500',
+      icon: '🟡',
+      description: 'Good authenticity - acceptable for rulings'
+    },
+    daif: {
+      label: 'Daif (Weak)',
+      color: 'bg-orange-500',
+      icon: '🟠',
+      description: 'Weak chain - use with caution'
+    },
+    mawdu: {
+      label: 'Mawdu (Fabricated)',
+      color: 'bg-red-500',
+      icon: '🔴',
+      description: 'Fabricated - do not attribute to Prophet'
+    }
+  };
+
+  const { label, color, icon, description } = config[grade];
+
+  return (
+    <div className="inline-flex flex-col gap-2">
+      <div className={`${color} text-white px-6 py-3 rounded-lg font-bold text-xl flex items-center gap-3 shadow-lg`}>
+        <span className="text-2xl">{icon}</span>
+        {label}
+      </div>
+      <p className="text-sm text-text-secondary italic">{description}</p>
+    </div>
+  );
+}
+```
+
+---
+
+## 🚀 DEPLOYMENT INSTRUCTIONS
+
+### **1. Frontend Deployment (Vercel)**
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Navigate to frontend directory
+cd frontend
+
+# Deploy
+vercel --prod
+```
+
+**Environment Variables** (add in Vercel dashboard):
+```
+NEXT_PUBLIC_API_URL=https://api.lisan.app
+NEXTAUTH_URL=https://lisan.app
+NEXTAUTH_SECRET=your-secret-key-here
+```
+
+### **2. Backend Deployment (Railway)**
+
+```bash
+# Install Railway CLI
+npm i -g @railway/cli
+
+# Login
+railway login
+
+# Initialize project
+railway init
+
+# Add PostgreSQL
+railway add postgresql
+
+# Deploy
+railway up
+```
+
+**Environment Variables**:
+```
+DATABASE_URL=postgresql://user:pass@host:5432/lisan
+REDIS_URL=redis://user:pass@host:6379
+SECRET_KEY=your-jwt-secret
+SUNNAH_COM_API_KEY=your-api-key
+```
+
+### **3. Database Setup**
+
+```bash
+# Run migrations
+alembic upgrade head
+
+# Import data
+python backend/data/import_quran.py
+python backend/data/import_hadiths.py
+python backend/data/build_word_occurrences.py
+```
+
+---
+
+## ✅ CRITICAL REQUIREMENTS
+
+### **Must-Have Features for MVP**:
+1. ✅ Word search with root analysis
+2. ✅ All 58+ occurrences of common words displayed
+3. ✅ Grammar pattern analysis (object vs person)
+4. ✅ Translation comparison (3-5 translators)
+5. ✅ Hadith verification (basic text matching)
+6. ✅ User accounts (email/password)
+7. ✅ Saved analyses (logged-in users)
+8. ✅ Mobile responsive (Tailwind breakpoints)
+9. ✅ Arabic RTL layout
+10. ✅ Dark mode toggle
+
+### **Code Quality Standards**:
+- ✅ TypeScript strict mode enabled
+- ✅ ESLint + Prettier configured
+- ✅ All API endpoints have error handling
+- ✅ Database queries use indexes
+- ✅ Cache frequent searches (Redis)
+- ✅ Loading states on all async operations
+- ✅ Accessibility: ARIA labels, keyboard navigation
+- ✅ SEO: Meta tags, structured data for verse pages
+
+### **Performance Targets**:
+- ✅ First Contentful Paint < 1.5s
+- ✅ Lighthouse score 90+ (all categories)
+- ✅ API response time < 200ms (cached) / < 800ms (uncached)
+- ✅ Database queries optimized (explain analyze)
+
+---
+
+## 🎯 BUILD THIS EXACTLY AS SPECIFIED
+
+**Replit Agent**: Follow this prompt precisely. Build a production-ready application with:
+- Clean, semantic HTML
+- Tailwind CSS (no custom CSS unless necessary)
+- TypeScript for type safety
+- FastAPI backend with proper async/await
+- PostgreSQL with optimized schemas
+- Redis caching layer
+- Proper error handling everywhere
+- Loading states and empty states
+- Mobile-first responsive design
+- Arabic RTL support
+- Dark mode
+- Accessibility (WCAG AA)
+
+**Start with**:
+1. Database schema creation
+2. Data import scripts
+3. Backend API endpoints
+4. Frontend pages (landing → word analysis → hadith verifier)
+5. Authentication system
+6. Deployment configuration
+
+**Test thoroughly** before marking complete. Every feature must work on mobile AND desktop.
+
+بِسْمِ اللّٰهِ — Build this with the reverence it deserves.
