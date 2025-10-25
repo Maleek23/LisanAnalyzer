@@ -110,34 +110,34 @@ export default function WordAnalysis({
       </Card>
 
       <Tabs defaultValue={hasControversialOccurrence ? "grammar" : "meanings"} className="w-full">
-        <TabsList className="grid w-full h-auto" style={{ gridTemplateColumns: `repeat(${4 + (hasControversialOccurrence ? 2 : 0)}, minmax(0, 1fr))` }}>
+        <TabsList className="flex flex-wrap w-full h-auto gap-2 p-2">
           {hasControversialOccurrence && (
-            <TabsTrigger value="grammar" className="text-base py-3" data-testid="tab-grammar">
-              <TrendingUp className="w-4 h-4 mr-2" />
-              Grammar Analysis
+            <TabsTrigger value="grammar" className="text-sm py-2 px-3 flex-1 min-w-[140px]" data-testid="tab-grammar">
+              <TrendingUp className="w-4 h-4 mr-1.5 hidden sm:inline" />
+              Grammar
             </TabsTrigger>
           )}
           {hasControversialOccurrence && (
-            <TabsTrigger value="context" className="text-base py-3" data-testid="tab-context">
-              <GitBranch className="w-4 h-4 mr-2" />
-              Contextual Flow
+            <TabsTrigger value="context" className="text-sm py-2 px-3 flex-1 min-w-[140px]" data-testid="tab-context">
+              <GitBranch className="w-4 h-4 mr-1.5 hidden sm:inline" />
+              Context
             </TabsTrigger>
           )}
           {hasTafsir && (
-            <TabsTrigger value="scholarly" className="text-base py-3" data-testid="tab-scholarly">
-              <Scroll className="w-4 h-4 mr-2" />
-              Scholarly Timeline
+            <TabsTrigger value="scholarly" className="text-sm py-2 px-3 flex-1 min-w-[140px]" data-testid="tab-scholarly">
+              <Scroll className="w-4 h-4 mr-1.5 hidden sm:inline" />
+              Scholarly
             </TabsTrigger>
           )}
-          <TabsTrigger value="meanings" className="text-base py-3" data-testid="tab-meanings">
-            <BookOpen className="w-4 h-4 mr-2" />
+          <TabsTrigger value="meanings" className="text-sm py-2 px-3 flex-1 min-w-[140px]" data-testid="tab-meanings">
+            <BookOpen className="w-4 h-4 mr-1.5 hidden sm:inline" />
             Meanings
           </TabsTrigger>
-          <TabsTrigger value="occurrences" className="text-base py-3" data-testid="tab-occurrences">
-            Quranic Occurrences
+          <TabsTrigger value="occurrences" className="text-sm py-2 px-3 flex-1 min-w-[140px]" data-testid="tab-occurrences">
+            Occurrences
           </TabsTrigger>
-          <TabsTrigger value="comparison" className="text-base py-3" data-testid="tab-comparison">
-            Translation Comparison
+          <TabsTrigger value="comparison" className="text-sm py-2 px-3 flex-1 min-w-[140px]" data-testid="tab-comparison">
+            Translations
           </TabsTrigger>
         </TabsList>
 
