@@ -25,6 +25,49 @@ The application enables users to:
 
 ## Recent Updates
 
+### October 25, 2025 - Scholarly Commentary & Contextual Analysis System
+Expanded the controversial word deep-dive with scholarly interpretations and verse context analysis:
+
+**Database Enhancements**:
+- Added `tafsir` table for scholarly commentary (scholar, text, layer, century, translation)
+- Seeded 5 tafsir entries for verse 4:34 spanning 9th to 21st century:
+  - Classical exegetes: Al-Tabari (9th century), Ibn Kathir (14th century)
+  - Modern reformists: Laleh Bakhtiar (20th century), Khaled Abou El Fadl (21st century), Asma Barlas (21st century)
+- Demonstrates evolution from classical permissibility (with conditions) to modern linguistic reinterpretation
+
+**New UI Components**:
+- **ScholarlyTimeline**: Timeline visualization showing interpretation evolution across 12 centuries
+  - Chronologically sorted entries with century badges and layer categorization
+  - Arabic text for classical scholars with English translations
+  - English-only interpretations for modern scholars
+  - Proper ordinal formatting (9th, 14th, 20th, 21st Century CE/AH)
+- **ContextualFlow**: Side-by-side verse sequence display (4:34 → 4:35)
+  - Demonstrates Quranic flow from marital discord steps to arbitration/reconciliation
+  - Highlights grammatical anomaly (no qualifier in 4:34 vs all other "strike" verses)
+  - Shows how 4:35's immediate arbitration supports "separate" interpretation
+
+**Enhanced Word Analysis Interface**:
+- Controversial words now show **6 tabs** (up from 4):
+  1. Grammar Analysis (default) - Usage statistics and qualifier patterns
+  2. Contextual Flow - Verse sequence analysis
+  3. Scholarly Timeline - Interpretation evolution
+  4. Meanings - Contextual definitions
+  5. Quranic Occurrences - All verses
+  6. Translation Comparison - Translator differences
+- Tab visibility is conditional: Grammar/Context/Scholarly tabs only appear for controversial words with tafsir data
+
+**API Updates**:
+- `/api/word/:word` now returns `tafsir` array aggregated across all verse occurrences
+- Tafsir data also included per-occurrence for verse-specific commentary
+- Fully typed TypeScript interfaces for tafsir data throughout the stack
+
+**Key Scholarly Insight**:
+Modern scholars increasingly challenge the "strike" translation by citing:
+1. Prophetic practice (Muhammad ﷺ never struck his wives)
+2. Grammar patterns (absence of qualifiers = metaphorical usage)
+3. Contextual flow (verse 4:35 immediately follows with arbitration)
+4. Multiple meanings of ضرب root (travel, separate, set forth examples)
+
 ### October 25, 2025 - Controversial Word Deep-Dive Feature
 Implemented comprehensive grammar pattern analysis for historically mistranslated words like ضرب (daraba):
 
