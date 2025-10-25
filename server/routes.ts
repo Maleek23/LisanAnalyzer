@@ -48,8 +48,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { word } = req.params;
 
-      // Get word occurrences with root info (search by Arabic word or transliteration)
-      const occurrences = await db
+      // First, find the word to get its root (search by Arabic word or transliteration)
+      const wordResult = await db
         .select()
         .from(wordOccurrences)
         .leftJoin(roots, eq(wordOccurrences.rootId, roots.id))
@@ -58,13 +58,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
             ilike(wordOccurrences.word, word),
             ilike(wordOccurrences.transliteration, word)
           )
-        );
+        )
+        .limit(1);
 
-      if (occurrences.length === 0) {
+      if (wordResult.length === 0) {
         return res.status(404).json({ error: "Word not found" });
       }
 
-      const rootData = occurrences[0].roots;
+      const rootData = wordResult[0].roots;
+      const rootId = wordResult[0].word_occurrences.rootId;
+
+      // Now get ALL occurrences of this root (all word forms from same root)
+      const occurrences = await db
+        .select()
+        .from(wordOccurrences)
+        .leftJoin(roots, eq(wordOccurrences.rootId, roots.id))
+        .where(eq(wordOccurrences.rootId, rootId!));
+
       const occurrenceCount = occurrences.length;
 
       // Get all verses where this word appears with translations
@@ -114,6 +124,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
             meaningUsed: occurrence?.word_occurrences.meaningUsed,
             syntaxRole: occurrence?.word_occurrences.syntaxRole,
             verbForm: occurrence?.word_occurrences.verbForm,
+            hasQualifier: occurrence?.word_occurrences.hasQualifier,
+            qualifier: occurrence?.word_occurrences.qualifier,
+            usageCategory: occurrence?.word_occurrences.usageCategory,
             translations: verseTranslations.get(v.id) || [],
           };
         }),

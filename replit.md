@@ -25,6 +25,29 @@ The application enables users to:
 
 ## Recent Updates
 
+### October 25, 2025 - Controversial Word Deep-Dive Feature
+Implemented comprehensive grammar pattern analysis for historically mistranslated words like ضرب (daraba):
+
+**Database Enhancements**:
+- Added `hasQualifier`, `qualifier`, and `usageCategory` fields to `word_occurrences` table
+- Seeded 15 daraba occurrences showing grammar patterns (6 physical with qualifiers, 8 metaphorical without, 1 controversial)
+- Demonstrates the key linguistic insight: physical "strike" ALWAYS has qualifiers (instrument + location), absence indicates metaphorical meaning
+
+**UI Components**:
+- **Controversy Banner**: Alerts users to historically mistranslated words (WordAnalysis.tsx)
+- **Grammar Analysis Tab**: New tab showing usage statistics and qualifier patterns (default view for controversial words)
+- **Usage Statistics**: Visual cards showing physical (40%), metaphorical (53%), controversial (7%) distribution
+- **Grammar Pattern Table**: Interactive table displaying qualifier presence/absence for each occurrence
+- **Enhanced Typing**: Full TypeScript interfaces for new fields across frontend and backend
+
+**API Updates**:
+- Modified `/api/word/:word` to return ALL root occurrences (not just exact word match)
+- Returns 15 ضرب variations when searching "daraba" (اضرب, يضرب, ضربتم, etc.)
+- Includes hasQualifier, qualifier, usageCategory in API response
+
+**Key Insight Highlighted**:
+Verse 4:34 (اضربوهن) has NO qualifier - unlike ALL other "strike" verses (2:60, 2:73, 8:12, 20:77, 26:63) which specify WHAT to strike with and WHERE. This grammatical anomaly supports the "separate/leave" interpretation over "strike".
+
 ### October 25, 2025 - Enhanced Landing Page
 Transformed homepage into comprehensive landing page with "Al-Azhar library illuminated by daylight" aesthetic:
 - **Enhanced Hero Section**: Full-viewport with Bismillah, animated scroll indicator

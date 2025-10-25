@@ -5,11 +5,35 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
+interface WordData {
+  word: string;
+  transliteration: string;
+  root: string;
+  meanings: Array<{
+    arabic: string;
+    english: string;
+    context: string;
+    exampleVerse?: string;
+  }>;
+  occurrences: Array<{
+    surah: number;
+    ayah: number;
+    arabicText: string;
+    translations: Array<{ translator: string; text: string }>;
+    meaningUsed?: string;
+    hasQualifier?: string;
+    qualifier?: string | null;
+    usageCategory?: string;
+    verbForm?: string;
+  }>;
+  occurrenceCount: number;
+}
+
 export default function WordPage() {
   const [, params] = useRoute("/word/:word");
   const word = params?.word || "";
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error } = useQuery<WordData>({
     queryKey: ['/api/word', word],
     enabled: !!word,
   });

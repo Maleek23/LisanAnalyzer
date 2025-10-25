@@ -193,6 +193,98 @@ async function seed() {
       arabicText: 'وَإِذَا ضَرَبْتُمْ فِي الْأَرْضِ فَلَيْسَ عَلَيْكُمْ جُنَاحٌ أَن تَقْصُرُوا مِنَ الصَّلَاةِ إِنْ خِفْتُمْ أَن يَفْتِنَكُمُ الَّذِينَ كَفَرُوا',
       simpleText: 'وإذا ضربتم في الأرض',
       transliteration: 'Wa-idhā ḍarabtum fī l-arḍi fa-laysa ʿalaykum junāḥun an taqṣurū mina ṣ-ṣalāti'
+    },
+    // Additional daraba verses showing grammar patterns
+    {
+      surah: 2,
+      ayah: 60,
+      arabicText: 'وَإِذِ اسْتَسْقَىٰ مُوسَىٰ لِقَوْمِهِ فَقُلْنَا اضْرِب بِّعَصَاكَ الْحَجَرَ ۖ فَانفَجَرَتْ مِنْهُ اثْنَتَا عَشْرَةَ عَيْنًا',
+      simpleText: 'اضرب بعصاك الحجر',
+      transliteration: 'Wa-idhi istasqā Mūsā li-qawmihi fa-qulnā iḍrib bi-ʿaṣāka l-ḥajara'
+    },
+    {
+      surah: 2,
+      ayah: 73,
+      arabicText: 'فَقُلْنَا اضْرِبُوهُ بِبَعْضِهَا ۚ كَذَٰلِكَ يُحْيِي اللَّهُ الْمَوْتَىٰ',
+      simpleText: 'اضربوه ببعضها',
+      transliteration: 'Fa-qulnā iḍribūhu bi-baʿḍihā'
+    },
+    {
+      surah: 8,
+      ayah: 12,
+      arabicText: 'إِذْ يُوحِي رَبُّكَ إِلَى الْمَلَائِكَةِ أَنِّي مَعَكُمْ فَثَبِّتُوا الَّذِينَ آمَنُوا ۚ سَأُلْقِي فِي قُلُوبِ الَّذِينَ كَفَرُوا الرُّعْبَ فَاضْرِبُوا فَوْقَ الْأَعْنَاقِ وَاضْرِبُوا مِنْهُمْ كُلَّ بَنَانٍ',
+      simpleText: 'فاضربوا فوق الأعناق',
+      transliteration: 'Fa-ḍribū fawqa l-aʿnāqi wa-ḍribū minhum kulla banānin'
+    },
+    {
+      surah: 13,
+      ayah: 17,
+      arabicText: 'أَنزَلَ مِنَ السَّمَاءِ مَاءً فَسَالَتْ أَوْدِيَةٌ بِقَدَرِهَا فَاحْتَمَلَ السَّيْلُ زَبَدًا رَّابِيًا ۚ وَمِمَّا يُوقِدُونَ عَلَيْهِ فِي النَّارِ ابْتِغَاءَ حِلْيَةٍ أَوْ مَتَاعٍ زَبَدٌ مِّثْلُهُ ۚ كَذَٰلِكَ يَضْرِبُ اللَّهُ الْحَقَّ وَالْبَاطِلَ',
+      simpleText: 'كذلك يضرب الله الحق والباطل',
+      transliteration: 'Kadhālika yaḍribu llāhu l-ḥaqqa wa-l-bāṭila'
+    },
+    {
+      surah: 16,
+      ayah: 75,
+      arabicText: 'ضَرَبَ اللَّهُ مَثَلًا عَبْدًا مَّمْلُوكًا لَّا يَقْدِرُ عَلَىٰ شَيْءٍ',
+      simpleText: 'ضرب الله مثلا',
+      transliteration: 'Ḍaraba llāhu mathalan ʿabdan mamlūkan'
+    },
+    {
+      surah: 20,
+      ayah: 77,
+      arabicText: 'وَلَقَدْ أَوْحَيْنَا إِلَىٰ مُوسَىٰ أَنْ أَسْرِ بِعِبَادِي فَاضْرِبْ لَهُمْ طَرِيقًا فِي الْبَحْرِ يَبَسًا',
+      simpleText: 'فاضرب لهم طريقا في البحر',
+      transliteration: 'Fa-ḍrib lahum ṭarīqan fī l-baḥri yabasan'
+    },
+    {
+      surah: 26,
+      ayah: 63,
+      arabicText: 'فَأَوْحَيْنَا إِلَىٰ مُوسَىٰ أَنِ اضْرِب بِّعَصَاكَ الْبَحْرَ ۖ فَانفَلَقَ',
+      simpleText: 'اضرب بعصاك البحر',
+      transliteration: 'Fa-awḥaynā ilā Mūsā ani iḍrib bi-ʿaṣāka l-baḥra'
+    },
+    {
+      surah: 30,
+      ayah: 28,
+      arabicText: 'ضَرَبَ لَكُم مَّثَلًا مِّنْ أَنفُسِكُمْ',
+      simpleText: 'ضرب لكم مثلا',
+      transliteration: 'Ḍaraba lakum mathalan min anfusikum'
+    },
+    {
+      surah: 39,
+      ayah: 27,
+      arabicText: 'وَلَقَدْ ضَرَبْنَا لِلنَّاسِ فِي هَٰذَا الْقُرْآنِ مِن كُلِّ مَثَلٍ',
+      simpleText: 'ضربنا للناس في هذا القرآن من كل مثل',
+      transliteration: 'Wa-laqad ḍarabnā li-n-nāsi fī hādhā l-Qurʾāni min kulli mathalin'
+    },
+    {
+      surah: 39,
+      ayah: 29,
+      arabicText: 'ضَرَبَ اللَّهُ مَثَلًا رَّجُلًا فِيهِ شُرَكَاءُ مُتَشَاكِسُونَ',
+      simpleText: 'ضرب الله مثلا',
+      transliteration: 'Ḍaraba llāhu mathalan rajulan fīhi shurakāʾu mutashākisūna'
+    },
+    {
+      surah: 43,
+      ayah: 17,
+      arabicText: 'وَإِذَا بُشِّرَ أَحَدُهُم بِمَا ضَرَبَ لِلرَّحْمَٰنِ مَثَلًا ظَلَّ وَجْهُهُ مُسْوَدًّا',
+      simpleText: 'بما ضرب للرحمن مثلا',
+      transliteration: 'Wa-idhā bushshira aḥaduhum bimā ḍaraba li-r-Raḥmāni mathalan'
+    },
+    {
+      surah: 73,
+      ayah: 20,
+      arabicText: 'وَآخَرُونَ يَضْرِبُونَ فِي الْأَرْضِ يَبْتَغُونَ مِن فَضْلِ اللَّهِ',
+      simpleText: 'يضربون في الأرض',
+      transliteration: 'Wa-ākharūna yaḍribūna fī l-arḍi yabtaghūna min faḍli llāhi'
+    },
+    {
+      surah: 4,
+      ayah: 35,
+      arabicText: 'وَإِنْ خِفْتُمْ شِقَاقَ بَيْنِهِمَا فَابْعَثُوا حَكَمًا مِّنْ أَهْلِهِ وَحَكَمًا مِّنْ أَهْلِهَا',
+      simpleText: 'فابعثوا حكما',
+      transliteration: 'Wa-in khiftum shiqāqa baynihimā fa-bʿathū ḥakaman min ahlihi'
     }
   ];
 
@@ -302,6 +394,67 @@ async function seed() {
       verseId: verseMap.get('4:101')!,
       translator: 'Pickthall',
       text: 'And when ye go forth in the land, it is no sin for you to curtail (your) worship if ye fear that those who disbelieve may attack you...'
+    },
+    // New daraba verse translations
+    {
+      verseId: verseMap.get('2:60')!,
+      translator: 'Sahih International',
+      text: 'And [recall] when Moses prayed for water for his people, so We said, "Strike with your staff the stone"...'
+    },
+    {
+      verseId: verseMap.get('2:73')!,
+      translator: 'Sahih International',
+      text: 'So We said, "Strike the slain man with part of it." Thus does Allah bring the dead to life...'
+    },
+    {
+      verseId: verseMap.get('8:12')!,
+      translator: 'Sahih International',
+      text: '...So strike [them] upon the necks and strike from them every fingertip.'
+    },
+    {
+      verseId: verseMap.get('13:17')!,
+      translator: 'Sahih International',
+      text: '...Thus does Allah present [the example of] truth and falsehood...'
+    },
+    {
+      verseId: verseMap.get('16:75')!,
+      translator: 'Sahih International',
+      text: 'Allah presents an example: a slave owned by someone, unable to do anything...'
+    },
+    {
+      verseId: verseMap.get('20:77')!,
+      translator: 'Sahih International',
+      text: 'And We had inspired to Moses, "Travel by night with My servants and strike for them a dry path through the sea..."'
+    },
+    {
+      verseId: verseMap.get('26:63')!,
+      translator: 'Sahih International',
+      text: 'Then We inspired to Moses, "Strike with your staff the sea," and it parted...'
+    },
+    {
+      verseId: verseMap.get('30:28')!,
+      translator: 'Sahih International',
+      text: 'He presents to you an example from yourselves...'
+    },
+    {
+      verseId: verseMap.get('39:27')!,
+      translator: 'Sahih International',
+      text: 'And We have certainly presented for the people in this Quran from every [kind of] example...'
+    },
+    {
+      verseId: verseMap.get('39:29')!,
+      translator: 'Sahih International',
+      text: 'Allah presents an example: a man owned by quarreling partners...'
+    },
+    {
+      verseId: verseMap.get('73:20')!,
+      translator: 'Sahih International',
+      text: '...and others traveling throughout the land seeking [something] of the bounty of Allah...'
+    },
+    {
+      verseId: verseMap.get('4:35')!,
+      translator: 'Sahih International',
+      text: 'And if you fear dissension between the two, send an arbitrator from his people and an arbitrator from her people...'
     }
   ];
 
@@ -314,44 +467,194 @@ async function seed() {
     insertedRoots.map(r => [r.root, r.id])
   );
 
-  // Seed word occurrences WITH TRANSLITERATIONS
+  // Seed word occurrences WITH TRANSLITERATIONS AND CATEGORIZATION
   const occurrencesData = [
-    // ضرب occurrences
+    // ضرب occurrences - PHYSICAL WITH QUALIFIERS (objects + instruments specified)
     {
-      word: 'ضرب',
-      transliteration: 'daraba',
+      word: 'اضرب',
+      transliteration: 'idrib',
       rootId: rootMap.get('ض-ر-ب')!,
-      verseId: verseMap.get('4:34')!,
-      meaningUsed: 'HIGHLY DEBATED: Many scholars say "separate/leave them" rather than "strike". If strike, only symbolic/gentle (Prophet ﷺ forbade violence). Context: last resort after advice and separation.',
-      syntaxRole: 'Imperative verb (3rd step in sequence)',
-      verbForm: 'Form I'
+      verseId: verseMap.get('2:60')!,
+      meaningUsed: 'Strike the rock (physical action on object)',
+      syntaxRole: 'Imperative verb',
+      verbForm: 'Form I',
+      hasQualifier: 'yes',
+      qualifier: 'with your staff (بعصاك) + the stone (الحجر) - BOTH instrument AND object specified',
+      usageCategory: 'physical_with_object'
+    },
+    {
+      word: 'اضربوه',
+      transliteration: 'idribuhu',
+      rootId: rootMap.get('ض-ر-ب')!,
+      verseId: verseMap.get('2:73')!,
+      meaningUsed: 'Strike it (the dead man) with part of the cow',
+      syntaxRole: 'Imperative verb',
+      verbForm: 'Form I',
+      hasQualifier: 'yes',
+      qualifier: 'with part of it (ببعضها) - instrument specified',
+      usageCategory: 'physical_with_object'
+    },
+    {
+      word: 'اضربوا',
+      transliteration: 'idribu',
+      rootId: rootMap.get('ض-ر-ب')!,
+      verseId: verseMap.get('8:12')!,
+      meaningUsed: 'Strike them (in battle context)',
+      syntaxRole: 'Imperative verb',
+      verbForm: 'Form I',
+      hasQualifier: 'yes',
+      qualifier: 'above the necks (فوق الأعناق) + every fingertip (كل بنان) - body parts/locations specified',
+      usageCategory: 'physical_with_object'
+    },
+    {
+      word: 'اضرب',
+      transliteration: 'idrib',
+      rootId: rootMap.get('ض-ر-ب')!,
+      verseId: verseMap.get('20:77')!,
+      meaningUsed: 'Strike for them a path (make a dry path)',
+      syntaxRole: 'Imperative verb',
+      verbForm: 'Form I',
+      hasQualifier: 'yes',
+      qualifier: 'a path in the sea (طريقا في البحر) - object specified',
+      usageCategory: 'physical_with_object'
+    },
+    {
+      word: 'اضرب',
+      transliteration: 'idrib',
+      rootId: rootMap.get('ض-ر-ب')!,
+      verseId: verseMap.get('26:63')!,
+      meaningUsed: 'Strike the sea (to part it)',
+      syntaxRole: 'Imperative verb',
+      verbForm: 'Form I',
+      hasQualifier: 'yes',
+      qualifier: 'with your staff (بعصاك) + the sea (البحر) - BOTH instrument AND object specified',
+      usageCategory: 'physical_with_object'
+    },
+    
+    // ضرب occurrences - METAPHORICAL (NO qualifiers - sets forth examples, travels)
+    {
+      word: 'يضرب',
+      transliteration: 'yadrib',
+      rootId: rootMap.get('ض-ر-ب')!,
+      verseId: verseMap.get('13:17')!,
+      meaningUsed: 'Presents/sets forth (truth and falsehood)',
+      syntaxRole: 'Present tense verb',
+      verbForm: 'Form I',
+      hasQualifier: 'no',
+      qualifier: null,
+      usageCategory: 'metaphorical'
     },
     {
       word: 'يضرب',
       transliteration: 'yadrib',
       rootId: rootMap.get('ض-ر-ب')!,
       verseId: verseMap.get('14:25')!,
-      meaningUsed: 'To set forth (examples/parables)',
+      meaningUsed: 'Sets forth (examples/parables)',
       syntaxRole: 'Present tense verb',
-      verbForm: 'Form I'
+      verbForm: 'Form I',
+      hasQualifier: 'no',
+      qualifier: null,
+      usageCategory: 'metaphorical'
+    },
+    {
+      word: 'ضرب',
+      transliteration: 'daraba',
+      rootId: rootMap.get('ض-ر-ب')!,
+      verseId: verseMap.get('16:75')!,
+      meaningUsed: 'Presents/sets forth an example',
+      syntaxRole: 'Past tense verb',
+      verbForm: 'Form I',
+      hasQualifier: 'no',
+      qualifier: null,
+      usageCategory: 'metaphorical'
+    },
+    {
+      word: 'ضرب',
+      transliteration: 'daraba',
+      rootId: rootMap.get('ض-ر-ب')!,
+      verseId: verseMap.get('30:28')!,
+      meaningUsed: 'Presents to you an example',
+      syntaxRole: 'Past tense verb',
+      verbForm: 'Form I',
+      hasQualifier: 'no',
+      qualifier: null,
+      usageCategory: 'metaphorical'
+    },
+    {
+      word: 'ضربنا',
+      transliteration: 'darabna',
+      rootId: rootMap.get('ض-ر-ب')!,
+      verseId: verseMap.get('39:27')!,
+      meaningUsed: 'We have presented examples',
+      syntaxRole: 'Past tense verb (1st person plural)',
+      verbForm: 'Form I',
+      hasQualifier: 'no',
+      qualifier: null,
+      usageCategory: 'metaphorical'
+    },
+    {
+      word: 'ضرب',
+      transliteration: 'daraba',
+      rootId: rootMap.get('ض-ر-ب')!,
+      verseId: verseMap.get('39:29')!,
+      meaningUsed: 'Presents an example',
+      syntaxRole: 'Past tense verb',
+      verbForm: 'Form I',
+      hasQualifier: 'no',
+      qualifier: null,
+      usageCategory: 'metaphorical'
     },
     {
       word: 'ضربتم',
       transliteration: 'darabtum',
       rootId: rootMap.get('ض-ر-ب')!,
       verseId: verseMap.get('4:101')!,
-      meaningUsed: 'To travel/journey',
-      syntaxRole: 'Past tense verb',
-      verbForm: 'Form I'
+      meaningUsed: 'Travel/journey through the land',
+      syntaxRole: 'Past tense verb (2nd person plural)',
+      verbForm: 'Form I',
+      hasQualifier: 'no',
+      qualifier: null,
+      usageCategory: 'metaphorical'
     },
+    {
+      word: 'يضربون',
+      transliteration: 'yadribuna',
+      rootId: rootMap.get('ض-ر-ب')!,
+      verseId: verseMap.get('73:20')!,
+      meaningUsed: 'Traveling throughout the land',
+      syntaxRole: 'Present tense verb (3rd person plural)',
+      verbForm: 'Form I',
+      hasQualifier: 'no',
+      qualifier: null,
+      usageCategory: 'metaphorical'
+    },
+    
+    // ضرب occurrence - THE CONTROVERSIAL 4:34 (NO qualifier - RED FLAG!)
+    {
+      word: 'اضربوهن',
+      transliteration: 'idribuhunna',
+      rootId: rootMap.get('ض-ر-ب')!,
+      verseId: verseMap.get('4:34')!,
+      meaningUsed: '🚨 HIGHLY DEBATED: Many scholars say "separate/leave them" rather than "strike". If strike, only symbolic/gentle (Prophet ﷺ forbade violence). Context: last resort after advice and separation.',
+      syntaxRole: 'Imperative verb (3rd step in marital discord sequence)',
+      verbForm: 'Form I',
+      hasQualifier: 'no',
+      qualifier: '❌ NO QUALIFIER - Unlike ALL other "strike" verses, this does NOT specify WHAT to strike with or WHERE to strike. This is linguistically suspicious and supports the "separate" interpretation.',
+      usageCategory: 'controversial'
+    },
+    
+    // ضرب occurrence - wrapping headcovers (placement/covering action)
     {
       word: 'ليضربن',
       transliteration: 'lyadribna',
       rootId: rootMap.get('ض-ر-ب')!,
       verseId: verseMap.get('24:31')!,
-      meaningUsed: 'To draw/wrap (their headcovers)',
+      meaningUsed: 'To draw/wrap/place (their headcovers over their chests)',
       syntaxRole: 'Emphatic imperative',
-      verbForm: 'Form I'
+      verbForm: 'Form I',
+      hasQualifier: 'yes',
+      qualifier: 'with their headcovers (بخمرهن) over their chests (على جيوبهن) - BOTH instrument AND location specified',
+      usageCategory: 'physical_with_object'
     },
     // قوام occurrences
     {

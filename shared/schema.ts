@@ -50,11 +50,15 @@ export const wordOccurrences = pgTable("word_occurrences", {
   meaningUsed: text("meaning_used"),
   syntaxRole: varchar("syntax_role", { length: 100 }), // fa'il, maf'ul, jarr, etc.
   verbForm: varchar("verb_form", { length: 100 }), // Form I, II, III, etc.
+  hasQualifier: varchar("has_qualifier", { length: 20 }), // 'yes', 'no', 'n/a' - does verse specify WHAT to strike with or WHERE?
+  qualifier: text("qualifier"), // The actual qualifier text (e.g., "with your staff", "on their necks")
+  usageCategory: varchar("usage_category", { length: 50 }), // 'physical_with_object', 'metaphorical', 'controversial', etc.
 }, (table) => ({
   wordIdx: index("word_idx").on(table.word),
   transliterationIdx: index("transliteration_idx").on(table.transliteration),
   rootIdx: index("root_idx").on(table.rootId),
   verseIdx: index("verse_idx").on(table.verseId),
+  categoryIdx: index("category_idx").on(table.usageCategory),
 }));
 
 // Insert schemas

@@ -2,6 +2,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { AlertCircle, BookOpen, TrendingUp } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import VerseCard from "./VerseCard";
 
 interface Meaning {
@@ -16,6 +18,10 @@ interface Occurrence {
   ayah: number;
   arabicText: string;
   translations: { translator: string; text: string }[];
+  meaningUsed?: string;
+  hasQualifier?: string;
+  qualifier?: string | null;
+  usageCategory?: string;
 }
 
 interface WordAnalysisProps {
@@ -37,8 +43,32 @@ export default function WordAnalysis({
   occurrences,
   occurrenceCount,
 }: WordAnalysisProps) {
+  // Check if this is a controversial word
+  const hasControversialOccurrence = occurrences.some(occ => occ.usageCategory === 'controversial');
+  
+  // Calculate usage statistics
+  const physicalCount = occurrences.filter(occ => occ.usageCategory === 'physical_with_object').length;
+  const metaphoricalCount = occurrences.filter(occ => occ.usageCategory === 'metaphorical').length;
+  const controversialCount = occurrences.filter(occ => occ.usageCategory === 'controversial').length;
+  
+  const totalCategorized = physicalCount + metaphoricalCount + controversialCount;
+  const physicalPercent = totalCategorized > 0 ? Math.round((physicalCount / totalCategorized) * 100) : 0;
+  const metaphoricalPercent = totalCategorized > 0 ? Math.round((metaphoricalCount / totalCategorized) * 100) : 0;
+  
   return (
     <div className="w-full max-w-6xl mx-auto space-y-6">
+      {hasControversialOccurrence && (
+        <Alert className="border-destructive/50 bg-destructive/5" data-testid="alert-controversy">
+          <AlertCircle className="h-5 w-5 text-destructive" />
+          <AlertTitle className="text-lg font-semibold text-destructive">Historically Mistranslated Word</AlertTitle>
+          <AlertDescription className="mt-2 text-foreground/80">
+            This word has been subject to significant scholarly debate and has competing interpretations. 
+            The linguistic analysis below examines grammar patterns, qualifiers, and contextual usage across 
+            all Quranic occurrences to help you understand the full picture beyond viral mistranslations.
+          </AlertDescription>
+        </Alert>
+      )}
+      
       <Card>
         <CardHeader className="text-center space-y-4">
           <div className="space-y-2">
@@ -65,9 +95,16 @@ export default function WordAnalysis({
         </CardHeader>
       </Card>
 
-      <Tabs defaultValue="meanings" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 h-auto">
+      <Tabs defaultValue={hasControversialOccurrence ? "grammar" : "meanings"} className="w-full">
+        <TabsList className="grid w-full grid-cols-4 h-auto">
+          {hasControversialOccurrence && (
+            <TabsTrigger value="grammar" className="text-base py-3" data-testid="tab-grammar">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              Grammar Analysis
+            </TabsTrigger>
+          )}
           <TabsTrigger value="meanings" className="text-base py-3" data-testid="tab-meanings">
+            <BookOpen className="w-4 h-4 mr-2" />
             Meanings
           </TabsTrigger>
           <TabsTrigger value="occurrences" className="text-base py-3" data-testid="tab-occurrences">
@@ -77,6 +114,98 @@ export default function WordAnalysis({
             Translation Comparison
           </TabsTrigger>
         </TabsList>
+
+        {hasControversialOccurrence && (
+          <TabsContent value="grammar" className="mt-6 space-y-6">
+            {/* Usage Statistics */}
+            <Card>
+              <CardHeader>
+                <h2 className="text-2xl font-semibold text-primary">Usage Statistics</h2>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6 text-center">
+                    <div className="text-4xl font-bold text-green-700 dark:text-green-400">{physicalCount}</div>
+                    <div className="text-sm font-medium text-green-600 dark:text-green-500 mt-1">Physical (with objects)</div>
+                    <div className="text-xs text-muted-foreground mt-2">{physicalPercent}% of usage</div>
+                  </div>
+                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 text-center">
+                    <div className="text-4xl font-bold text-blue-700 dark:text-blue-400">{metaphoricalCount}</div>
+                    <div className="text-sm font-medium text-blue-600 dark:text-blue-500 mt-1">Metaphorical (examples/travel)</div>
+                    <div className="text-xs text-muted-foreground mt-2">{metaphoricalPercent}% of usage</div>
+                  </div>
+                  <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-6 text-center">
+                    <div className="text-4xl font-bold text-destructive">{controversialCount}</div>
+                    <div className="text-sm font-medium text-destructive mt-1">Controversial (no qualifier)</div>
+                    <div className="text-xs text-muted-foreground mt-2">Linguistically suspicious</div>
+                  </div>
+                </div>
+                
+                <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-md">
+                  <p className="font-semibold text-primary mb-2">Key Insight</p>
+                  <p className="text-sm text-foreground/80 leading-relaxed">
+                    In Quranic Arabic, when <span className="font-amiri text-lg">{word}</span> means physical striking, 
+                    the verse ALWAYS specifies WHAT to strike with (instrument) and/or WHERE to strike (location/body part). 
+                    The absence of these qualifiers typically indicates a metaphorical or different meaning.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Grammar Pattern Table */}
+            <Card>
+              <CardHeader>
+                <h2 className="text-2xl font-semibold text-primary">Grammar Pattern Analysis</h2>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Examining how qualifiers (or their absence) determine meaning
+                </p>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b-2 border-primary/20">
+                        <th className="text-left p-3 font-semibold">Verse</th>
+                        <th className="text-left p-3 font-semibold">Category</th>
+                        <th className="text-left p-3 font-semibold">Has Qualifier?</th>
+                        <th className="text-left p-3 font-semibold">Qualifier Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {occurrences.map((occ, idx) => (
+                        <tr 
+                          key={idx} 
+                          className={`border-b border-border ${occ.usageCategory === 'controversial' ? 'bg-destructive/5' : ''}`}
+                          data-testid={`row-grammar-${occ.surah}-${occ.ayah}`}
+                        >
+                          <td className="p-3 font-mono text-sm">
+                            {occ.surah}:{occ.ayah}
+                          </td>
+                          <td className="p-3">
+                            <Badge 
+                              variant={occ.usageCategory === 'controversial' ? 'destructive' : 'secondary'}
+                              className="capitalize"
+                            >
+                              {occ.usageCategory?.replace('_', ' ')}
+                            </Badge>
+                          </td>
+                          <td className="p-3">
+                            <Badge variant={occ.hasQualifier === 'yes' ? 'default' : 'outline'}>
+                              {occ.hasQualifier === 'yes' ? '✓ Yes' : '✗ No'}
+                            </Badge>
+                          </td>
+                          <td className="p-3 text-sm text-muted-foreground">
+                            {occ.qualifier || 'No qualifier specified'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        )}
 
         <TabsContent value="meanings" className="mt-6">
           <Card>
