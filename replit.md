@@ -6,12 +6,22 @@ Lisan is a full-stack web application designed to help users understand Arabic w
 
 **Core Philosophy**: Context over literal meaning. Grammar over root. Scholarship over opinion.
 
+**Current Status**: MVP completed and fully functional (October 2025)
+
 The application enables users to:
-- Search for Quranic words or phrases in Arabic or transliteration
-- Analyze word roots, morphological patterns, and multiple contextual meanings
-- View all Quranic occurrences of a word with verse context
-- Compare translations from different scholars to identify divergences
-- Understand rhetorical devices and linguistic nuances (Balagha)
+- ✅ Search for Quranic words using Arabic script OR English transliteration (e.g., "daraba" finds "ضرب")
+- ✅ Analyze word roots, morphological patterns, and multiple contextual meanings
+- ✅ View all Quranic occurrences of a word with verse context
+- ✅ Compare translations from different scholars (Sahih International, Yusuf Ali, Pickthall)
+- ✅ Understand different meanings within the same root across contexts
+
+**Seeded Data**: 6 featured words with full analysis:
+- ضرب (daraba) - strike/travel/set forth examples
+- قوامون (qawwamun) - maintainers/supporters
+- جلابيبهن (jalabibihin) - outer garments
+- نشوزهن (nushuzahunn) - discord/rebellion
+- بخمرهن (bikhumurihin) - head coverings
+- الفتنة (alfitnah) - persecution/oppression
 
 ## User Preferences
 
