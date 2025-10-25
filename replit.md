@@ -25,6 +25,34 @@ The application enables users to:
 
 ## Recent Updates
 
+### October 25, 2025 - Production Features: Submissions, Moderation & Data Expansion
+Scaled application from MVP demo to production-ready tool with user submissions and moderation workflow:
+
+**Database Schema Expansion**:
+- Added `scholar_profiles` table for proper scholar attribution (name, credentials, affiliation, expertise, century, isClassical)
+- Added `word_submissions` table for user word requests (word, transliteration, submitterEmail, reason, status, priority, requestCount)
+- Added `moderation_queue` table for content review workflow (submissionId, contentType, contentData, status, reviewerId, reviewNotes)
+- Fixed Arabic search bug by enabling pg_trgm extension and using exact + partial matching (eq + ilike)
+- Arabic search now works with URL-encoded queries (e.g., `?q=%D9%82%D9%88%D8%A7%D9%85%D9%88%D9%86`)
+
+**Submission Workflow**:
+- Users can request word analysis if word not in database
+- Submissions tracked with priority (request count auto-increments for duplicate requests)
+- Status pipeline: pending → reviewing → approved → rejected → published
+- Email capture for notifying submitters when analysis is complete
+
+**Moderation Workflow**:
+- Content (word_analysis, tafsir, meaning) routed to moderation_queue before publication
+- Reviewers can approve/reject with notes
+- Maintains scholarly integrity and prevents misinformation
+- JSONB storage for flexible content types
+
+**Next Steps**:
+- Seed database with 400-500 basic words (word + root + transliteration + verse occurrences)
+- Add full analysis (tafsir + grammar patterns) for top 20-30 controversial words
+- Build submission API endpoints and user-facing request form
+- Implement rate limiting and caching for production usage
+
 ### October 25, 2025 - Scholarly Commentary & Contextual Analysis System
 Expanded the controversial word deep-dive with scholarly interpretations and verse context analysis:
 
