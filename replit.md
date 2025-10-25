@@ -6,7 +6,7 @@ Lisan is a full-stack web application designed to help users understand Arabic w
 
 **Core Philosophy**: Context over literal meaning. Grammar over root. Scholarship over opinion.
 
-**Current Status**: MVP completed and fully functional (October 2025)
+**Current Status**: MVP with enhanced landing page completed (October 2025)
 
 The application enables users to:
 - ✅ Search for Quranic words using Arabic script OR English transliteration (e.g., "daraba" finds "ضرب")
@@ -22,6 +22,19 @@ The application enables users to:
 - نشوزهن (nushuzahunn) - discord/rebellion
 - بخمرهن (bikhumurihin) - head coverings
 - الفتنة (alfitnah) - persecution/oppression
+
+## Recent Updates
+
+### October 25, 2025 - Enhanced Landing Page
+Transformed homepage into comprehensive landing page with "Al-Azhar library illuminated by daylight" aesthetic:
+- **Enhanced Hero Section**: Full-viewport with Bismillah, animated scroll indicator
+- **Problem Statement Cards**: 3-card grid (Viral Misquotes, Shallow Translations, Fake Hadiths)
+- **Features Showcase**: 4 interactive tabs (Linguistic, Rhetorical, Scholarly, Modern)
+- **Hadith Verification Preview**: Split-screen demo of upcoming verification feature
+- **Scholar Trust Section**: Profile cards + testimonial + statistics
+- **Professional Footer**: Complete navigation (Product, Community, Resources)
+
+Components added: `ProblemCards.tsx`, `FeaturesShowcase.tsx`, `HadithPreview.tsx`, `ScholarSection.tsx`, `Footer.tsx`
 
 ## User Preferences
 
