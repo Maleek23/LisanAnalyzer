@@ -1,4 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
+import rateLimit from "express-rate-limit";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
@@ -15,6 +16,36 @@ app.use(express.json({
   }
 }));
 app.use(express.urlencoded({ extended: false }));
+
+// Rate limiting configuration
+const generalLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 30, // 30 requests per minute
+  message: { error: "Too many requests, please try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const searchLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 20, // 20 searches per minute
+  message: { error: "Too many search requests, please slow down." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const submissionLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 submissions per 15 minutes
+  message: { error: "Too many word requests. Please wait before submitting more." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Apply rate limiters to specific routes
+app.use("/api/search", searchLimiter);
+app.use("/api/submissions", submissionLimiter);
+app.use("/api", generalLimiter); // General limit for all other API routes
 
 app.use((req, res, next) => {
   const start = Date.now();

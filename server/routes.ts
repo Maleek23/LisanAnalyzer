@@ -1,8 +1,17 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { db } from "./db";
-import { verses, translations, roots, wordOccurrences, tafsir } from "@shared/schema";
-import { eq, or, ilike, sql, inArray } from "drizzle-orm";
+import { 
+  verses, 
+  translations, 
+  roots, 
+  wordOccurrences, 
+  tafsir, 
+  wordSubmissions,
+  insertWordSubmissionSchema,
+  moderationQueue
+} from "@shared/schema";
+import { eq, or, ilike, sql, inArray, desc } from "drizzle-orm";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Search for words (Arabic or transliteration)
@@ -222,6 +231,115 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Roots error:", error);
       res.status(500).json({ error: "Failed to get roots" });
+    }
+  });
+
+  // Submit a word request
+  app.post("/api/submissions", async (req, res) => {
+    try {
+      const validatedData = insertWordSubmissionSchema.parse(req.body);
+      
+      // Check if word already exists in database
+      const existingWord = await db
+        .select()
+        .from(wordOccurrences)
+        .where(
+          or(
+            eq(wordOccurrences.word, validatedData.word),
+            eq(wordOccurrences.transliteration, validatedData.transliteration || '')
+          )
+        )
+        .limit(1);
+
+      if (existingWord.length > 0) {
+        return res.status(400).json({ 
+          error: "Word already exists in database",
+          word: existingWord[0].word,
+          transliteration: existingWord[0].transliteration
+        });
+      }
+
+      // Check if word already submitted
+      const existingSubmission = await db
+        .select()
+        .from(wordSubmissions)
+        .where(eq(wordSubmissions.word, validatedData.word))
+        .limit(1);
+
+      if (existingSubmission.length > 0) {
+        // Increment request count for duplicate requests
+        const updated = await db
+          .update(wordSubmissions)
+          .set({ 
+            requestCount: sql`${wordSubmissions.requestCount} + 1`,
+            updatedAt: new Date()
+          })
+          .where(eq(wordSubmissions.id, existingSubmission[0].id))
+          .returning();
+
+        return res.json({ 
+          message: "Word request already exists - increased priority",
+          submission: updated[0]
+        });
+      }
+
+      // Create new submission
+      const [newSubmission] = await db
+        .insert(wordSubmissions)
+        .values(validatedData)
+        .returning();
+
+      res.status(201).json(newSubmission);
+    } catch (error: any) {
+      console.error("Submission error:", error);
+      res.status(400).json({ error: error.message || "Failed to submit word request" });
+    }
+  });
+
+  // Get all submissions (for admin/moderation)
+  app.get("/api/submissions", async (req, res) => {
+    try {
+      const status = req.query.status as string | undefined;
+      
+      let query = db.select().from(wordSubmissions);
+      
+      if (status) {
+        query = query.where(eq(wordSubmissions.status, status)) as any;
+      }
+      
+      const submissions = await query.orderBy(desc(wordSubmissions.priority), desc(wordSubmissions.requestCount));
+      
+      res.json(submissions);
+    } catch (error) {
+      console.error("Get submissions error:", error);
+      res.status(500).json({ error: "Failed to get submissions" });
+    }
+  });
+
+  // Update submission status (for admin/moderation)
+  app.patch("/api/submissions/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { status, priority } = req.body;
+
+      const updateData: any = { updatedAt: new Date() };
+      if (status) updateData.status = status;
+      if (priority !== undefined) updateData.priority = priority;
+
+      const [updated] = await db
+        .update(wordSubmissions)
+        .set(updateData)
+        .where(eq(wordSubmissions.id, id))
+        .returning();
+
+      if (!updated) {
+        return res.status(404).json({ error: "Submission not found" });
+      }
+
+      res.json(updated);
+    } catch (error: any) {
+      console.error("Update submission error:", error);
+      res.status(400).json({ error: error.message || "Failed to update submission" });
     }
   });
 
