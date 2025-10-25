@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { db } from "./db";
-import { verses, translations, roots, wordOccurrences } from "@shared/schema";
+import { verses, translations, roots, wordOccurrences, tafsir } from "@shared/schema";
 import { eq, or, ilike, sql, inArray } from "drizzle-orm";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -90,6 +90,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         .from(translations)
         .where(inArray(translations.verseId, verseIds));
 
+      // Get tafsir (scholarly commentary) for these verses
+      const tafsirData = await db
+        .select()
+        .from(tafsir)
+        .where(inArray(tafsir.verseId, verseIds));
+
       // Group translations by verse
       const verseTranslations = new Map();
       for (const trans of translationsData) {
@@ -99,6 +105,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         verseTranslations.get(trans.verseId).push({
           translator: trans.translator,
           text: trans.text,
+        });
+      }
+
+      // Group tafsir by verse
+      const verseTafsir = new Map();
+      for (const taf of tafsirData) {
+        if (!verseTafsir.has(taf.verseId)) {
+          verseTafsir.set(taf.verseId, []);
+        }
+        verseTafsir.get(taf.verseId).push({
+          scholar: taf.scholar,
+          text: taf.text,
+          layer: taf.layer,
+          century: taf.century,
+          translation: taf.translation,
         });
       }
 
@@ -114,6 +135,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         classicalDefinition: rootData?.classicalDefinition,
         modernUsage: rootData?.modernUsage,
         occurrenceCount,
+        tafsir: verseTafsir.get(verseIds[0]) || [], // Tafsir for the main verse
         occurrences: versesData.map(v => {
           const occurrence = occurrences.find(o => o.word_occurrences.verseId === v.id);
           return {
@@ -128,6 +150,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             qualifier: occurrence?.word_occurrences.qualifier,
             usageCategory: occurrence?.word_occurrences.usageCategory,
             translations: verseTranslations.get(v.id) || [],
+            tafsir: verseTafsir.get(v.id) || [], // Tafsir per verse
           };
         }),
       };
