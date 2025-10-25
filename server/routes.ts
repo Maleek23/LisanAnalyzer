@@ -13,7 +13,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Query parameter 'q' is required" });
       }
 
-      // Search in word occurrences and roots
+      // Search supports both Arabic and transliteration
+      // Use exact + partial matching for comprehensive results
       const results = await db
         .select({
           word: wordOccurrences.word,
@@ -24,6 +25,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         .leftJoin(roots, eq(wordOccurrences.rootId, roots.id))
         .where(
           or(
+            // Exact matches (best for Arabic)
+            eq(wordOccurrences.word, query),
+            eq(roots.root, query),
+            eq(wordOccurrences.transliteration, query),
+            // Partial matches (good for transliteration)
             ilike(wordOccurrences.word, `%${query}%`),
             ilike(roots.root, `%${query}%`),
             ilike(wordOccurrences.transliteration, `%${query}%`)
@@ -49,14 +55,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { word } = req.params;
 
       // First, find the word to get its root (search by Arabic word or transliteration)
+      // Use exact match first, then fall back to similarity matching
       const wordResult = await db
         .select()
         .from(wordOccurrences)
         .leftJoin(roots, eq(wordOccurrences.rootId, roots.id))
         .where(
           or(
-            ilike(wordOccurrences.word, word),
-            ilike(wordOccurrences.transliteration, word)
+            eq(wordOccurrences.word, word),
+            eq(wordOccurrences.transliteration, word),
+            sql`${wordOccurrences.word} % ${word}`,
+            sql`${wordOccurrences.transliteration} % ${word}`
           )
         )
         .limit(1);
@@ -129,7 +138,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Collect all tafsir entries across all verses
       const allTafsir: any[] = [];
-      for (const entries of verseTafsir.values()) {
+      for (const entries of Array.from(verseTafsir.values())) {
         allTafsir.push(...entries);
       }
 
