@@ -25,9 +25,9 @@ function getSystemTheme(): PrayerTimeTheme {
   const dhuhrStart = 11 * 60 + 45; // 11:45
   const dhuhrEnd = 14 * 60 + 30;   // 14:30
   
-  // Maghrib: 17:00 - 19:00 (sunset reflection)
+  // Maghrib: 17:00 - 19:30 (sunset reflection)
   const maghribStart = 17 * 60;    // 17:00
-  const maghribEnd = 19 * 60;      // 19:00
+  const maghribEnd = 19 * 60 + 30; // 19:30
   
   // Isha: 19:30 onwards until Fajr (night contemplation)
   const ishaStart = 19 * 60 + 30;  // 19:30
