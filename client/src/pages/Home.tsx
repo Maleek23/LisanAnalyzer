@@ -6,6 +6,7 @@ import FeaturesShowcase from "@/components/FeaturesShowcase";
 import HadithPreview from "@/components/HadithPreview";
 import ScholarSection from "@/components/ScholarSection";
 import Footer from "@/components/Footer";
+import PrayerTimeToggle from "@/components/PrayerTimeToggle";
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { ChevronDown, Sparkles } from "lucide-react";
@@ -64,6 +65,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Fixed Header with Prayer Time Toggle */}
+      <header className="fixed top-0 right-0 z-50 p-4">
+        <div className="bg-card/80 backdrop-blur-sm rounded-lg shadow-md border border-border p-2">
+          <PrayerTimeToggle />
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-cream via-background to-cream dark:from-background dark:via-background dark:to-background">
         <IslamicPattern />

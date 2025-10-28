@@ -2,6 +2,7 @@ import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import WordAnalysis from "@/components/WordAnalysis";
 import WordRequestDialog from "@/components/WordRequestDialog";
+import PrayerTimeToggle from "@/components/PrayerTimeToggle";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Loader2, BookOpen, Sparkles } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -67,6 +68,13 @@ export default function WordPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cream via-background to-cream dark:from-background dark:via-background dark:to-background">
+      {/* Fixed Header with Prayer Time Toggle */}
+      <header className="fixed top-0 right-0 z-50 p-4">
+        <div className="bg-card/80 backdrop-blur-sm rounded-lg shadow-md border border-border p-2">
+          <PrayerTimeToggle />
+        </div>
+      </header>
+
       <div className="container mx-auto px-4 py-6 md:py-10">
         <Link href="/">
           <Button variant="ghost" className="mb-6 md:mb-8 hover-elevate" data-testid="button-back">

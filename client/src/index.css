@@ -202,6 +202,202 @@
   --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
 
+/* PRAYER TIME THEMES - Islamic time-based color schemes */
+
+/* Fajr (Dawn) - Soft morning light with gentle blues and purples */
+.theme-fajr {
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
+  --opaque-button-border-intensity: -8;
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .08);
+
+  /* Dawn-inspired palette */
+  --quran-green: 166 70% 30%;
+  --hadith-burgundy: 280 35% 45%;
+  --scholar-gold: 43 70% 55%;
+  --truth-blue: 220 60% 50%;
+  
+  /* Dawn backgrounds - soft purples and blues */
+  --parchment-cream: 250 30% 97%;
+  --manuscript-beige: 245 25% 94%;
+  --aged-paper: 240 20% 88%;
+  
+  --background: 250 25% 97%;
+  --foreground: 240 85% 15%;
+  --border: 240 15% 84%;
+  
+  --card: 250 20% 99%;
+  --card-foreground: 240 75% 18%;
+  --card-border: 245 18% 90%;
+  
+  --sidebar: 245 22% 92%;
+  --sidebar-foreground: 240 80% 15%;
+  --sidebar-border: 245 18% 86%;
+  --sidebar-primary: 166 70% 30%;
+  --sidebar-primary-foreground: 166 20% 98%;
+  --sidebar-accent: 245 20% 86%;
+  --sidebar-accent-foreground: 240 70% 18%;
+  --sidebar-ring: 166 70% 30%;
+  
+  --popover: 250 20% 98%;
+  --popover-foreground: 240 75% 20%;
+  --popover-border: 245 15% 84%;
+  
+  --primary: 166 70% 30%;
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 245 20% 84%;
+  --secondary-foreground: 240 65% 22%;
+  
+  --muted: 245 22% 88%;
+  --muted-foreground: 240 25% 40%;
+  
+  --accent: 245 25% 86%;
+  --accent-foreground: 240 60% 25%;
+  
+  --destructive: 0 70% 30%;
+  --destructive-foreground: 0 15% 98%;
+  
+  --input: 245 18% 70%;
+  --ring: 166 65% 32%;
+}
+
+/* Dhuhr (Midday) - Bright clear daylight (default light theme) */
+.theme-dhuhr {
+  /* Uses default :root values - bright and clear */
+}
+
+/* Maghrib (Sunset) - Warm oranges, golds, and sunset hues */
+.theme-maghrib {
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
+  --opaque-button-border-intensity: -8;
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .08);
+
+  /* Sunset-inspired palette */
+  --quran-green: 166 75% 24%;
+  --hadith-burgundy: 342 80% 35%;
+  --scholar-gold: 38 90% 52%;
+  --truth-blue: 25 60% 45%;
+  
+  /* Sunset backgrounds - warm oranges and golds */
+  --parchment-cream: 30 40% 96%;
+  --manuscript-beige: 28 35% 92%;
+  --aged-paper: 25 30% 85%;
+  
+  --background: 30 35% 96%;
+  --foreground: 25 90% 12%;
+  --border: 28 20% 82%;
+  
+  --card: 32 30% 98%;
+  --card-foreground: 25 80% 15%;
+  --card-border: 30 22% 88%;
+  
+  --sidebar: 28 28% 90%;
+  --sidebar-foreground: 25 75% 18%;
+  --sidebar-border: 28 22% 84%;
+  --sidebar-primary: 166 75% 24%;
+  --sidebar-primary-foreground: 166 20% 98%;
+  --sidebar-accent: 28 25% 84%;
+  --sidebar-accent-foreground: 25 65% 22%;
+  --sidebar-ring: 166 70% 26%;
+  
+  --popover: 32 28% 97%;
+  --popover-foreground: 25 70% 20%;
+  --popover-border: 30 18% 82%;
+  
+  --primary: 166 75% 24%;
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 28 25% 82%;
+  --secondary-foreground: 25 60% 24%;
+  
+  --muted: 28 28% 86%;
+  --muted-foreground: 25 22% 42%;
+  
+  --accent: 30 30% 84%;
+  --accent-foreground: 25 55% 26%;
+  
+  --destructive: 0 72% 28%;
+  --destructive-foreground: 0 15% 98%;
+  
+  --input: 28 20% 68%;
+  --ring: 166 68% 28%;
+}
+
+/* Isha (Night) - Deep blues and dark mode */
+.theme-isha {
+  --button-outline: rgba(255,255,255, .10);
+  --badge-outline: rgba(255,255,255, .05);
+  --opaque-button-border-intensity: 9;
+  --elevate-1: rgba(255,255,255, .04);
+  --elevate-2: rgba(255,255,255, .09);
+
+  /* Night palette - deep blues */
+  --parchment-cream: 220 25% 6%;
+  --manuscript-beige: 220 22% 12%;
+  --aged-paper: 220 18% 20%;
+  --text-primary: 220 15% 94%;
+  --text-secondary: 220 12% 78%;
+  --text-tertiary: 220 10% 58%;
+  --quran-green: 166 60% 42%;
+  --scholar-gold: 43 85% 65%;
+
+  --background: 220 25% 8%;
+  --foreground: 220 15% 94%;
+  --border: 220 18% 20%;
+  --card: 220 22% 12%;
+  --card-foreground: 220 12% 92%;
+  --card-border: 220 20% 16%;
+  --sidebar: 220 28% 10%;
+  --sidebar-foreground: 220 10% 90%;
+  --sidebar-border: 220 24% 14%;
+  --sidebar-primary: 166 75% 22%;
+  --sidebar-primary-foreground: 166 15% 97%;
+  --sidebar-accent: 220 26% 14%;
+  --sidebar-accent-foreground: 220 8% 88%;
+  --sidebar-ring: 166 70% 25%;
+  --popover: 220 26% 12%;
+  --popover-foreground: 220 10% 88%;
+  --popover-border: 220 22% 16%;
+  --primary: 166 75% 22%;
+  --primary-foreground: 166 15% 97%;
+  --secondary: 220 28% 16%;
+  --secondary-foreground: 220 8% 86%;
+  --muted: 220 30% 18%;
+  --muted-foreground: 220 12% 62%;
+  --accent: 220 32% 16%;
+  --accent-foreground: 220 8% 84%;
+  --destructive: 0 68% 30%;
+  --destructive-foreground: 0 10% 96%;
+  --input: 220 24% 32%;
+  --ring: 166 65% 28%;
+  --chart-1: 166 70% 65%;
+  --chart-2: 45 80% 70%;
+  --chart-3: 200 65% 65%;
+  --chart-4: 280 55% 70%;
+  --chart-5: 25 65% 65%;
+  --shadow-2xs: 0px 2px 0px 0px hsl(220 80% 5% / 0.15);
+  --shadow-xs: 0px 2px 0px 0px hsl(220 80% 5% / 0.20);
+  --shadow-sm: 0px 2px 0px 0px hsl(220 80% 5% / 0.25), 0px 1px 2px -1px hsl(220 80% 5% / 0.30);
+  --shadow: 0px 2px 0px 0px hsl(220 80% 5% / 0.30), 0px 1px 2px -1px hsl(220 80% 5% / 0.35);
+  --shadow-md: 0px 2px 0px 0px hsl(220 80% 5% / 0.35), 0px 2px 4px -1px hsl(220 80% 5% / 0.40);
+  --shadow-lg: 0px 2px 0px 0px hsl(220 80% 5% / 0.40), 0px 4px 6px -1px hsl(220 80% 5% / 0.45);
+  --shadow-xl: 0px 2px 0px 0px hsl(220 80% 5% / 0.45), 0px 8px 10px -1px hsl(220 80% 5% / 0.50);
+  --shadow-2xl: 0px 2px 0px 0px hsl(220 80% 5% / 0.50);
+
+  /* Night computed borders */
+  --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --sidebar-accent-border: hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+}
+
 @layer base {
   * {
     @apply border-border;
