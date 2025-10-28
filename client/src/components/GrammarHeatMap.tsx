@@ -1,4 +1,4 @@
-import { Info } from "lucide-react";
+import { Info, Flame } from "lucide-react";
 
 export interface GrammarPattern {
   context: string;
@@ -35,8 +35,9 @@ export default function GrammarHeatMap({ word, patterns }: GrammarHeatMapProps) 
 
   return (
     <div className="my-8 md:my-12" data-testid="grammar-heatmap">
-      <h3 className="text-h3 heading-section mb-6 md:mb-8 text-primary">
-        🔥 Grammar Context Heat Map
+      <h3 className="text-h3 heading-section mb-6 md:mb-8 text-primary flex items-center gap-3">
+        <Flame className="w-7 h-7 md:w-8 md:h-8 text-warning-red" data-testid="icon-grammar-heatmap" />
+        <span data-testid="text-grammar-heatmap-title">Grammar Context Heat Map</span>
       </h3>
       
       <div className="bg-white dark:bg-card rounded-xl shadow-lg p-4 md:p-8 overflow-x-auto">

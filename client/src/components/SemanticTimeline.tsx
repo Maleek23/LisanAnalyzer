@@ -1,4 +1,4 @@
-import { Bot, Sparkles } from "lucide-react";
+import { Bot, Sparkles, BookOpenText } from "lucide-react";
 
 export interface TimelineEra {
   century: number;
@@ -26,8 +26,9 @@ export default function SemanticTimeline({ word, data }: SemanticTimelineProps) 
 
   return (
     <div className="relative py-8 md:py-12" data-testid="semantic-timeline">
-      <h3 className="text-h3 heading-section mb-6 md:mb-8 text-primary">
-        📜 Semantic Evolution Across {data.length} Centuries
+      <h3 className="text-h3 heading-section mb-6 md:mb-8 text-primary flex items-center gap-3">
+        <BookOpenText className="w-7 h-7 md:w-8 md:h-8 text-scholar-gold" data-testid="icon-semantic-timeline" />
+        <span data-testid="text-semantic-timeline-title">Semantic Evolution Across {data.length} Centuries</span>
       </h3>
       
       {/* Timeline Container */}
