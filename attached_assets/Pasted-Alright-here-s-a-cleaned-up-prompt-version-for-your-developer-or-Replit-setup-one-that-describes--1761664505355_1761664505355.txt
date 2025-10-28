@@ -1,0 +1,83 @@
+Alright, here’s a cleaned-up prompt version for your developer or Replit setup — one that describes the four dynamic “Lisan” visual themes based on prayer-time moods.
+
+⸻
+
+🌗 Dynamic Theme System: “Four Times of Light”
+
+Goal:
+Implement an automatic theme switcher that reflects the spiritual rhythm of the day through the app’s interface. Each theme activates based on the user’s local time and subtly shifts the color palette and mood of the UI.
+
+⸻
+
+1. Fajr (Dawn) 🌅
+	•	Active: 5 AM – 12 PM
+	•	Palette: soft purples, pale blues, and muted pinks — the colors of early morning light.
+	•	Atmosphere: calm, fresh, and contemplative.
+	•	Use case: encourage gentle reading and reflection at daybreak.
+	•	Example CSS Variables:
+
+--bg-color: #E9EAF8;
+--text-color: #1C1C2A;
+--accent-color: #7A9CC6;
+
+
+
+⸻
+
+2. Dhuhr (Midday) ☀️
+	•	Active: 12 PM – 3 PM
+	•	Palette: bright creams and beiges with gold undertones (the default Lisan color scheme).
+	•	Atmosphere: clarity, focus, and energy for study or research.
+	•	Example CSS Variables:
+
+--bg-color: #FAF9F6;
+--text-color: #0F5F4E;
+--accent-color: #D4AF37;
+
+
+
+⸻
+
+3. Maghrib (Sunset) 🌆
+	•	Active: 3 PM – 7 PM
+	•	Palette: warm oranges, deep ambers, and soft golds that mimic the glow of sunset.
+	•	Atmosphere: gentle transition from work to rest, introspective tone.
+	•	Example CSS Variables:
+
+--bg-color: #FCE9D4;
+--text-color: #3B2F2F;
+--accent-color: #E08E45;
+
+
+
+⸻
+
+4. Isha (Night) 🌙
+	•	Active: 7 PM – 5 AM
+	•	Palette: deep navy, dark emerald, and muted cream for night readability.
+	•	Atmosphere: restful and meditative; perfect for quiet study.
+	•	Example CSS Variables:
+
+--bg-color: #0B1C1A;
+--text-color: #E6E8E6;
+--accent-color: #1E7058;
+
+
+
+⸻
+
+⚙️ Implementation Notes
+	•	Detect user’s local time and dynamically apply the theme with CSS variables or Tailwind config updates.
+	•	Add smooth 1-second fade transitions between themes.
+	•	Optional toggle for users who prefer manual control (e.g., always Night Mode).
+	•	Store user preference in localStorage.
+
+⸻
+
+Tagline for this feature:
+
+“The interface moves with the sky — light that follows the prayer times.”
+
+⸻
+
+Want me to make this into a Next.js + Tailwind component (auto theme switcher with transitions)? It’d only take a few lines of code.
