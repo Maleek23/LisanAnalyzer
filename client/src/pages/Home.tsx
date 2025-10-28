@@ -73,57 +73,56 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-cream via-background to-cream dark:from-background dark:via-background dark:to-background">
-        <IslamicPattern />
+      <section className="relative min-h-screen flex items-center justify-center bg-background">
+        {/* Subtle Islamic pattern overlay at 3% opacity */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <IslamicPattern />
+        </div>
         
-        <div className="relative z-10 container mx-auto px-4 py-16 md:py-20">
-          <div className="text-center space-y-8 md:space-y-12 max-w-5xl mx-auto">
+        <div className="relative z-10 container mx-auto px-4 py-20 md:py-24">
+          <div className="text-center space-y-12 md:space-y-16 max-w-4xl mx-auto">
             {/* Bismillah */}
-            <div className="space-y-3 md:space-y-4 animate-in fade-in-50 duration-700">
+            <div className="space-y-4">
               <h1 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-amiri text-gold drop-shadow-md" 
+                className="text-5xl sm:text-6xl md:text-7xl font-amiri text-accent" 
                 dir="rtl" 
                 lang="ar"
                 data-testid="text-bismillah"
               >
                 بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
               </h1>
-              <p className="text-sm md:text-base text-muted-foreground italic">
+              <p className="text-sm md:text-base text-muted-foreground italic font-crimson">
                 Bismillāhi r-Raḥmāni r-Raḥīm
               </p>
             </div>
             
             {/* Logo & Tagline */}
-            <div className="space-y-4 md:space-y-6 animate-in fade-in-50 duration-700 delay-150">
-              <div className="flex items-center justify-center gap-3">
-                <Sparkles className="w-8 h-8 md:w-10 md:h-10 text-gold animate-pulse" />
-                <h2 className="text-6xl sm:text-7xl md:text-8xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent tracking-tight">
-                  Lisan
-                </h2>
-                <Sparkles className="w-8 h-8 md:w-10 md:h-10 text-gold animate-pulse" />
-              </div>
-              <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-foreground font-bold leading-tight">
+            <div className="space-y-6 md:space-y-8">
+              <h2 className="text-7xl sm:text-8xl md:text-9xl font-bold text-primary tracking-tight">
+                Lisan
+              </h2>
+              <p className="text-2xl sm:text-3xl md:text-4xl text-foreground font-semibold leading-tight">
                 Restore Truth to Sacred Text
               </p>
             </div>
             
             {/* Mission Statement */}
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground font-crimson max-w-3xl mx-auto leading-relaxed animate-in fade-in-50 duration-700 delay-300 px-4">
-              Understand the Qur'an through its original language — not through screenshots. 
-              <span className="block mt-2 text-foreground/70 font-semibold">
-                Exposing mistranslations, verifying hadiths, and revealing the depth of Quranic Arabic.
+            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground font-crimson max-w-2xl mx-auto leading-relaxed">
+              Understand the Qur'an through its original language.
+              <span className="block mt-3 text-foreground font-medium">
+                Exposing mistranslations · Verifying hadiths · Revealing linguistic depth
               </span>
             </p>
             
             {/* Search Bar */}
-            <div className="flex justify-center pt-4 md:pt-8 animate-in fade-in-50 duration-700 delay-500 px-4">
-              <div className="w-full">
+            <div className="flex justify-center pt-8 md:pt-12">
+              <div className="w-full max-w-2xl">
                 <SearchBar 
                   onSearch={handleSearch} 
                   placeholder="Enter Arabic word or English term (e.g., daraba, qawwam)" 
                 />
-                <p className="text-sm md:text-base text-muted-foreground mt-4 md:mt-6 text-center">
-                  Search in Arabic: <span className="font-amiri text-lg md:text-xl text-gold">ضرب، قوام، جلباب</span> or English transliteration
+                <p className="text-sm md:text-base text-muted-foreground mt-6 text-center">
+                  Search in Arabic: <span className="font-amiri text-lg md:text-xl text-accent">ضرب، قوام، جلباب</span> or English transliteration
                 </p>
               </div>
             </div>
