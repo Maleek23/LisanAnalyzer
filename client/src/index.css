@@ -205,6 +205,7 @@
 /* PRAYER TIME THEMES - Islamic time-based color schemes */
 
 /* Fajr (Dawn) - Soft morning light with gentle blues and purples */
+/* Inspired by #E9EAF8 bg, #1C1C2A text, #7A9CC6 accent */
 .theme-fajr {
   --button-outline: rgba(0,0,0, .10);
   --badge-outline: rgba(0,0,0, .05);
@@ -212,55 +213,55 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  /* Dawn-inspired palette */
+  /* Dawn-inspired palette - pale lavender blues */
   --quran-green: 166 70% 30%;
   --hadith-burgundy: 280 35% 45%;
   --scholar-gold: 43 70% 55%;
-  --truth-blue: 220 60% 50%;
+  --truth-blue: 213 43% 63%;
   
-  /* Dawn backgrounds - soft purples and blues */
-  --parchment-cream: 250 30% 97%;
-  --manuscript-beige: 245 25% 94%;
-  --aged-paper: 240 20% 88%;
+  /* Dawn backgrounds - soft purples and blues (#E9EAF8) */
+  --parchment-cream: 235 48% 96%;
+  --manuscript-beige: 235 45% 93%;
+  --aged-paper: 235 40% 88%;
   
-  --background: 250 25% 97%;
-  --foreground: 240 85% 15%;
-  --border: 240 15% 84%;
+  --background: 235 48% 94%;     /* #E9EAF8 */
+  --foreground: 240 21% 14%;     /* #1C1C2A - dark navy */
+  --border: 235 35% 84%;
   
-  --card: 250 20% 99%;
-  --card-foreground: 240 75% 18%;
-  --card-border: 245 18% 90%;
+  --card: 235 50% 97%;
+  --card-foreground: 240 21% 14%;
+  --card-border: 235 38% 90%;
   
-  --sidebar: 245 22% 92%;
-  --sidebar-foreground: 240 80% 15%;
-  --sidebar-border: 245 18% 86%;
-  --sidebar-primary: 166 70% 30%;
-  --sidebar-primary-foreground: 166 20% 98%;
-  --sidebar-accent: 245 20% 86%;
-  --sidebar-accent-foreground: 240 70% 18%;
-  --sidebar-ring: 166 70% 30%;
+  --sidebar: 235 42% 91%;
+  --sidebar-foreground: 240 21% 14%;
+  --sidebar-border: 235 35% 86%;
+  --sidebar-primary: 213 43% 63%;     /* #7A9CC6 - soft blue accent */
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 235 38% 86%;
+  --sidebar-accent-foreground: 240 21% 14%;
+  --sidebar-ring: 213 43% 63%;
   
-  --popover: 250 20% 98%;
-  --popover-foreground: 240 75% 20%;
-  --popover-border: 245 15% 84%;
+  --popover: 235 48% 96%;
+  --popover-foreground: 240 21% 14%;
+  --popover-border: 235 35% 84%;
   
-  --primary: 166 70% 30%;
+  --primary: 213 43% 63%;         /* #7A9CC6 - soft blue */
   --primary-foreground: 0 0% 100%;
   
-  --secondary: 245 20% 84%;
-  --secondary-foreground: 240 65% 22%;
+  --secondary: 235 38% 84%;
+  --secondary-foreground: 240 21% 14%;
   
-  --muted: 245 22% 88%;
-  --muted-foreground: 240 25% 40%;
+  --muted: 235 40% 88%;
+  --muted-foreground: 240 15% 35%;
   
-  --accent: 245 25% 86%;
-  --accent-foreground: 240 60% 25%;
+  --accent: 235 40% 86%;
+  --accent-foreground: 240 21% 14%;
   
   --destructive: 0 70% 30%;
   --destructive-foreground: 0 15% 98%;
   
-  --input: 245 18% 70%;
-  --ring: 166 65% 32%;
+  --input: 235 30% 70%;
+  --ring: 213 43% 63%;
 }
 
 /* Dhuhr (Midday) - Bright clear daylight (default light theme) */
@@ -269,6 +270,7 @@
 }
 
 /* Maghrib (Sunset) - Warm oranges, golds, and sunset hues */
+/* Inspired by #FCE9D4 bg, #3B2F2F text, #E08E45 accent */
 .theme-maghrib {
   --button-outline: rgba(0,0,0, .10);
   --badge-outline: rgba(0,0,0, .05);
@@ -276,58 +278,59 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  /* Sunset-inspired palette */
+  /* Sunset-inspired palette - warm peach and orange */
   --quran-green: 166 75% 24%;
   --hadith-burgundy: 342 80% 35%;
-  --scholar-gold: 38 90% 52%;
-  --truth-blue: 25 60% 45%;
+  --scholar-gold: 28 71% 58%;        /* #E08E45 - orange accent */
+  --truth-blue: 28 71% 58%;
   
-  /* Sunset backgrounds - warm oranges and golds */
-  --parchment-cream: 30 40% 96%;
-  --manuscript-beige: 28 35% 92%;
-  --aged-paper: 25 30% 85%;
+  /* Sunset backgrounds - warm oranges and golds (#FCE9D4) */
+  --parchment-cream: 30 80% 93%;
+  --manuscript-beige: 30 75% 89%;
+  --aged-paper: 30 65% 82%;
   
-  --background: 30 35% 96%;
-  --foreground: 25 90% 12%;
-  --border: 28 20% 82%;
+  --background: 30 80% 91%;          /* #FCE9D4 - warm peach */
+  --foreground: 0 14% 21%;           /* #3B2F2F - brown text */
+  --border: 30 60% 78%;
   
-  --card: 32 30% 98%;
-  --card-foreground: 25 80% 15%;
-  --card-border: 30 22% 88%;
+  --card: 30 85% 95%;
+  --card-foreground: 0 14% 21%;
+  --card-border: 30 65% 85%;
   
-  --sidebar: 28 28% 90%;
-  --sidebar-foreground: 25 75% 18%;
-  --sidebar-border: 28 22% 84%;
-  --sidebar-primary: 166 75% 24%;
-  --sidebar-primary-foreground: 166 20% 98%;
-  --sidebar-accent: 28 25% 84%;
-  --sidebar-accent-foreground: 25 65% 22%;
-  --sidebar-ring: 166 70% 26%;
+  --sidebar: 30 72% 87%;
+  --sidebar-foreground: 0 14% 21%;
+  --sidebar-border: 30 60% 80%;
+  --sidebar-primary: 28 71% 58%;     /* #E08E45 - orange */
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 30 65% 82%;
+  --sidebar-accent-foreground: 0 14% 21%;
+  --sidebar-ring: 28 71% 58%;
   
-  --popover: 32 28% 97%;
-  --popover-foreground: 25 70% 20%;
-  --popover-border: 30 18% 82%;
+  --popover: 30 80% 93%;
+  --popover-foreground: 0 14% 21%;
+  --popover-border: 30 60% 78%;
   
-  --primary: 166 75% 24%;
+  --primary: 28 71% 58%;             /* #E08E45 - warm orange */
   --primary-foreground: 0 0% 100%;
   
-  --secondary: 28 25% 82%;
-  --secondary-foreground: 25 60% 24%;
+  --secondary: 30 65% 78%;
+  --secondary-foreground: 0 14% 21%;
   
-  --muted: 28 28% 86%;
-  --muted-foreground: 25 22% 42%;
+  --muted: 30 68% 82%;
+  --muted-foreground: 0 10% 35%;
   
-  --accent: 30 30% 84%;
-  --accent-foreground: 25 55% 26%;
+  --accent: 30 70% 80%;
+  --accent-foreground: 0 14% 21%;
   
   --destructive: 0 72% 28%;
   --destructive-foreground: 0 15% 98%;
   
-  --input: 28 20% 68%;
-  --ring: 166 68% 28%;
+  --input: 30 55% 65%;
+  --ring: 28 71% 58%;
 }
 
 /* Isha (Night) - Deep blues and dark mode */
+/* Inspired by #0B1C1A bg, #E6E8E6 text, #1E7058 accent */
 .theme-isha {
   --button-outline: rgba(255,255,255, .10);
   --badge-outline: rgba(255,255,255, .05);
@@ -335,58 +338,58 @@
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  /* Night palette - deep blues */
-  --parchment-cream: 220 25% 6%;
-  --manuscript-beige: 220 22% 12%;
-  --aged-paper: 220 18% 20%;
-  --text-primary: 220 15% 94%;
-  --text-secondary: 220 12% 78%;
-  --text-tertiary: 220 10% 58%;
-  --quran-green: 166 60% 42%;
+  /* Night palette - deep emerald dark mode */
+  --parchment-cream: 172 43% 6%;
+  --manuscript-beige: 172 40% 11%;
+  --aged-paper: 172 35% 18%;
+  --text-primary: 120 4% 91%;           /* #E6E8E6 - light gray */
+  --text-secondary: 120 4% 75%;
+  --text-tertiary: 120 4% 58%;
+  --quran-green: 160 57% 29%;           /* #1E7058 - emerald accent */
   --scholar-gold: 43 85% 65%;
 
-  --background: 220 25% 8%;
-  --foreground: 220 15% 94%;
-  --border: 220 18% 20%;
-  --card: 220 22% 12%;
-  --card-foreground: 220 12% 92%;
-  --card-border: 220 20% 16%;
-  --sidebar: 220 28% 10%;
-  --sidebar-foreground: 220 10% 90%;
-  --sidebar-border: 220 24% 14%;
-  --sidebar-primary: 166 75% 22%;
-  --sidebar-primary-foreground: 166 15% 97%;
-  --sidebar-accent: 220 26% 14%;
-  --sidebar-accent-foreground: 220 8% 88%;
-  --sidebar-ring: 166 70% 25%;
-  --popover: 220 26% 12%;
-  --popover-foreground: 220 10% 88%;
-  --popover-border: 220 22% 16%;
-  --primary: 166 75% 22%;
-  --primary-foreground: 166 15% 97%;
-  --secondary: 220 28% 16%;
-  --secondary-foreground: 220 8% 86%;
-  --muted: 220 30% 18%;
-  --muted-foreground: 220 12% 62%;
-  --accent: 220 32% 16%;
-  --accent-foreground: 220 8% 84%;
+  --background: 172 43% 8%;             /* #0B1C1A - very dark emerald */
+  --foreground: 120 4% 91%;             /* #E6E8E6 - light text */
+  --border: 172 35% 20%;
+  --card: 172 40% 12%;
+  --card-foreground: 120 4% 91%;
+  --card-border: 172 38% 16%;
+  --sidebar: 172 45% 10%;
+  --sidebar-foreground: 120 4% 91%;
+  --sidebar-border: 172 40% 14%;
+  --sidebar-primary: 160 57% 29%;       /* #1E7058 - emerald green */
+  --sidebar-primary-foreground: 120 4% 91%;
+  --sidebar-accent: 172 42% 14%;
+  --sidebar-accent-foreground: 120 4% 91%;
+  --sidebar-ring: 160 57% 29%;
+  --popover: 172 42% 11%;
+  --popover-foreground: 120 4% 91%;
+  --popover-border: 172 38% 16%;
+  --primary: 160 57% 29%;               /* #1E7058 - emerald */
+  --primary-foreground: 120 4% 91%;
+  --secondary: 172 40% 16%;
+  --secondary-foreground: 120 4% 91%;
+  --muted: 172 42% 18%;
+  --muted-foreground: 120 4% 70%;
+  --accent: 172 45% 16%;
+  --accent-foreground: 120 4% 91%;
   --destructive: 0 68% 30%;
-  --destructive-foreground: 0 10% 96%;
-  --input: 220 24% 32%;
-  --ring: 166 65% 28%;
-  --chart-1: 166 70% 65%;
+  --destructive-foreground: 120 4% 91%;
+  --input: 172 35% 32%;
+  --ring: 160 57% 29%;
+  --chart-1: 160 57% 50%;
   --chart-2: 45 80% 70%;
   --chart-3: 200 65% 65%;
   --chart-4: 280 55% 70%;
   --chart-5: 25 65% 65%;
-  --shadow-2xs: 0px 2px 0px 0px hsl(220 80% 5% / 0.15);
-  --shadow-xs: 0px 2px 0px 0px hsl(220 80% 5% / 0.20);
-  --shadow-sm: 0px 2px 0px 0px hsl(220 80% 5% / 0.25), 0px 1px 2px -1px hsl(220 80% 5% / 0.30);
-  --shadow: 0px 2px 0px 0px hsl(220 80% 5% / 0.30), 0px 1px 2px -1px hsl(220 80% 5% / 0.35);
-  --shadow-md: 0px 2px 0px 0px hsl(220 80% 5% / 0.35), 0px 2px 4px -1px hsl(220 80% 5% / 0.40);
-  --shadow-lg: 0px 2px 0px 0px hsl(220 80% 5% / 0.40), 0px 4px 6px -1px hsl(220 80% 5% / 0.45);
-  --shadow-xl: 0px 2px 0px 0px hsl(220 80% 5% / 0.45), 0px 8px 10px -1px hsl(220 80% 5% / 0.50);
-  --shadow-2xl: 0px 2px 0px 0px hsl(220 80% 5% / 0.50);
+  --shadow-2xs: 0px 2px 0px 0px hsl(172 80% 5% / 0.15);
+  --shadow-xs: 0px 2px 0px 0px hsl(172 80% 5% / 0.20);
+  --shadow-sm: 0px 2px 0px 0px hsl(172 80% 5% / 0.25), 0px 1px 2px -1px hsl(172 80% 5% / 0.30);
+  --shadow: 0px 2px 0px 0px hsl(172 80% 5% / 0.30), 0px 1px 2px -1px hsl(172 80% 5% / 0.35);
+  --shadow-md: 0px 2px 0px 0px hsl(172 80% 5% / 0.35), 0px 2px 4px -1px hsl(172 80% 5% / 0.40);
+  --shadow-lg: 0px 2px 0px 0px hsl(172 80% 5% / 0.40), 0px 4px 6px -1px hsl(172 80% 5% / 0.45);
+  --shadow-xl: 0px 2px 0px 0px hsl(172 80% 5% / 0.45), 0px 8px 10px -1px hsl(172 80% 5% / 0.50);
+  --shadow-2xl: 0px 2px 0px 0px hsl(172 80% 5% / 0.50);
 
   /* Night computed borders */
   --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
@@ -405,6 +408,22 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  /* Smooth transitions for prayer time theme changes */
+  html {
+    transition: background-color 1s ease-in-out, color 1s ease-in-out;
+  }
+
+  body,
+  .bg-background,
+  .bg-card,
+  .bg-sidebar,
+  .bg-popover,
+  .text-foreground,
+  .text-card-foreground,
+  .border-border {
+    transition: background-color 1s ease-in-out, color 1s ease-in-out, border-color 1s ease-in-out;
   }
 }
 
