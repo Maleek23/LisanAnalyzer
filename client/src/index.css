@@ -213,11 +213,6 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  /* Dawn-inspired palette - pale lavender blues */
-  --quran-green: 166 70% 30%;
-  --hadith-burgundy: 280 35% 45%;
-  --scholar-gold: 43 70% 55%;
-  --truth-blue: 213 43% 63%;
   
   /* Dawn backgrounds - soft purples and blues (#E9EAF8) */
   --parchment-cream: 235 48% 96%;
@@ -235,17 +230,17 @@
   --sidebar: 235 42% 91%;
   --sidebar-foreground: 240 21% 14%;
   --sidebar-border: 235 35% 86%;
-  --sidebar-primary: 213 43% 63%;     /* #7A9CC6 - soft blue accent */
+  --sidebar-primary: 213 50% 42%;     /* Darker soft blue for contrast */
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 235 38% 86%;
   --sidebar-accent-foreground: 240 21% 14%;
-  --sidebar-ring: 213 43% 63%;
+  --sidebar-ring: 213 50% 42%;
   
   --popover: 235 48% 96%;
   --popover-foreground: 240 21% 14%;
   --popover-border: 235 35% 84%;
   
-  --primary: 213 43% 63%;         /* #7A9CC6 - soft blue */
+  --primary: 213 50% 42%;         /* Darker soft blue for WCAG AA */
   --primary-foreground: 0 0% 100%;
   
   --secondary: 235 38% 84%;
@@ -261,7 +256,7 @@
   --destructive-foreground: 0 15% 98%;
   
   --input: 235 30% 70%;
-  --ring: 213 43% 63%;
+  --ring: 213 50% 42%;
 }
 
 /* Dhuhr (Midday) - Bright clear daylight (default light theme) */
@@ -300,17 +295,17 @@
   --sidebar: 30 72% 87%;
   --sidebar-foreground: 0 14% 21%;
   --sidebar-border: 30 60% 80%;
-  --sidebar-primary: 28 71% 58%;     /* #E08E45 - orange */
+  --sidebar-primary: 28 75% 45%;     /* Darker warm orange for contrast */
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 30 65% 82%;
   --sidebar-accent-foreground: 0 14% 21%;
-  --sidebar-ring: 28 71% 58%;
+  --sidebar-ring: 28 75% 45%;
   
   --popover: 30 80% 93%;
   --popover-foreground: 0 14% 21%;
   --popover-border: 30 60% 78%;
   
-  --primary: 28 71% 58%;             /* #E08E45 - warm orange */
+  --primary: 28 75% 45%;             /* Darker warm orange for WCAG AA */
   --primary-foreground: 0 0% 100%;
   
   --secondary: 30 65% 78%;
