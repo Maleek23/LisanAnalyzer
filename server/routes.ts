@@ -137,11 +137,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         .from(translations)
         .where(inArray(translations.verseId, verseIds));
 
-      // Get tafsir (scholarly commentary) for these verses
+      // Get the actual Arabic word from first occurrence to filter tafsir
+      const arabicWord = occurrences[0].word_occurrences.word;
+
+      // Get tafsir (scholarly commentary) for these verses, filtered by word
+      // Only fetch tafsir that's specifically about this word to prevent misinformation
+      // word_focus is now REQUIRED (NOT NULL) to ensure all commentary is properly attributed
       const tafsirData = await db
         .select()
         .from(tafsir)
-        .where(inArray(tafsir.verseId, verseIds));
+        .where(
+          sql`${tafsir.verseId} IN (${sql.join(verseIds.map(id => sql`${id}`), sql`, `)}) AND ${tafsir.wordFocus} = ${arabicWord}`
+        );
 
       // Group translations by verse
       const verseTranslations = new Map();
@@ -171,7 +178,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Build response - use the Arabic word from database, not the search query
-      const arabicWord = occurrences[0].word_occurrences.word;
       const wordTransliteration = occurrences[0].word_occurrences.transliteration;
       
       // Collect all tafsir entries across all verses

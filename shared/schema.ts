@@ -65,6 +65,7 @@ export const wordOccurrences = pgTable("word_occurrences", {
 export const tafsir = pgTable("tafsir", {
   id: serial("id").primaryKey(),
   verseId: integer("verse_id").notNull().references(() => verses.id),
+  wordFocus: varchar("word_focus", { length: 50 }).notNull(), // REQUIRED: Which word this tafsir is about (e.g., 'ضَرَبَ')
   scholar: varchar("scholar", { length: 100 }).notNull(), // 'tabari', 'ibn_kathir', 'qurtubi', etc.
   text: text("text").notNull(),
   layer: varchar("layer", { length: 50 }), // 'linguistic', 'rhetorical', 'exegetical', 'modern'
@@ -72,6 +73,7 @@ export const tafsir = pgTable("tafsir", {
   translation: text("translation"), // English translation of tafsir
 }, (table) => ({
   verseLayerIdx: index("verse_layer_idx").on(table.verseId, table.layer),
+  wordFocusIdx: index("word_focus_idx").on(table.wordFocus),
 }));
 
 // Scholar profiles - for attribution and credibility
