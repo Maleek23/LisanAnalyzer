@@ -5,8 +5,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Sunrise, Sun, Sunset, Moon } from "lucide-react";
+import { Sunrise, Sun, Sunset, Moon, Clock } from "lucide-react";
 
 const themeConfig: Record<PrayerTimeTheme, { label: string; icon: typeof Sunrise; description: string }> = {
   fajr: {
@@ -32,7 +33,7 @@ const themeConfig: Record<PrayerTimeTheme, { label: string; icon: typeof Sunrise
 };
 
 export default function PrayerTimeToggle() {
-  const { theme, setTheme } = usePrayerTimeTheme();
+  const { theme, setTheme, enableAutoMode, isAutoMode } = usePrayerTimeTheme();
   const CurrentIcon = themeConfig[theme].icon;
 
   return (
@@ -49,10 +50,22 @@ export default function PrayerTimeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56" data-testid="menu-prayer-time-themes">
+        <DropdownMenuItem
+          onClick={enableAutoMode}
+          className={isAutoMode ? "bg-accent" : ""}
+          data-testid="menu-item-theme-auto"
+        >
+          <Clock className="w-4 h-4 mr-3" />
+          <div className="flex flex-col">
+            <span className="font-semibold">Auto</span>
+            <span className="text-xs text-muted-foreground">Follow prayer times</span>
+          </div>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         {(Object.keys(themeConfig) as PrayerTimeTheme[]).map((themeKey) => {
           const config = themeConfig[themeKey];
           const Icon = config.icon;
-          const isActive = theme === themeKey;
+          const isActive = !isAutoMode && theme === themeKey;
           
           return (
             <DropdownMenuItem

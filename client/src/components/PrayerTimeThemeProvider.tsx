@@ -5,6 +5,8 @@ export type PrayerTimeTheme = "fajr" | "dhuhr" | "maghrib" | "isha";
 interface PrayerTimeThemeContextType {
   theme: PrayerTimeTheme;
   setTheme: (theme: PrayerTimeTheme) => void;
+  enableAutoMode: () => void;
+  isAutoMode: boolean;
 }
 
 const PrayerTimeThemeContext = createContext<PrayerTimeThemeContextType | undefined>(undefined);
@@ -51,6 +53,17 @@ function getSystemTheme(): PrayerTimeTheme {
 }
 
 export function PrayerTimeThemeProvider({ children }: { children: React.ReactNode }) {
+  const [isAutoMode, setIsAutoMode] = useState<boolean>(() => {
+    if (typeof window === "undefined") {
+      return true;
+    }
+    try {
+      return localStorage.getItem("prayer-time-manual-override") !== "true";
+    } catch {
+      return true;
+    }
+  });
+
   const [theme, setThemeState] = useState<PrayerTimeTheme>(() => {
     if (typeof window === "undefined") {
       return getSystemTheme();
@@ -58,10 +71,10 @@ export function PrayerTimeThemeProvider({ children }: { children: React.ReactNod
     
     try {
       const stored = localStorage.getItem("prayer-time-theme") as PrayerTimeTheme | null;
-      const isManualOverride = localStorage.getItem("prayer-time-manual-override") === "true";
+      const isManual = localStorage.getItem("prayer-time-manual-override") === "true";
       
       // If user manually set a theme, respect it. Otherwise use auto-detection.
-      if (stored && isManualOverride) {
+      if (stored && isManual) {
         return stored;
       }
       return getSystemTheme();
@@ -70,29 +83,27 @@ export function PrayerTimeThemeProvider({ children }: { children: React.ReactNod
     }
   });
 
-  // Auto-update theme based on time of day every hour
+  // Auto-update theme based on time of day
   useEffect(() => {
     if (typeof window === "undefined") return;
     
     const checkTheme = () => {
-      try {
-        const isManualOverride = localStorage.getItem("prayer-time-manual-override") === "true";
-        if (!isManualOverride) {
-          const systemTheme = getSystemTheme();
-          if (systemTheme !== theme) {
-            setThemeState(systemTheme);
-          }
+      if (isAutoMode) {
+        const systemTheme = getSystemTheme();
+        if (systemTheme !== theme) {
+          setThemeState(systemTheme);
         }
-      } catch {
-        // Ignore errors
       }
     };
+    
+    // Check immediately on mount and when auto mode changes
+    checkTheme();
     
     // Check every 10 minutes for theme updates
     const interval = setInterval(checkTheme, 10 * 60 * 1000);
     
     return () => clearInterval(interval);
-  }, [theme]);
+  }, [isAutoMode, theme]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -116,6 +127,7 @@ export function PrayerTimeThemeProvider({ children }: { children: React.ReactNod
 
   const setTheme = (newTheme: PrayerTimeTheme) => {
     setThemeState(newTheme);
+    setIsAutoMode(false);
     // Mark as manual override so auto-switching doesn't interfere
     try {
       localStorage.setItem("prayer-time-manual-override", "true");
@@ -124,8 +136,20 @@ export function PrayerTimeThemeProvider({ children }: { children: React.ReactNod
     }
   };
 
+  const enableAutoMode = () => {
+    setIsAutoMode(true);
+    try {
+      localStorage.removeItem("prayer-time-manual-override");
+    } catch {
+      // Ignore
+    }
+    // Immediately switch to system theme
+    const systemTheme = getSystemTheme();
+    setThemeState(systemTheme);
+  };
+
   return (
-    <PrayerTimeThemeContext.Provider value={{ theme, setTheme }}>
+    <PrayerTimeThemeContext.Provider value={{ theme, setTheme, enableAutoMode, isAutoMode }}>
       {children}
     </PrayerTimeThemeContext.Provider>
   );
