@@ -20,11 +20,21 @@ function getSystemTheme(): PrayerTimeTheme {
 
 export function PrayerTimeThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<PrayerTimeTheme>(() => {
-    const stored = localStorage.getItem("prayer-time-theme") as PrayerTimeTheme | null;
-    return stored || getSystemTheme();
+    if (typeof window === "undefined") {
+      return getSystemTheme();
+    }
+    
+    try {
+      const stored = localStorage.getItem("prayer-time-theme") as PrayerTimeTheme | null;
+      return stored || getSystemTheme();
+    } catch {
+      return getSystemTheme();
+    }
   });
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    
     const root = document.documentElement;
     
     root.classList.remove("theme-fajr", "theme-dhuhr", "theme-maghrib", "theme-isha", "dark");
@@ -35,7 +45,11 @@ export function PrayerTimeThemeProvider({ children }: { children: React.ReactNod
       root.classList.add(`theme-${theme}`);
     }
     
-    localStorage.setItem("prayer-time-theme", theme);
+    try {
+      localStorage.setItem("prayer-time-theme", theme);
+    } catch {
+      // Ignore localStorage errors (e.g., private mode, SSR)
+    }
   }, [theme]);
 
   const setTheme = (newTheme: PrayerTimeTheme) => {
