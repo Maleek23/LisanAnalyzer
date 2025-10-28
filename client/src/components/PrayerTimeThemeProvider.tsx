@@ -10,12 +10,44 @@ interface PrayerTimeThemeContextType {
 const PrayerTimeThemeContext = createContext<PrayerTimeThemeContextType | undefined>(undefined);
 
 function getSystemTheme(): PrayerTimeTheme {
-  const hour = new Date().getHours();
+  const now = new Date();
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+  const timeInMinutes = hour * 60 + minute;
   
-  if (hour >= 5 && hour < 12) return "fajr";
-  if (hour >= 12 && hour < 15) return "dhuhr";
-  if (hour >= 15 && hour < 19) return "maghrib";
-  return "isha";
+  // Fajr: 04:30 - 06:30 (pre-dawn contemplative hours)
+  const fajrStart = 4 * 60 + 30;  // 04:30
+  const fajrEnd = 6 * 60 + 30;    // 06:30
+  
+  // Dhuhr: 11:45 - 14:30 (midday focused study)
+  const dhuhrStart = 11 * 60 + 45; // 11:45
+  const dhuhrEnd = 14 * 60 + 30;   // 14:30
+  
+  // Maghrib: 17:00 - 19:00 (sunset reflection)
+  const maghribStart = 17 * 60;    // 17:00
+  const maghribEnd = 19 * 60;      // 19:00
+  
+  // Isha: 19:30 onwards until Fajr (night contemplation)
+  const ishaStart = 19 * 60 + 30;  // 19:30
+  
+  if (timeInMinutes >= fajrStart && timeInMinutes < fajrEnd) {
+    return "fajr";
+  }
+  
+  if (timeInMinutes >= dhuhrStart && timeInMinutes < dhuhrEnd) {
+    return "dhuhr";
+  }
+  
+  if (timeInMinutes >= maghribStart && timeInMinutes < maghribEnd) {
+    return "maghrib";
+  }
+  
+  if (timeInMinutes >= ishaStart || timeInMinutes < fajrStart) {
+    return "isha";
+  }
+  
+  // Default to Dhuhr for transition periods (Asr time)
+  return "dhuhr";
 }
 
 export function PrayerTimeThemeProvider({ children }: { children: React.ReactNode }) {
@@ -26,11 +58,41 @@ export function PrayerTimeThemeProvider({ children }: { children: React.ReactNod
     
     try {
       const stored = localStorage.getItem("prayer-time-theme") as PrayerTimeTheme | null;
-      return stored || getSystemTheme();
+      const isManualOverride = localStorage.getItem("prayer-time-manual-override") === "true";
+      
+      // If user manually set a theme, respect it. Otherwise use auto-detection.
+      if (stored && isManualOverride) {
+        return stored;
+      }
+      return getSystemTheme();
     } catch {
       return getSystemTheme();
     }
   });
+
+  // Auto-update theme based on time of day every hour
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    
+    const checkTheme = () => {
+      try {
+        const isManualOverride = localStorage.getItem("prayer-time-manual-override") === "true";
+        if (!isManualOverride) {
+          const systemTheme = getSystemTheme();
+          if (systemTheme !== theme) {
+            setThemeState(systemTheme);
+          }
+        }
+      } catch {
+        // Ignore errors
+      }
+    };
+    
+    // Check every 10 minutes for theme updates
+    const interval = setInterval(checkTheme, 10 * 60 * 1000);
+    
+    return () => clearInterval(interval);
+  }, [theme]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -54,6 +116,12 @@ export function PrayerTimeThemeProvider({ children }: { children: React.ReactNod
 
   const setTheme = (newTheme: PrayerTimeTheme) => {
     setThemeState(newTheme);
+    // Mark as manual override so auto-switching doesn't interfere
+    try {
+      localStorage.setItem("prayer-time-manual-override", "true");
+    } catch {
+      // Ignore
+    }
   };
 
   return (
