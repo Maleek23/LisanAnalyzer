@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,62 +18,74 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
+  /* Revolutionary Islamic Color Palette */
+  --quran-green: 166 76% 22%;        /* Deep emerald - knowledge */
+  --hadith-burgundy: 342 78% 31%;     /* Deep red - authenticity */
+  --scholar-gold: 43 78% 54%;         /* Classical gold - illumination */
+  --truth-blue: 209 63% 30%;          /* Deep blue - depth of knowledge */
+  
+  /* Background & Surface */
+  --parchment-cream: 40 15% 98%;      /* Main background - manuscript feel */
+  --manuscript-beige: 35 17% 95%;     /* Card backgrounds */
+  --aged-paper: 40 16% 90%;           /* Subtle contrast areas */
+  
+  /* Accent Colors for Analysis */
+  --verified-green: 158 64% 52%;      /* Sahih hadith, correct analysis */
+  --caution-amber: 38 92% 50%;        /* Hasan hadith, debated topics */
+  --warning-red: 0 84% 60%;           /* Mawdu hadith, errors */
+  --insight-purple: 258 90% 66%;      /* AI insights, patterns */
+  
+  /* Text Hierarchy */
+  --text-primary: 0 0% 10%;           /* Main text */
+  --text-secondary: 220 13% 34%;      /* Supporting text */
+  --text-tertiary: 220 9% 65%;        /* Metadata, labels */
+  
+  /* Data Visualization Colors */
+  --data-blue: 217 91% 60%;
+  --data-teal: 174 72% 56%;
+  --data-purple: 271 76% 65%;
+  --data-orange: 20 91% 55%;
+  --data-pink: 330 85% 62%;
+
   --background: 40 8% 98%;
-
   --foreground: 220 100% 5%;
-
   --border: 40 6% 88%;
 
   --card: 0 0% 100%;
-
   --card-foreground: 220 95% 6%;
-
   --card-border: 40 8% 90%;
 
   --sidebar: 40 12% 94%;
-
   --sidebar-foreground: 220 90% 8%;
-
   --sidebar-border: 40 10% 88%;
-
   --sidebar-primary: 166 76% 22%;
-
   --sidebar-primary-foreground: 166 20% 98%;
-
   --sidebar-accent: 40 15% 88%;
-
   --sidebar-accent-foreground: 220 80% 12%;
-
   --sidebar-ring: 166 75% 22%;
 
   --popover: 0 0% 100%;
-
   --popover-foreground: 220 85% 10%;
-
   --popover-border: 40 10% 86%;
 
   --primary: 166 76% 22%;
-
   --primary-foreground: 0 0% 100%;
 
   --secondary: 40 15% 86%;
-
   --secondary-foreground: 220 75% 15%;
 
   --muted: 40 18% 90%;
-
   --muted-foreground: 220 30% 35%;
 
   --accent: 40 20% 88%;
-
   --accent-foreground: 220 70% 18%;
 
   --destructive: 0 75% 25%;
-
   --destructive-foreground: 0 15% 98%;
 
   --input: 40 12% 75%;
   --ring: 166 70% 25%;
+  
   --chart-1: 166 75% 25%;
   --chart-2: 45 85% 45%;
   --chart-3: 200 70% 30%;
@@ -80,11 +96,14 @@
   --gold-foreground: 220 95% 6%;
   --cream: 40 15% 98%;
 
-  --font-sans: Inter, sans-serif;
-  --font-serif: Crimson Pro, serif;
-  --font-mono: Menlo, monospace;
-  --font-arabic: Amiri, serif;
-  --radius: .5rem; /* 8px */
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Crimson Pro', serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-arabic: 'Amiri', serif;
+  --font-quran: 'Amiri Quran', serif;
+  --font-scheherazade: 'Scheherazade New', serif;
+  
+  --radius: .5rem;
   --shadow-2xs: 0px 2px 0px 0px hsl(40 8% 20% / 0.02);
   --shadow-xs: 0px 2px 0px 0px hsl(40 8% 20% / 0.03);
   --shadow-sm: 0px 2px 0px 0px hsl(40 8% 20% / 0.04), 0px 1px 2px -1px hsl(40 8% 20% / 0.06);
@@ -96,33 +115,19 @@
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
-  /* Automatically computed borders - intensity can be controlled by the user by the --opaque-button-border-intensity setting */
-
-  /* Fallback for older browsers */
+  /* Automatically computed borders */
   --sidebar-primary-border: hsl(var(--sidebar-primary));
   --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --sidebar-accent-border: hsl(var(--sidebar-accent));
   --sidebar-accent-border: hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --primary-border: hsl(var(--primary));
   --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --secondary-border: hsl(var(--secondary));
   --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --muted-border: hsl(var(--muted));
   --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --accent-border: hsl(var(--accent));
   --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
-
-  /* Fallback for older browsers */
   --destructive-border: hsl(var(--destructive));
   --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
@@ -130,67 +135,47 @@
 .dark {
   --button-outline: rgba(255,255,255, .10);
   --badge-outline: rgba(255,255,255, .05);
-
-  --opaque-button-border-intensity: 9;  /* In terms of percentages */
-
-  /* Backgrounds applied on top of other backgrounds when hovered/active */
+  --opaque-button-border-intensity: 9;
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
+  /* Dark mode adjustments */
+  --parchment-cream: 0 0% 4%;
+  --manuscript-beige: 0 0% 10%;
+  --aged-paper: 0 0% 18%;
+  --text-primary: 0 0% 96%;
+  --text-secondary: 220 11% 82%;
+  --text-tertiary: 220 10% 56%;
+  --quran-green: 166 60% 42%;
+  --scholar-gold: 43 89% 70%;
+
   --background: 220 12% 8%;
-
   --foreground: 220 10% 96%;
-
   --border: 220 10% 18%;
-
   --card: 220 14% 10%;
-
   --card-foreground: 220 8% 94%;
-
   --card-border: 220 12% 14%;
-
   --sidebar: 220 16% 12%;
-
   --sidebar-foreground: 220 6% 92%;
-
   --sidebar-border: 220 14% 16%;
-
   --sidebar-primary: 166 75% 22%;
-
   --sidebar-primary-foreground: 166 15% 97%;
-
   --sidebar-accent: 220 18% 16%;
-
   --sidebar-accent-foreground: 220 5% 90%;
-
   --sidebar-ring: 166 70% 25%;
-
   --popover: 220 18% 14%;
-
   --popover-foreground: 220 6% 90%;
-
   --popover-border: 220 16% 18%;
-
   --primary: 166 75% 22%;
-
   --primary-foreground: 166 15% 97%;
-
   --secondary: 220 20% 18%;
-
   --secondary-foreground: 220 4% 88%;
-
   --muted: 220 22% 16%;
-
   --muted-foreground: 220 8% 65%;
-
   --accent: 220 24% 18%;
-
   --accent-foreground: 220 4% 86%;
-
   --destructive: 0 70% 28%;
-
   --destructive-foreground: 0 10% 96%;
-
   --input: 220 18% 35%;
   --ring: 166 65% 28%;
   --chart-1: 166 70% 65%;
@@ -198,7 +183,6 @@
   --chart-3: 200 65% 65%;
   --chart-4: 280 55% 70%;
   --chart-5: 25 65% 65%;
-
   --shadow-2xs: 0px 2px 0px 0px hsl(220 80% 5% / 0.15);
   --shadow-xs: 0px 2px 0px 0px hsl(220 80% 5% / 0.20);
   --shadow-sm: 0px 2px 0px 0px hsl(220 80% 5% / 0.25), 0px 1px 2px -1px hsl(220 80% 5% / 0.30);
@@ -208,7 +192,7 @@
   --shadow-xl: 0px 2px 0px 0px hsl(220 80% 5% / 0.45), 0px 8px 10px -1px hsl(220 80% 5% / 0.50);
   --shadow-2xl: 0px 2px 0px 0px hsl(220 80% 5% / 0.50);
 
-  /* Automatically computed borders - intensity can be controlled by the user by the --opaque-button-border-intensity setting */
+  /* Dark mode computed borders */
   --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
   --sidebar-accent-border: hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
   --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
@@ -228,28 +212,7 @@
   }
 }
 
-/**
- * Using the elevate system.
- * Automatic contrast adjustment.
- *
- * <element className="hover-elevate" />
- * <element className="active-elevate-2" />
- *
- * // Using the tailwind utility when a data attribute is "on"
- * <element className="toggle-elevate data-[state=on]:toggle-elevated" />
- * // Or manually controlling the toggle state
- * <element className="toggle-elevate toggle-elevated" />
- *
- * Elevation systems have to handle many states.
- * - not-hovered, vs. hovered vs. active  (three mutually exclusive states)
- * - toggled or not
- * - focused or not (this is not handled with these utilities)
- *
- * Even without handling focused or not, this is six possible combinations that
- * need to be distinguished from eachother visually.
- */
 @layer utilities {
-
   /* Hide ugly search cancel button in Chrome until we can style it properly */
   input[type="search"]::-webkit-search-cancel-button {
     @apply hidden;
@@ -262,20 +225,10 @@
     pointer-events: none;
   }
 
-  /* .no-default-hover-elevate/no-default-active-elevate is an escape hatch so consumers of
-   * buttons/badges can remove the automatic brightness adjustment on interactions
-   * and program their own. */
   .no-default-hover-elevate {}
-
   .no-default-active-elevate {}
 
-
-  /**
-   * Toggleable backgrounds go behind the content. Hoverable/active goes on top.
-   * This way they can stack/compound. Both will overlap the parent's borders!
-   * So borders will be automatically adjusted both on toggle, and hover/active,
-   * and they will be compounded.
-   */
+  /* Toggle elevate system */
   .toggle-elevate::before,
   .toggle-elevate-2::before {
     content: "";
@@ -290,12 +243,11 @@
     background-color: var(--elevate-2);
   }
 
-  /* If there's a 1px border, adjust the inset so that it covers that parent's border */
   .border.toggle-elevate::before {
     inset: -1px;
   }
 
-  /* Does not work on elements with overflow:hidden! */
+  /* Hover/Active elevate system */
   .hover-elevate:not(.no-default-hover-elevate),
   .active-elevate:not(.no-default-active-elevate),
   .hover-elevate-2:not(.no-default-hover-elevate),
@@ -326,7 +278,6 @@
     background-color: var(--elevate-2);
   }
 
-  /* If there's a 1px border, adjust the inset so that it covers that parent's border */
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after,
   .border.active-elevate:not(.no-active-interaction-elevate)::after,
   .border.hover-elevate-2:not(.no-hover-interaction-elevate)::after,
@@ -335,30 +286,129 @@
     inset: -1px;
   }
 
-  /* Custom utility classes for Lisan */
-  .bg-gold {
-    background-color: hsl(var(--gold));
+  /* Revolutionary Typography System */
+  
+  /* Arabic Typography */
+  .quran-text {
+    font-family: var(--font-quran);
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 2.2;
+    letter-spacing: 0.02em;
+    direction: rtl;
+    text-align: right;
+    font-weight: 400;
   }
 
-  .text-gold {
-    color: hsl(var(--gold));
+  .hadith-text {
+    font-family: var(--font-scheherazade);
+    font-size: clamp(20px, 3vw, 28px);
+    line-height: 1.9;
+    direction: rtl;
   }
 
-  .border-gold {
-    border-color: hsl(var(--gold));
+  .arabic-interface {
+    font-family: var(--font-scheherazade);
+    font-size: 18px;
   }
 
-  .bg-cream {
-    background-color: hsl(var(--cream));
-  }
-
-  .font-amiri {
-    font-family: var(--font-arabic);
-  }
-
-  .font-crimson {
+  /* English Typography */
+  .heading-display {
     font-family: var(--font-serif);
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
+
+  .heading-section {
+    font-family: var(--font-serif);
+    font-weight: 600;
+  }
+
+  .body-text {
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .data-label {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .code-mono {
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+
+  /* Hierarchy Scale */
+  .text-hero { font-size: clamp(48px, 8vw, 96px); }
+  .text-h1 { font-size: clamp(36px, 6vw, 64px); }
+  .text-h2 { font-size: clamp(28px, 4vw, 48px); }
+  .text-h3 { font-size: clamp(24px, 3vw, 36px); }
+  .text-h4 { font-size: clamp(20px, 2.5vw, 28px); }
+  .text-body-lg { font-size: 19px; }
+  .text-body { font-size: 17px; }
+  .text-body-sm { font-size: 15px; }
+  .text-caption { font-size: 13px; }
+
+  /* Revolutionary Color Utilities */
+  .bg-quran-green { background-color: hsl(var(--quran-green)); }
+  .text-quran-green { color: hsl(var(--quran-green)); }
+  .border-quran-green { border-color: hsl(var(--quran-green)); }
+
+  .bg-hadith-burgundy { background-color: hsl(var(--hadith-burgundy)); }
+  .text-hadith-burgundy { color: hsl(var(--hadith-burgundy)); }
+  .border-hadith-burgundy { border-color: hsl(var(--hadith-burgundy)); }
+
+  .bg-scholar-gold { background-color: hsl(var(--scholar-gold)); }
+  .text-scholar-gold { color: hsl(var(--scholar-gold)); }
+  .border-scholar-gold { border-color: hsl(var(--scholar-gold)); }
+
+  .bg-truth-blue { background-color: hsl(var(--truth-blue)); }
+  .text-truth-blue { color: hsl(var(--truth-blue)); }
+  .border-truth-blue { border-color: hsl(var(--truth-blue)); }
+
+  .bg-verified-green { background-color: hsl(var(--verified-green)); }
+  .text-verified-green { color: hsl(var(--verified-green)); }
+  .border-verified-green { border-color: hsl(var(--verified-green)); }
+
+  .bg-caution-amber { background-color: hsl(var(--caution-amber)); }
+  .text-caution-amber { color: hsl(var(--caution-amber)); }
+  .border-caution-amber { border-color: hsl(var(--caution-amber)); }
+
+  .bg-warning-red { background-color: hsl(var(--warning-red)); }
+  .text-warning-red { color: hsl(var(--warning-red)); }
+  .border-warning-red { border-color: hsl(var(--warning-red)); }
+
+  .bg-insight-purple { background-color: hsl(var(--insight-purple)); }
+  .text-insight-purple { color: hsl(var(--insight-purple)); }
+  .border-insight-purple { border-color: hsl(var(--insight-purple)); }
+
+  .bg-parchment-cream { background-color: hsl(var(--parchment-cream)); }
+  .bg-manuscript-beige { background-color: hsl(var(--manuscript-beige)); }
+  .bg-aged-paper { background-color: hsl(var(--aged-paper)); }
+
+  /* Data visualization colors */
+  .bg-data-blue { background-color: hsl(var(--data-blue)); }
+  .bg-data-teal { background-color: hsl(var(--data-teal)); }
+  .bg-data-purple { background-color: hsl(var(--data-purple)); }
+  .bg-data-orange { background-color: hsl(var(--data-orange)); }
+  .bg-data-pink { background-color: hsl(var(--data-pink)); }
+
+  /* Legacy Lisan utilities */
+  .bg-gold { background-color: hsl(var(--gold)); }
+  .text-gold { color: hsl(var(--gold)); }
+  .border-gold { border-color: hsl(var(--gold)); }
+  .bg-cream { background-color: hsl(var(--cream)); }
+
+  .font-amiri { font-family: var(--font-arabic); }
+  .font-quran { font-family: var(--font-quran); }
+  .font-scheherazade { font-family: var(--font-scheherazade); }
+  .font-crimson { font-family: var(--font-serif); }
+  .font-mono-ibm { font-family: var(--font-mono); }
 
   /* Islamic pattern animations */
   @keyframes fade-in-50 {

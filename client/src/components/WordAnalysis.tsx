@@ -10,6 +10,8 @@ import { ContextualFlow } from "./ContextualFlow";
 import UsageStatistics from "./UsageStatistics";
 import FourLayerAnalysis from "./FourLayerAnalysis";
 import EnhancedOccurrenceTable from "./EnhancedOccurrenceTable";
+import SemanticTimeline, { TimelineEra } from "./SemanticTimeline";
+import GrammarHeatMap, { GrammarPattern } from "./GrammarHeatMap";
 
 // Helper functions
 function getSurahName(surahNumber: number): string {
@@ -126,6 +128,78 @@ export default function WordAnalysis({
   // Check if this is a controversial word
   const hasControversialOccurrence = occurrences.some(occ => occ.usageCategory === 'controversial_separation' || occ.usageCategory === 'controversial');
   const hasTafsir = tafsir && tafsir.length > 0;
+
+  // Revolutionary Semantic Timeline Data (sample data for demonstration)
+  const semanticTimelineData: TimelineEra[] = hasDeepAnalysis && word === "ضَرَبَ" ? [
+    {
+      century: 1,
+      scholars: ["Ibn Abbas", "Mujahid", "Qatadah"],
+      interpretation: "Early scholars emphasized the multiplicity of meanings based on grammatical context and surrounding words.",
+      dominantMeaning: "Set forth an example / parable",
+      percentage: 65
+    },
+    {
+      century: 2,
+      scholars: ["Al-Tabari", "Ibn Kathir", "Al-Qurtubi"],
+      interpretation: "Classical tafsir further developed contextual analysis, noting that 'daraba' requires examining the direct object to determine meaning.",
+      dominantMeaning: "Context-dependent usage",
+      percentage: 75
+    },
+    {
+      century: 8,
+      scholars: ["Ibn Taymiyyah", "Ibn Qayyim", "Al-Shatibi"],
+      interpretation: "Medieval scholars systematized the various meanings and their contextual indicators, creating comprehensive lexicons.",
+      dominantMeaning: "Multiple meanings with grammatical rules",
+      percentage: 80
+    },
+    {
+      century: 14,
+      scholars: ["Muhammad Asad", "Abdel Haleem", "Laleh Bakhtiar"],
+      interpretation: "Modern scholars use corpus linguistics to show 'strike' is the minority usage, with 'set forth example' being most common.",
+      dominantMeaning: "Data-driven contextual analysis",
+      percentage: 85
+    }
+  ] : [];
+
+  // Grammar Heat Map Data (sample for demonstration)
+  const grammarHeatMapData: GrammarPattern[] = hasDeepAnalysis && word === "ضَرَبَ" ? [
+    {
+      context: "with_direct_object_example",
+      meanings: [
+        { meaning: "Set forth example", occurrences: 9 },
+        { meaning: "Strike/Hit", occurrences: 0 },
+        { meaning: "Travel", occurrences: 0 },
+        { meaning: "Separate", occurrences: 0 }
+      ]
+    },
+    {
+      context: "with_preposition_fi",
+      meanings: [
+        { meaning: "Set forth example", occurrences: 0 },
+        { meaning: "Strike/Hit", occurrences: 2 },
+        { meaning: "Travel", occurrences: 4 },
+        { meaning: "Separate", occurrences: 0 }
+      ]
+    },
+    {
+      context: "followed_by_person",
+      meanings: [
+        { meaning: "Set forth example", occurrences: 0 },
+        { meaning: "Strike/Hit", occurrences: 1 },
+        { meaning: "Travel", occurrences: 0 },
+        { meaning: "Separate", occurrences: 0 }
+      ]
+    },
+    {
+      context: "with_preposition_bayn",
+      meanings: [
+        { meaning: "Set forth example", occurrences: 0 },
+        { meaning: "Strike/Hit", occurrences: 0 },
+        { meaning: "Travel", occurrences: 0 },
+        { meaning: "Separate", occurrences: 1 }
+      ]
+    }
+  ] : [];
   
   return (
     <div className="w-full max-w-6xl mx-auto space-y-6">
@@ -220,6 +294,22 @@ export default function WordAnalysis({
               <UsageStatistics 
                 data={usageStatistics}
                 totalOccurrences={occurrenceCount}
+              />
+            )}
+
+            {/* REVOLUTIONARY: Semantic Timeline - 14 Centuries of Scholarship */}
+            {semanticTimelineData.length > 0 && (
+              <SemanticTimeline 
+                word={word}
+                data={semanticTimelineData}
+              />
+            )}
+
+            {/* REVOLUTIONARY: Grammar Context Heat Map */}
+            {grammarHeatMapData.length > 0 && (
+              <GrammarHeatMap 
+                word={word}
+                patterns={grammarHeatMapData}
               />
             )}
 

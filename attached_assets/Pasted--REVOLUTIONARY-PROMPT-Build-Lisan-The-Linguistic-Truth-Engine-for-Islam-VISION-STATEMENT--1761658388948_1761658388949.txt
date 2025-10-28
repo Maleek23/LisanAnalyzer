@@ -1,0 +1,1441 @@
+# REVOLUTIONARY PROMPT: Build Lisan - The Linguistic Truth Engine for Islam
+
+## 🌍 VISION STATEMENT
+
+Build a **game-changing platform** that will serve **billions of Muslims for centuries to come** by restoring linguistic accuracy, scholarly depth, and intellectual honesty to Islamic texts. This is not just a website — it's a **digital preservation of Islamic scholarship** combined with cutting-edge data science, creating an indestructible record of truth that future generations can trust.
+
+**Core Mission**: Protect the Qur'an and authentic Islamic knowledge from:
+- Shallow translations that strip away meaning
+- Viral misinformation and fabricated hadiths
+- Bad-faith criticism based on linguistic ignorance
+- Loss of classical scholarship in the digital age
+
+**Revolutionary Approach**: Combine:
+- 1,400 years of Islamic scholarship (tafsir, hadith science, Arabic linguistics)
+- Modern data science (NLP, statistical analysis, machine learning)
+- Beautiful, intuitive design (accessible to scholars AND casual learners)
+- Open, verifiable methodology (build trust through transparency)
+
+---
+
+## 🎨 VISUAL & THEMATIC DESIGN SYSTEM
+
+### **Islamic Aesthetic Philosophy**
+
+**Inspiration**: Blend the elegance of classical Islamic manuscripts with modern data visualization
+
+**Core Principles**:
+1. **Sacred Reverence** — Every design choice honors the text
+2. **Geometric Harmony** — Islamic patterns create visual rhythm
+3. **Calligraphic Beauty** — Arabic text is art, not just data
+4. **Analytical Clarity** — Complex data presented with elegance
+5. **Timeless Design** — Will look relevant in 2025 and 2125
+
+---
+
+### **Extended Color Palette**
+
+```css
+:root {
+  /* Primary Brand Colors */
+  --quran-green: #0F5F4E;        /* Deep emerald - represents growth, knowledge */
+  --hadith-burgundy: #8B1538;     /* Deep red - represents authenticity */
+  --scholar-gold: #D4AF37;        /* Classical gold - represents illumination */
+  --truth-blue: #1E4D7B;          /* Deep blue - represents depth of knowledge */
+  
+  /* Background & Surface */
+  --parchment-cream: #FAF9F6;     /* Main background - manuscript feel */
+  --manuscript-beige: #F5F0E8;    /* Card backgrounds */
+  --aged-paper: #E8E3D8;          /* Subtle contrast areas */
+  
+  /* Accent Colors */
+  --verified-green: #10B981;      /* Sahih hadith, correct analysis */
+  --caution-amber: #F59E0B;       /* Hasan hadith, debated topics */
+  --warning-red: #EF4444;         /* Mawdu hadith, errors */
+  --insight-purple: #8B5CF6;      /* AI insights, patterns */
+  
+  /* Text Hierarchy */
+  --text-primary: #1A1A1A;        /* Main text */
+  --text-secondary: #4B5563;      /* Supporting text */
+  --text-tertiary: #9CA3AF;       /* Metadata, labels */
+  
+  /* Data Visualization */
+  --data-blue: #3B82F6;
+  --data-teal: #14B8A6;
+  --data-purple: #A855F7;
+  --data-orange: #F97316;
+  --data-pink: #EC4899;
+  
+  /* Gradient Overlays */
+  --gradient-hero: linear-gradient(135deg, var(--quran-green) 0%, var(--truth-blue) 100%);
+  --gradient-data: linear-gradient(135deg, var(--data-blue) 0%, var(--data-purple) 100%);
+  --gradient-sacred: radial-gradient(circle at center, var(--scholar-gold) 0%, transparent 70%);
+}
+
+[data-theme="dark"] {
+  --parchment-cream: #0A0A0A;
+  --manuscript-beige: #1A1A1A;
+  --aged-paper: #2D2D2D;
+  --text-primary: #F5F5F5;
+  --text-secondary: #D1D5DB;
+  --text-tertiary: #6B7280;
+  --quran-green: #14A085;
+  --scholar-gold: #FCD34D;
+}
+```
+
+---
+
+### **Typography System**
+
+```css
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+/* Arabic Typography */
+.quran-text {
+  font-family: 'Amiri Quran', serif;
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  direction: rtl;
+  text-align: right;
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+.hadith-text {
+  font-family: 'Scheherazade New', serif;
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.9;
+  direction: rtl;
+}
+
+.arabic-interface {
+  font-family: 'Scheherazade New', serif;
+  font-size: 18px;
+}
+
+/* English Typography */
+.heading-display {
+  font-family: 'Crimson Pro', serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.heading-section {
+  font-family: 'Crimson Pro', serif;
+  font-weight: 600;
+}
+
+.body-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.data-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.code-mono {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+}
+
+/* Hierarchy Scale */
+.text-hero { font-size: clamp(48px, 8vw, 96px); }
+.text-h1 { font-size: clamp(36px, 6vw, 64px); }
+.text-h2 { font-size: clamp(28px, 4vw, 48px); }
+.text-h3 { font-size: clamp(24px, 3vw, 36px); }
+.text-h4 { font-size: clamp(20px, 2.5vw, 28px); }
+.text-body-lg { font-size: 19px; }
+.text-body { font-size: 17px; }
+.text-body-sm { font-size: 15px; }
+.text-caption { font-size: 13px; }
+```
+
+---
+
+### **Islamic Geometric Pattern System**
+
+Create **custom SVG patterns** for backgrounds and borders:
+
+```javascript
+// components/IslamicPatterns.tsx
+export const StarPattern = () => (
+  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="islamic-star" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+        <path 
+          d="M60 0 L70 40 L110 40 L80 65 L90 105 L60 80 L30 105 L40 65 L10 40 L50 40 Z" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="0.5" 
+          opacity="0.08"
+        />
+        <circle cx="60" cy="60" r="5" fill="currentColor" opacity="0.05" />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#islamic-star)" />
+  </svg>
+);
+
+export const GeometricTessellation = () => (
+  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="tessellation" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+        <polygon 
+          points="40,0 80,40 40,80 0,40" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="0.5" 
+          opacity="0.06"
+        />
+        <circle cx="40" cy="40" r="15" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.04" />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#tessellation)" />
+  </svg>
+);
+
+// Usage in components:
+<div className="relative">
+  <div className="absolute inset-0 opacity-30">
+    <StarPattern />
+  </div>
+  <div className="relative z-10">
+    {/* Content here */}
+  </div>
+</div>
+```
+
+---
+
+## 📊 REVOLUTIONARY DATA VISUALIZATION FEATURES
+
+### **1. Word Usage Timeline (Historical Semantic Evolution)**
+
+Show how a word's meaning evolved across 1,400 years of Islamic scholarship:
+
+```typescript
+// components/SemanticTimeline.tsx
+interface TimelineData {
+  century: number; // 1 = 7th century (1 AH)
+  scholars: string[];
+  interpretation: string;
+  dominantMeaning: string;
+  percentage: number; // % of scholars who held this view
+}
+
+export function SemanticTimeline({ word, data }: Props) {
+  return (
+    <div className="relative py-12">
+      <h3 className="text-h3 mb-8">📜 Semantic Evolution Across 14 Centuries</h3>
+      
+      {/* Timeline Axis */}
+      <div className="relative h-96 bg-gradient-to-r from-aged-paper via-manuscript-beige to-aged-paper rounded-xl p-8">
+        
+        {/* Vertical Timeline */}
+        <div className="absolute left-12 top-8 bottom-8 w-1 bg-scholar-gold"></div>
+        
+        {data.map((era, idx) => (
+          <div 
+            key={era.century}
+            className="relative flex items-center gap-6 mb-8"
+            style={{ 
+              opacity: 0.3 + (idx * 0.7 / data.length),
+              transform: `translateX(${idx * 20}px)` 
+            }}
+          >
+            {/* Timeline Dot */}
+            <div className="relative z-10">
+              <div className="w-8 h-8 rounded-full bg-scholar-gold flex items-center justify-center text-white font-bold text-sm">
+                {era.century}
+              </div>
+            </div>
+            
+            {/* Era Card */}
+            <div className="flex-1 bg-white rounded-lg p-6 shadow-md border-l-4 border-scholar-gold">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-bold text-scholar-gold">
+                  {getCenturyLabel(era.century)}
+                </span>
+                <span className="text-xs bg-scholar-gold/20 px-3 py-1 rounded-full">
+                  {era.percentage}% consensus
+                </span>
+              </div>
+              
+              <p className="font-bold text-lg mb-2">"{era.dominantMeaning}"</p>
+              
+              <p className="text-sm text-text-secondary mb-3">
+                {era.interpretation}
+              </p>
+              
+              <div className="flex flex-wrap gap-2">
+                {era.scholars.slice(0, 3).map(scholar => (
+                  <span key={scholar} className="text-xs bg-parchment-cream px-2 py-1 rounded">
+                    {scholar}
+                  </span>
+                ))}
+                {era.scholars.length > 3 && (
+                  <span className="text-xs text-text-tertiary">
+                    +{era.scholars.length - 3} more
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      {/* Modern AI Insight */}
+      <div className="mt-8 p-6 bg-gradient-to-r from-insight-purple/10 to-data-blue/10 rounded-xl border-2 border-insight-purple/30">
+        <div className="flex items-start gap-4">
+          <span className="text-4xl">🤖</span>
+          <div>
+            <h4 className="font-bold text-lg mb-2">AI Pattern Recognition</h4>
+            <p className="text-sm">
+              Analysis of {data.length} centuries of tafsir shows a <strong>gradual shift</strong> from 
+              literal to metaphorical interpretation starting in the {data[Math.floor(data.length/2)].century}th century, 
+              correlating with increased urbanization and philosophical discourse in Islamic civilization.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+### **2. Grammar Pattern Heat Map**
+
+Visual representation of how words behave in different grammatical contexts:
+
+```typescript
+// components/GrammarHeatMap.tsx
+interface GrammarPattern {
+  context: string; // 'followed_by_person', 'followed_by_object', 'with_preposition', etc.
+  meanings: {
+    meaning: string;
+    occurrences: number;
+  }[];
+}
+
+export function GrammarHeatMap({ word, patterns }: Props) {
+  return (
+    <div className="my-12">
+      <h3 className="text-h3 mb-8">🔥 Grammar Context Heat Map</h3>
+      
+      <div className="bg-white rounded-xl shadow-lg p-8">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b-2 border-aged-paper">
+              <th className="text-left py-4 px-4 font-bold">Context</th>
+              {/* Get all unique meanings */}
+              {Array.from(new Set(patterns.flatMap(p => p.meanings.map(m => m.meaning)))).map(meaning => (
+                <th key={meaning} className="text-center py-4 px-2 text-sm font-bold">
+                  {meaning}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {patterns.map((pattern, idx) => (
+              <tr key={idx} className="border-b border-aged-paper/50">
+                <td className="py-4 px-4 font-semibold text-sm">
+                  {formatContext(pattern.context)}
+                </td>
+                {Array.from(new Set(patterns.flatMap(p => p.meanings.map(m => m.meaning)))).map(meaningName => {
+                  const meaningData = pattern.meanings.find(m => m.meaning === meaningName);
+                  const occurrences = meaningData?.occurrences || 0;
+                  const maxOccurrences = Math.max(...patterns.flatMap(p => p.meanings.map(m => m.occurrences)));
+                  const intensity = occurrences / maxOccurrences;
+                  
+                  return (
+                    <td key={meaningName} className="text-center py-4 px-2">
+                      <div 
+                        className="mx-auto w-12 h-12 rounded flex items-center justify-center font-bold text-sm transition-all hover:scale-110 cursor-pointer"
+                        style={{
+                          backgroundColor: `rgba(212, 175, 55, ${intensity})`,
+                          color: intensity > 0.5 ? 'white' : 'var(--text-primary)'
+                        }}
+                        title={`${occurrences} occurrences`}
+                      >
+                        {occurrences > 0 ? occurrences : '—'}
+                      </div>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        
+        {/* Legend */}
+        <div className="mt-6 flex items-center gap-4 text-sm">
+          <span className="font-semibold">Intensity:</span>
+          <div className="flex items-center gap-2">
+            {[0.2, 0.4, 0.6, 0.8, 1.0].map(intensity => (
+              <div key={intensity} className="flex items-center gap-1">
+                <div 
+                  className="w-6 h-6 rounded"
+                  style={{ backgroundColor: `rgba(212, 175, 55, ${intensity})` }}
+                />
+                <span className="text-xs text-text-tertiary">{Math.round(intensity * 100)}%</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+### **3. Scholarly Consensus Visualization**
+
+Show agreement/disagreement across different schools of thought:
+
+```typescript
+// components/ScholarlyConsensusChart.tsx
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+
+interface ScholarlyView {
+  interpretation: string;
+  schoolsOfThought: string[]; // 'Hanafi', 'Maliki', 'Shafi', 'Hanbali', 'Jafari', 'Ibadi', etc.
+  percentage: number;
+  keyScholars: string[];
+}
+
+export function ScholarlyConsensusChart({ word, views }: Props) {
+  const COLORS = {
+    'majority': '#10B981',
+    'significant_minority': '#F59E0B',
+    'minority': '#EF4444',
+    'modern_reformist': '#8B5CF6'
+  };
+  
+  return (
+    <div className="my-12 bg-gradient-to-br from-manuscript-beige to-parchment-cream rounded-xl p-8">
+      <h3 className="text-h3 mb-8">⚖️ Scholarly Consensus Analysis</h3>
+      
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* Pie Chart */}
+        <div>
+          <ResponsiveContainer width="100%" height={400}>
+            <PieChart>
+              <Pie
+                data={views.map(v => ({ name: v.interpretation, value: v.percentage }))}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                outerRadius={120}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {views.map((entry, index) => (
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={COLORS[getCategoryFromPercentage(entry.percentage)]} 
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        
+        {/* Detailed Breakdown */}
+        <div className="space-y-4">
+          {views.map((view, idx) => (
+            <div key={idx} className="bg-white rounded-lg p-4 border-l-4" style={{ 
+              borderColor: COLORS[getCategoryFromPercentage(view.percentage)] 
+            }}>
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="font-bold text-lg">{view.interpretation}</h4>
+                <span className="text-2xl font-bold" style={{ 
+                  color: COLORS[getCategoryFromPercentage(view.percentage)] 
+                }}>
+                  {view.percentage}%
+                </span>
+              </div>
+              
+              <div className="mb-3">
+                <span className="text-xs font-semibold text-text-tertiary uppercase tracking-wide">
+                  Schools of Thought:
+                </span>
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {view.schoolsOfThought.map(school => (
+                    <span key={school} className="text-xs bg-aged-paper px-2 py-1 rounded">
+                      {school}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <span className="text-xs font-semibold text-text-tertiary uppercase tracking-wide">
+                  Key Scholars:
+                </span>
+                <p className="text-sm mt-1">
+                  {view.keyScholars.slice(0, 3).join(', ')}
+                  {view.keyScholars.length > 3 && ` +${view.keyScholars.length - 3} more`}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* Consensus Strength Indicator */}
+      <div className="mt-8 p-4 bg-white rounded-lg border-2 border-scholar-gold">
+        <div className="flex items-center gap-3">
+          <span className="text-3xl">📊</span>
+          <div>
+            <span className="font-bold">Consensus Strength:</span>
+            <span className="ml-2">
+              {views[0].percentage > 75 ? '🟢 Strong Majority' :
+               views[0].percentage > 50 ? '🟡 Moderate Consensus' :
+               '🔴 Significant Disagreement'}
+            </span>
+            <p className="text-sm text-text-secondary mt-1">
+              {views[0].percentage > 75 
+                ? 'Over 75% of classical scholars agree on this interpretation'
+                : views[0].percentage > 50
+                ? 'Majority view, but with notable minority opinions'
+                : 'No clear consensus - requires deeper contextual analysis'}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+### **4. Hadith Reliability Network Graph**
+
+Visual network showing chain of narration (isnad) strength:
+
+```typescript
+// components/IsnadNetworkGraph.tsx
+import { useEffect, useRef } from 'react';
+import * as d3 from 'd3';
+
+interface Narrator {
+  id: string;
+  name: string;
+  reliability: 'thiqa' | 'saduq' | 'daif' | 'matruk'; // trustworthy, truthful, weak, abandoned
+  generation: number; // 1 = Companions, 2 = Tabi'un, etc.
+}
+
+interface Transmission {
+  from: string;
+  to: string;
+  reliability: 'sahih' | 'hasan' | 'daif';
+}
+
+export function IsnadNetworkGraph({ hadithId, narrators, transmissions }: Props) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  
+  useEffect(() => {
+    if (!svgRef.current) return;
+    
+    const width = 800;
+    const height = 600;
+    
+    // Clear previous graph
+    d3.select(svgRef.current).selectAll('*').remove();
+    
+    const svg = d3.select(svgRef.current)
+      .attr('width', width)
+      .attr('height', height);
+    
+    // Create force simulation
+    const simulation = d3.forceSimulation(narrators)
+      .force('link', d3.forceLink(transmissions).id((d: any) => d.id).distance(100))
+      .force('charge', d3.forceManyBody().strength(-300))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('x', d3.forceX(width / 2).strength(0.1))
+      .force('y', d3.forceY((d: any) => (d.generation * 100)).strength(0.5));
+    
+    // Draw links (transmissions)
+    const link = svg.append('g')
+      .selectAll('line')
+      .data(transmissions)
+      .enter().append('line')
+      .attr('stroke', d => {
+        return d.reliability === 'sahih' ? '#10B981' :
+               d.reliability === 'hasan' ? '#F59E0B' : '#EF4444';
+      })
+      .attr('stroke-width', 3)
+      .attr('stroke-opacity', 0.6);
+    
+    // Draw nodes (narrators)
+    const node = svg.append('g')
+      .selectAll('g')
+      .data(narrators)
+      .enter().append('g')
+      .call(d3.drag<any, any>()
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended));
+    
+    node.append('circle')
+      .attr('r', 20)
+      .attr('fill', d => {
+        return d.reliability === 'thiqa' ? '#10B981' :
+               d.reliability === 'saduq' ? '#F59E0B' :
+               d.reliability === 'daif' ? '#EF4444' : '#991B1B';
+      })
+      .attr('stroke', '#fff')
+      .attr('stroke-width', 2);
+    
+    node.append('text')
+      .text(d => d.name.split(' ')[0]) // First name only
+      .attr('text-anchor', 'middle')
+      .attr('dy', 40)
+      .attr('font-size', '12px')
+      .attr('font-weight', 'bold')
+      .attr('fill', '#1A1A1A');
+    
+    // Update positions on tick
+    simulation.on('tick', () => {
+      link
+        .attr('x1', (d: any) => d.source.x)
+        .attr('y1', (d: any) => d.source.y)
+        .attr('x2', (d: any) => d.target.x)
+        .attr('y2', (d: any) => d.target.y);
+      
+      node.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
+    });
+    
+    function dragstarted(event: any) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      event.subject.fx = event.subject.x;
+      event.subject.fy = event.subject.y;
+    }
+    
+    function dragged(event: any) {
+      event.subject.fx = event.x;
+      event.subject.fy = event.y;
+    }
+    
+    function dragended(event: any) {
+      if (!event.active) simulation.alphaTarget(0);
+      event.subject.fx = null;
+      event.subject.fy = null;
+    }
+  }, [narrators, transmissions]);
+  
+  return (
+    <div className="my-12 bg-white rounded-xl p-8 shadow-lg">
+      <h3 className="text-h3 mb-4">🔗 Chain of Narration (Isnad) Network</h3>
+      <p className="text-sm text-text-secondary mb-6">
+        Interactive graph showing the transmission chain. Green = trustworthy, Yellow = acceptable, Red = weak.
+      </p>
+      
+      <div className="border-2 border-aged-paper rounded-lg overflow-hidden">
+        <svg ref={svgRef}></svg>
+      </div>
+      
+      {/* Legend */}
+      <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 rounded-full bg-green-500"></div>
+          <span>Thiqa (Trustworthy)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 rounded-full bg-yellow-500"></div>
+          <span>Saduq (Truthful)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 rounded-full bg-red-500"></div>
+          <span>Daif (Weak)</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 rounded-full bg-red-900"></div>
+          <span>Matruk (Abandoned)</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+### **5. Comparative Translation Divergence Analyzer**
+
+Show WHERE translations differ and WHY:
+
+```typescript
+// components/TranslationDivergenceAnalyzer.tsx
+interface TranslationSegment {
+  arabicWord: string;
+  position: number;
+  translations: {
+    translator: string;
+    rendering: string;
+    literalMeaning: string;
+    interpretiveChoice: boolean;
+  }[];
+  divergenceScore: number; // 0-100, how much translators disagree
+  linguisticNotes: string;
+}
+
+export function TranslationDivergenceAnalyzer({ verseRef, segments }: Props) {
+  return (
+    <div className="my-12">
+      <h3 className="text-h3 mb-8">🔀 Translation Divergence Analysis</h3>
+      
+      <div className="bg-white rounded-xl p-8 shadow-lg">
+        {segments.map((segment, idx) => (
+          <div key={idx} className="mb-8 pb-8 border-b border-aged-paper last:border-b-0">
+            {/* Arabic Word */}
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <span className="quran-text text-4xl">{segment.arabicWord}</span>
+                <span className="ml-4 text-sm text-text-tertiary">
+                  Position {segment.position} in verse
+                </span>
+              </div>
+              
+              {/* Divergence Score */}
+              <div className="text-right">
+                <div className="text-xs font-semibold text-text-tertiary uppercase mb-1">
+                  Divergence Score
+                </div>
+                <div className={`text-3xl font-bold ${
+                  segment.divergenceScore > 70 ? 'text-red-500' :
+                  segment.divergenceScore > 40 ? 'text-yellow-500' :
+                  'text-green-500'
+                }`}>
+                  {segment.divergenceScore}%
+                </div>
+              </div>
+            </div>
+            
+            {/* Translation Comparison Grid */}
+            <div className="grid gap-3 mb-4">
+              {segment.translations.map((trans, tIdx) => (
+                <div 
+                  key={tIdx}
+                  className={`p-4 rounded-lg border-2 ${
+                    trans.interpretiveChoice 
+                      ? 'border-yellow-400 bg-yellow-50' 
+                      : 'border-green-400 bg-green-50'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-bold text-sm">{trans.translator}</span>
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      trans.interpretiveChoice 
+                        ? 'bg-yellow-600 text-white' 
+                        : 'bg-green-600 text-white'
+                    }`}>
+                      {trans.interpretiveChoice ? 'Interpretive' : 'Literal'}
+                    </span>
+                  </div>
+                  <p className="font-semibold text-lg mb-1">"{trans.rendering}"</p>
+                  <p className="text-sm text-text-secondary">
+                    Literal: "{trans.literalMeaning}"
+                  </p>
+                </div>
+              ))}
+            </div>
+            
+            {/* Linguistic Notes */}
+            <div className="p-4 bg-gradient-to-r from-insight-purple/10 to-data-blue/10 rounded-lg border-l-4 border-insight-purple">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">💡</span>
+                <div>
+                  <h5 className="font-bold mb-1">Why Translators Differ:</h5>
+                  <p className="text-sm">{segment.linguisticNotes}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+        
+        {/* Overall Verse Divergence Summary */}
+        <div className="mt-8 p-6 bg-aged-paper rounded-xl">
+          <h4 className="font-bold text-xl mb-4">📊 Overall Verse Analysis</h4>
+          <div className="grid md:grid-cols-3 gap-4 text-center">
+            <div>
+              <div className="text-3xl font-bold text-green-600">
+                {segments.filter(s => s.divergenceScore < 40).length}
+              </div>
+              <div className="text-sm text-text-secondary mt-1">
+                Words with High Agreement
+              </div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-yellow-600">
+                {segments.filter(s => s.divergenceScore >= 40 && s.divergenceScore < 70).length}
+              </div>
+              <div className="text-sm text-text-secondary mt-1">
+                Words with Moderate Disagreement
+              </div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-red-600">
+                {segments.filter(s => s.divergenceScore >= 70).length}
+              </div>
+              <div className="text-sm text-text-secondary mt-1">
+                Words with High Divergence
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+### **6. AI-Powered Contextual Probability Engine**
+
+Machine learning model that predicts meaning based on context:
+
+```typescript
+// components/ContextualProbabilityEngine.tsx
+interface ContextualPrediction {
+  meaning: string;
+  probability: number;
+  confidence: 'high' | 'medium' | 'low';
+  supportingFeatures: {
+    feature: string;
+    weight: number;
+    explanation: string;
+  }[];
+  contradictingFeatures: {
+    feature: string;
+    weight: number;
+    explanation: string;
+  }[];
+}
+
+export function ContextualProbabilityEngine({ 
+  word, 
+  verseContext, 
+  predictions 
+}: Props) {
+  return (
+    <div className="my-12 bg-gradient-to-br from-insight-purple/10 via-data-blue/10 to-data-teal/10 rounded-xl p-8 border-2 border-insight-purple/30">
+      <div className="flex items-center gap-3 mb-6">
+        <span className="text-5xl">🤖</span>
+        <div>
+          <h3 className="text-h3">AI Contextual Analysis Engine</h3>
+          <p className="text-sm text-text-secondary">
+            Machine learning model trained on 58 occurrences of "{word}" across the Qur'an
+          </p>
+        </div>
+      </div>
+      
+      {/* Top Predictions */}
+      <div className="space-y-4 mb-8">
+        {predictions.map((prediction, idx) => (
+          <div 
+            key={idx}
+            className="bg-white rounded-xl p-6 shadow-md border-l-4"
+            style={{
+              borderColor: prediction.confidence === 'high' ? '#10B981' :
+                           prediction.confidence === 'medium' ? '#F59E0B' : '#EF4444'
+            }}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-4">
+                <div className={`text-3xl font-bold flex items-center justify-center w-12 h-12 rounded-full ${
+                  idx === 0 ? 'bg-scholar-gold text-white' : 'bg-aged-paper'
+                }`}>
+                  #{idx + 1}
+                </div>
+                <div>
+                  <h4 className="text-xl font-bold">"{prediction.meaning}"</h4>
+                  <span className={`text-xs font-semibold uppercase tracking-wide ${
+                    prediction.confidence === 'high' ? 'text-green-600' :
+                    prediction.confidence === 'medium' ? 'text-yellow-600' : 'text-red-600'
+                  }`}>
+                    {prediction.confidence} confidence
+                  </span>
+                </div>
+              </div>
+              
+              {/* Probability Gauge */}
+              <div className="text-right">
+                <div className="text-4xl font-bold text-insight-purple">
+                  {Math.round(prediction.probability * 100)}%
+                </div>
+                <div className="text-xs text-text-tertiary">probability</div>
+              </div>
+            </div>
+            
+            {/* Probability Bar */}
+            <div className="w-full h-3 bg-aged-paper rounded-full overflow-hidden mb-4">
+              <div 
+                className="h-full bg-gradient-to-r from-insight-purple to-data-blue transition-all duration-1000"
+                style={{ width: `${prediction.probability * 100}%` }}
+              />
+            </div>
+            
+            {/* Supporting Features */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <h5 className="font-bold text-sm text-green-700 mb-2 flex items-center gap-2">
+                  <span>✓</span> Supporting Evidence
+                </h5>
+                <div className="space-y-2">
+                  {prediction.supportingFeatures.map((feature, fIdx) => (
+                    <div key={fIdx} className="flex items-start gap-2 text-sm">
+                      <div className="flex-shrink-0 w-12 h-6 bg-green-100 rounded flex items-center justify-center text-xs font-bold text-green-700">
+                        {Math.round(feature.weight * 100)}%
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-semibold">{feature.feature}</div>
+                        <div className="text-xs text-text-secondary">{feature.explanation}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <h5 className="font-bold text-sm text-red-700 mb-2 flex items-center gap-2">
+                  <span>✗</span> Contradicting Evidence
+                </h5>
+                <div className="space-y-2">
+                  {prediction.contradictingFeatures.map((feature, fIdx) => (
+                    <div key={fIdx} className="flex items-start gap-2 text-sm">
+                      <div className="flex-shrink-0 w-12 h-6 bg-red-100 rounded flex items-center justify-center text-xs font-bold text-red-700">
+                        {Math.round(feature.weight * 100)}%
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-semibold">{feature.feature}</div>
+                        <div className="text-xs text-text-secondary">{feature.explanation}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      {/* Model Explanation */}
+      <details className="bg-white rounded-lg p-4 cursor-pointer">
+        <summary className="font-bold">
+          🔬 How This Model Works (Click to expand)
+        </summary>
+        <div className="mt-4 text-sm space-y-2 text-text-secondary">
+          <p>
+            This AI model was trained on <strong>all 58 occurrences</strong> of the word "{word}" 
+            in the Qur'an, analyzing:
+          </p>
+          <ul className="list-disc ml-6 space-y-1">
+            <li>Grammatical context (verb form, syntax role, prepositions)</li>
+            <li>Semantic context (words appearing before/after)</li>
+            <li>Discourse context (topic of surrounding verses)</li>
+            <li>Classical tafsir consensus (what scholars historically said)</li>
+          </ul>
+          <p className="mt-3">
+            The model uses a <strong>Random Forest classifier</strong> with <strong>92% accuracy</strong> 
+            when tested against verified classical interpretations.
+          </p>
+          <p>
+            <em>Note: This is a support tool, not a replacement for scholarly judgment. 
+            Always cross-reference with classical sources.</em>
+          </p>
+        </div>
+      </details>
+    </div>
+  );
+}
+```
+
+---
+
+## 🏛️ REVOLUTIONARY PAGE LAYOUTS
+
+### **Landing Page: "The Gateway to Truth"**
+
+```typescript
+// app/page.tsx
+export default function LandingPage() {
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section with Animated Particles */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Animated Islamic Geometric Background */}
+        <div className="absolute inset-0 opacity-20">
+          <StarPattern />
+        </div>
+        
+        {/* Floating Particles Animation */}
+        <div className="absolute inset-0">
+          <ParticleAnimation /> {/* Subtle floating Arabic letters */}
+        </div>
+        
+        <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
+          {/* Bismillah - Animated Fade In */}
+          <div className="animate-fadeInDown">
+            <h1 className="quran-text text-6xl mb-8 text-scholar-gold">
+              بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+            </h1>
+          </div>
+          
+          {/* Logo with Calligraphic Flourish */}
+          <div className="animate-fadeInUp animation-delay-200">
+            <div className="relative inline-block">
+              <h2 className="text-hero font-bold bg-gradient-hero bg-clip-text text-transparent">
+                L I S A N
+              </h2>
+              <div className="absolute -bottom-4 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-scholar-gold to-transparent"></div>
+            </div>
+          </div>
+          
+          {/* Tagline */}
+          <p className="text-h3 text-text-secondary mt-12 mb-8 animate-fadeInUp animation-delay-400">
+            The Linguistic Truth Engine for Islam
+          </p>
+          
+          <p className="text-body-lg max-w-3xl mx-auto mb-12 animate-fadeInUp animation-delay-600">
+            Restoring <span className="font-bold text-quran-green">1,400 years of Islamic scholarship</span> 
+            {' '}to the digital age. Verify hadiths, analyze Quranic words with precision, and see 
+            what the text <em>actually</em> says — not what social media claims.
+          </p>
+          
+          {/* Search Bar */}
+          <div className="max-w-3xl mx-auto mb-8 animate-fadeInUp animation-delay-800">
+            <SearchBar 
+              placeholder="أدخل كلمة قرآنية أو حديث  |  Enter a Quranic word or hadith"
+              size="large"
+            />
+          </div>
+          
+          {/* Quick Actions */}
+          <div className="flex flex-wrap justify-center gap-4 animate-fadeInUp animation-delay-1000">
+            <button className="btn-primary text-lg px-8 py-4">
+              🔍 Try Demo: "ضرب" (daraba)
+            </button>
+            <button className="btn-secondary text-lg px-8 py-4">
+              ✓ Verify a Hadith
+            </button>
+            <button className="btn-secondary text-lg px-8 py-4">
+              📚 Explore Featured Words
+            </button>
+          </div>
+          
+          {/* Trust Indicators */}
+          <div className="mt-16 flex flex-wrap justify-center items-center gap-8 text-sm text-text-tertiary">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">✓</span>
+              <span>47 Verified Scholars</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">📖</span>
+              <span>6,236 Verses Analyzed</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🔍</span>
+              <span>12,847 Hadiths Verified</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🌍</span>
+              <span>Used in 94 Countries</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <div className="text-text-tertiary text-sm mb-2">Discover More</div>
+          <div className="w-6 h-10 border-2 border-text-tertiary rounded-full flex items-start justify-center p-2">
+            <div className="w-1 h-3 bg-text-tertiary rounded-full animate-scroll"></div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Problem Statement Section */}
+      <section className="py-24 bg-gradient-to-br from-parchment-cream to-manuscript-beige">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-h1 mb-6">The Crisis of Understanding</h2>
+            <p className="text-body-lg text-text-secondary max-w-3xl mx-auto">
+              Every day, millions encounter Islam through mistranslations, 
+              fabricated hadiths, and decontextualized verses. <strong>Lisan changes that.</strong>
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Problem Card 1 */}
+            <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
+              <div className="text-6xl mb-4">📱</div>
+              <h3 className="text-h3 mb-4 text-red-600">Viral Misquotes</h3>
+              <p className="text-body mb-4">
+                Screenshots of "Islamic quotes" with zero verification spread faster than truth.
+              </p>
+              <div className="p-4 bg-red-50 rounded-lg border-l-4 border-red-600">
+                <p className="text-sm font-semibold text-red-900">
+                  "70% of viral 'Islamic' content contains fabricated or misattributed quotes"
+                </p>
+              </div>
+            </div>
+            
+            {/* Problem Card 2 */}
+            <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
+              <div className="text-6xl mb-4">❌</div>
+              <h3 className="text-h3 mb-4 text-yellow-600">Shallow Translations</h3>
+              <p className="text-body mb-4">
+                "Beat them" ignores 10 other meanings, grammar patterns, and 1,400 years of debate.
+              </p>
+              <div className="p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-600">
+                <p className="text-sm font-semibold text-yellow-900">
+                  "A single Arabic word can have 10+ meanings — context is everything"
+                </p>
+              </div>
+            </div>
+            
+            {/* Problem Card 3 */}
+            <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2">
+              <div className="text-6xl mb-4">🚫</div>
+              <h3 className="text-h3 mb-4 text-burgundy">Fake Hadiths</h3>
+              <p className="text-body mb-4">
+                Fabricated sayings attributed to the Prophet ﷺ mislead millions daily.
+              </p>
+              <div className="p-4 bg-red-50 rounded-lg border-l-4 border-burgundy">
+                <p className="text-sm font-semibold text-burgundy">
+                  "Hadith science exists for a reason — but nobody checks before sharing"
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Features Showcase with Interactive Tabs */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-h1 text-center mb-16">
+            Four Layers of Understanding
+          </h2>
+          
+          <InteractiveFeatureTabs />
+        </div>
+      </section>
+      
+      {/* Live Demo Section */}
+      <section className="py-24 bg-gradient-to-br from-aged-paper to-parchment-cream">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-h1 text-center mb-8">
+            See It In Action
+          </h2>
+          <p className="text-body-lg text-center text-text-secondary mb-12 max-w-3xl mx-auto">
+            Watch how Lisan transforms a controversial word into a data-driven, scholarly analysis
+          </p>
+          
+          <LiveDemoComponent word="ضرب" verseRef="4:34" />
+        </div>
+      </section>
+      
+      {/* Scholar Testimonials */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-h1 text-center mb-16">
+            Verified by Scholars You Trust
+          </h2>
+          
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {scholarTestimonials.map(scholar => (
+              <ScholarTestimonialCard key={scholar.id} {...scholar} />
+            ))}
+          </div>
+          
+          <div className="text-center">
+            <button className="btn-secondary text-lg px-8 py-4">
+              View All 47 Scholars →
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      {/* Stats Dashboard */}
+      <section className="py-24 bg-gradient-to-br from-quran-green to-truth-blue text-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-h1 text-center mb-16">
+            Impact in Numbers
+          </h2>
+          
+          <div className="grid md:grid-cols-4 gap-8">
+            <StatCard 
+              icon="📖"
+              number="6,236"
+              label="Verses Analyzed"
+              sublabel="Complete Qur'an coverage"
+            />
+            <StatCard 
+              icon="✓"
+              number="12,847"
+              label="Hadiths Verified"
+              sublabel="From 6 major collections"
+            />
+            <StatStat 
+              icon="👥"
+              number="47"
+              label="Verified Scholars"
+              sublabel="Across all schools of thought"
+            />
+            <StatCard 
+              icon="🌍"
+              number="94"
+              label="Countries"
+              sublabel="Muslims worldwide use Lisan"
+            />
+          </div>
+        </div>
+      </section>
+      
+      {/* Call to Action */}
+      <section className="py-24 bg-gradient-to-r from-scholar-gold via-quran-green to-truth-blue text-white">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-h1 mb-6">
+            Join the Linguistic Revolution
+          </h2>
+          <p className="text-body-lg mb-12">
+            Help restore truth to Islamic discourse. Create your free account and start exploring.
+          </p>
+          
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 max-w-md mx-auto">
+            <input 
+              type="email" 
+              placeholder="your-email@example.com"
+              className="w-full px-6 py-4 rounded-lg mb-4 text-black"
+            />
+            <button className="btn-primary w-full text-lg py-4 bg-white text-quran-green hover:bg-parchment-cream">
+              Create Free Account
+            </button>
+            <p className="text-sm mt-4 text-white/80">
+              No credit card required • Full access • Cancel anytime
+            </p>
+          </div>
+          
+          <div className="mt-12 flex justify-center gap-8 text-sm">
+            <div className="flex items-center gap-2">
+              <span>✓</span>
+              <span>Unlimited word analysis</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span>✓</span>
+              <span>Save your analyses</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span>✓</span>
+              <span>Scholar Q&A access</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
+}
+```
+
+---
+
+### **Word Analysis Page: "The Deep Dive"**
+
+This is the CORE page — make it revolutionary:
+
+```typescript
+// app/word/[word]/page.tsx
+export default async function WordAnalysisPage({ params }: { params: { word: string } }) {
+  const wordData = await fetchWordAnalysis(params.word);
+  
+  return (
+    <div className="min-h-screen bg-parchment-cream">
+      {/* Sticky Header */}
+      <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-aged-paper shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="text-quran-green hover:text-emerald-dark">
+              ← Back
+            </Link>
+            <div className="h-8 w-px bg-aged-paper"></div>
+            <span className="quran-text text-3xl">{params.word}</span>
+            <span className="text-sm text-text-tertiary">
+              {wordData.totalOccurrences} occurrences
+            </span>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <button className="btn-secondary-sm">
+              <Share size={16} className="mr-2" />
+              Share Analysis
+            </button>
+            <button className="btn-secondary-sm">
+              <Bookmark size={16} className="mr-2" />
+              Save
+            </button>
+            <button className="btn-secondary-sm">
+              <Download size={16} className="mr-2" />
+              Export PDF
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        {/* Hero Section */}
+        <div className="bg-gradient-to-br from-quran-green/10 to-scholar-gold/10 rounded-3xl p-12 mb-12 relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <GeometricTessellation />
+          </div>
+          
+          <div className="relative z-10">
+            <div className="flex items-start justify-between mb-8">
+              <div>
+                <h1 className="quran-text text-7xl mb-4">{params.word}</h1>
+                <div className="flex items-center gap-4 text-lg">
+                  <span className="px-4 py-2 bg-scholar-gold/20 rounded-lg font-semibold">
+                    Root: {wordData.root}
+                  </span>
+                  <span className="px-4 py-2 bg-quran-green/20 rounded-lg font-semibold">
+                    Form: {wordData.verbForm}
+                  </span>
+                </div>
+              </div>
+              
+              {/* Quick Stats */}
+              <div className="text-right">
+                <div className="text-5xl font-bold text-quran-green">
+                  {wordData.totalOccurrences}
+                </div>
+                <div className="text-sm text-text-secondary">
+                  times in Qur'an
+                </div>
+              </div>
+            </div>
+            
+            {/* Controversy Alert */}
+            {wordData.isControversial && (
+              <div className="p-6 bg-warning-red/10 border-2 border-warning-red rounded-xl">
+                <div className="flex items-start gap-4">
+                  <span className="text-4xl">⚠️</span>
+                  <div>
+                    <h3 className="font-bold text-xl mb-2">Historically Controversial Word</h3>
+                    <p className="text-sm">
+                      This word has competing interpretations across different schools of thought. 
+                      See full linguistic analysis below before drawing conclusions.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        {/* Usage Statistics with Data Viz */}
+        <UsageStats 
+          total={wordData.totalOccurrences}
+          breakdown={wordData.usageBreakdown}
+        />
+        
+        {/* Tabbed Deep Analysis */}
+        <Tabs defaultValue="linguistic" className="my-12">
+          <TabsList className="grid w-full grid-cols-5 bg-manuscript-beige p-2 rounded-xl">
+            <TabsTrigger value="linguistic" className="text-lg">
+              📖 Linguistic
+            </TabsTrigger>
+            <TabsTrigger value="rhetorical" className="text-lg">
+              🎭 Rhetorical
+            </TabsTrigger>
+            <TabsTrigger value="scholarly" className="text-lg">
+              📚 Scholarly
+            </TabsTrigger>
+            <TabsTrigger value="modern" className="text-lg">
+              🌍 Modern
+            </TabsTrigger>
+            <TabsTrigger value="ai" className="text-lg">
+              🤖 AI Analysis
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="linguistic" className="mt-8">
+            <div className="space-y-12">
+              {/* Grammar Pattern Heat Map */}
+              <GrammarHeatMap 
+                word={params.word}
+                patterns={wordData.grammarPatterns}
+              />
+              
+              {/* Verb Form Debate (if applicable) */}
+              {wordData.formDebate && (
+                <VerbFormDebate 
+                  word={params.word}
+                  verseRef={wordData.controversialVerse}
+                  majorityView={wordData.formDebate.majority}
+                  minorityView={wordData.formDebate.minority}
+                />
+              )}
+              
+              {/* All Meanings with Examples */}
+              <MeaningsBreakdown meanings={wordData.allMeanings} />
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="scholarly" className="mt-8">
+            <div className="space-y-12">
+              {/* Semantic Timeline */}
+              <SemanticTimeline 
+                word={params.word}
+                data={wordData.historicalInterpretations}
+              />
+              
+              {/* Scholarly Consensus Chart */}
+              <ScholarlyConsensusChart 
+                word={params.word}
+                views={wordData.scholarlyViews}
+              />
+              
+              {/* Scholar Annotations */}
+              <ScholarAnnotations 
+                wordId={wordData.id}
+                annotations={wordData.scholarComments}
+              />
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="ai" className="mt-8">
+            {/* AI Contextual Probability Engine */}
+            <ContextualProbabilityEngine 
+              word={params.word}
+              verseContext={wordData.controversialContext}
+              predictions={wordData.aiPredictions}
+            />
+          </TabsContent>
+          
+          {/* ... other tabs */}
+        </Tabs>
+        
+        {/* All
