@@ -47,6 +47,16 @@ export const wordOccurrences = pgTable("word_occurrences", {
   transliteration: varchar("transliteration", { length: 100 }), // English transliteration
   rootId: integer("root_id").references(() => roots.id),
   verseId: integer("verse_id").notNull().references(() => verses.id),
+  // Location data for matching with morphology corpus
+  surah: integer("surah"),
+  ayah: integer("ayah"),
+  position: integer("position"), // Word position in verse (1-indexed)
+  // Morphological analysis from Quranic Arabic Corpus
+  root: varchar("root", { length: 20 }), // Arabic root (e.g., 'ضرب', 'قوم')
+  lemma: varchar("lemma", { length: 50 }), // Dictionary form/lemma
+  pos: varchar("pos", { length: 20 }), // Part of speech tag
+  morphology: text("morphology"), // Full morphological features
+  // Usage analysis
   meaningUsed: text("meaning_used"),
   syntaxRole: varchar("syntax_role", { length: 100 }), // fa'il, maf'ul, jarr, etc.
   verbForm: varchar("verb_form", { length: 100 }), // Form I, II, III, etc.
@@ -59,6 +69,7 @@ export const wordOccurrences = pgTable("word_occurrences", {
   rootIdx: index("root_idx").on(table.rootId),
   verseIdx: index("verse_idx").on(table.verseId),
   categoryIdx: index("category_idx").on(table.usageCategory),
+  locationIdx: index("location_idx").on(table.surah, table.ayah, table.position),
 }));
 
 // Tafsir (scholarly commentary) table
